@@ -1,8 +1,16 @@
 var express = require('express')
 var app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
-app.get('/', function(req, res) {
-  res.send('hello world')
+const db = require('./server/lib/db')
+
+app.use(cors())
+app.use(bodyParser.json())
+
+const indexRoute = require('./server/routes/index')
+app.use('/', indexRoute)
+
+app.listen(5000, () => {
+  console.info(`Server started: http://localhost:5000`)
 })
-
-app.listen(5000, () => console.log('Server is running on 5000...'))
