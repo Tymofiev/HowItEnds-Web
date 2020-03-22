@@ -9,7 +9,7 @@ const request = ({ url, method = 'get', data = {} }) => {
   }
 
   return axios({
-    url: `${config.apiUrl}${url}`,
+    url: `${url}`,
     method,
     data,
     headers,
@@ -20,5 +20,5 @@ const request = ({ url, method = 'get', data = {} }) => {
       return Promise.reject(err)
     })
 }
-
+//${config.apiUrl}
 export default request
