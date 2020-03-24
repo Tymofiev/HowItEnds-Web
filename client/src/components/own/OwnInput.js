@@ -1,5 +1,6 @@
-import { Form } from 'react-bootstrap'
 import React, { useEffect } from 'react'
+import { TextField } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 const OwnInput = (props) => {
   const { input, meta, ...rest } = props
@@ -9,8 +10,16 @@ const OwnInput = (props) => {
 
   return (
     <>
-      <Form.Control {...input} {...rest} isInvalid={touched && !valid} />
-      {touched && error && <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>}
+      <TextField
+        id='outlined-error'
+        helperText={error}
+        variant='standard'
+        {...input}
+        {...rest}
+        margin='normal'
+        fullWidth
+        error={touched && !valid}
+      />
     </>
   )
 }
