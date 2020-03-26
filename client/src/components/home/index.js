@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from './HeaderDepr'
-import Footer from './Footer'
 import Main from './Main'
 
 class Home extends React.Component {

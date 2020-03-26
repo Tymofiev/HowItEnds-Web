@@ -9,14 +9,13 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 import SingUp from './components/user/SignUp'
 import SingIn from './components/user/SignIn'
-import Home from './components/home/Home'
-import Footer from './components/home/Footer'
 import Profile from './components/user/Profile'
 
-import PrivateRoute from './components/routes/PrivateRoute'
+import Home from './components/home'
 import NotFound from './components/routes/NotFound'
-import Header from './components/home/Header'
-import Header2 from './components/home/HeaderDepr'
+import Layout from './components/layout/index'
+
+import PrivateRoute from './components/routes/PrivateRoute'
 
 const App = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
@@ -37,6 +36,8 @@ const App = () => {
     [prefersDarkMode],
   )
 
+  console.log(theme.palette)
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -45,16 +46,15 @@ const App = () => {
             <Route exact path='/login' component={SingIn} />
             <Route exact path='/register' component={SingUp} />
             <Route path='/'>
-              <Header />
-              <Header2 />
-              <Switch>
-                <Route exact path='/' component={Home} />
-                <PrivateRoute exact path='/profile'>
-                  <Profile />
-                </PrivateRoute>
-                <Route path='*' component={NotFound} />
-              </Switch>
-              <Footer />
+              <Layout>
+                <Switch>
+                  <Route exact path='/' component={Home} />
+                  <PrivateRoute exact path='/profile'>
+                    <Profile />
+                  </PrivateRoute>
+                  <Route path='*' component={NotFound} />
+                </Switch>
+              </Layout>
             </Route>
           </Switch>
         </Router>

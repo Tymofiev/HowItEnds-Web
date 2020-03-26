@@ -1,12 +1,23 @@
 import React, { useState } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
-import { Menu, Typography, IconButton, Toolbar, Badge, InputBase, MenuItem, AppBar, Avatar } from '@material-ui/core'
+import {
+  Menu,
+  Typography,
+  IconButton,
+  Toolbar,
+  Badge,
+  InputBase,
+  MenuItem,
+  AppBar,
+  Avatar,
+  Button,
+} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
-import SideDrawer from './SideDrawer'
+import SideDrawer from '../home/SideDrawer'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -64,6 +75,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
     },
   },
+  signin: {
+    margin: theme.spacing(2, 0, 2, 2),
+  },
+  // toolbarTitle: {
+  //   flexGrow: 2,
+  // },
 }))
 
 const Header = () => {
@@ -118,9 +135,9 @@ const Header = () => {
             <MenuIcon />
           </IconButton>
           <SideDrawer isOpen={open} closeDrawer={toggleDrawer} />
-          <Typography className={classes.title} variant='h6' noWrap>
+          {/* <Typography className={classes.title} variant='h6' noWrap>
             HowItEnds
-          </Typography>
+          </Typography> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -134,9 +151,19 @@ const Header = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <Typography
+            component='h2'
+            variant='h5'
+            color='inherit'
+            align='center'
+            noWrap
+            className={classes.toolbarTitle}
+          >
+            HowItEnds
+          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label='show 4 new mails' color='inherit'>
+            {/* <IconButton aria-label='show 4 new mails' color='inherit'>
               <Badge badgeContent={4} color='secondary'>
                 <MailIcon />
               </Badge>
@@ -155,7 +182,13 @@ const Header = () => {
               color='inherit'
             >
               <Avatar alt='User' src='/broken-image.jpg' className={classes.orange} />
-            </IconButton>
+            </IconButton> */}
+            <Button href='/login' color='primary' variant='outlined' className={classes.signin}>
+              Sign in
+            </Button>
+            <Button href='/register' color='primary' variant='contained' className={classes.signin}>
+              Sign up
+            </Button>
           </div>
         </Toolbar>
       </AppBar>

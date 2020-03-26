@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import clsx from 'clsx'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { Drawer, IconButton } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import { MailOutline, ViewListOutlined, ForumOutlined } from '@material-ui/icons'
+import { Button, List, Divider, ListItem, Drawer, Typography } from '@material-ui/core'
+import { MailOutline, ViewListOutlined, ForumOutlined, HomeOutlined } from '@material-ui/icons'
+
+import StyledLink from '../styled/StyledLink'
+import ListItemLink from '../styled/ListItemLink'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -21,42 +17,48 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  menuTitle: {
+    margin: theme.spacing(2, 0, 2, 0),
+  },
 }))
 
-const SideDrawer = ({ isOpen, closeDrawer }) => {
+const SideDrawer = ({ isOpen, closeDrawer, location: { pathname } }) => {
   const classes = useStyles()
 
   return (
     <>
       <Drawer anchor='left' open={isOpen} onClose={closeDrawer()}>
         <div className={classes.list} role='presentation'>
+          <Typography className={classes.menuTitle} variant='h5' component='h1' align='center'>
+            Pages
+          </Typography>
+          <Divider />
           <List>
-            <ListItem button>
-              <ListItemIcon>
-                <ViewListOutlined />
-              </ListItemIcon>
-              <ListItemText primary='Blog' />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <ForumOutlined />
-              </ListItemIcon>
-              <ListItemText primary='Forum' />
-            </ListItem>
+            <ListItemLink to='/' primary='Home' icon={<HomeOutlined />} selected={'/' === pathname} />
+            <ListItemLink to='/blog' primary='Blog' icon={<ViewListOutlined />} selected={'/blog' === pathname} />
+            <ListItemLink to='/forum' primary='Forum' icon={<ForumOutlined />} selected={'/forum' === pathname} />
           </List>
           <Divider />
           <List>
-            <ListItem button>
-              <ListItemIcon>
-                <MailOutline />
-              </ListItemIcon>
-              <ListItemText primary='Support' />
+            <ListItemLink to='/support' primary='Support' icon={<MailOutline />} selected={'/support' === pathname} />
+            <ListItemLink
+              to='/ask-question'
+              primary='Ask question'
+              icon={<MailOutline />}
+              selected={'/ask-question' === pathname}
+            />
+          </List>
+          <Divider />
+          <List>
+            <ListItem>
+              <Button component={StyledLink} to='/login' color='primary' variant='contained' fullWidth>
+                Sign in
+              </Button>
             </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <MailOutline />
-              </ListItemIcon>
-              <ListItemText primary='Ask question' />
+            <ListItem>
+              <Button component={StyledLink} to='/register' color='secondary' variant='contained' fullWidth>
+                Sign up
+              </Button>
             </ListItem>
           </List>
         </div>
@@ -65,4 +67,4 @@ const SideDrawer = ({ isOpen, closeDrawer }) => {
   )
 }
 
-export default SideDrawer
+export default withRouter(SideDrawer)
