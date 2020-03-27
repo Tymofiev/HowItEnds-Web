@@ -36,8 +36,6 @@ const App = () => {
     [prefersDarkMode],
   )
 
-  console.log(theme.palette)
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -47,6 +45,7 @@ const App = () => {
             <Route exact path='/register' component={SingUp} />
             <Route path='/'>
               <Layout>
+                {/* <Header /> */}
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <PrivateRoute exact path='/profile'>

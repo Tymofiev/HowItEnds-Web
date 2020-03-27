@@ -1,14 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Link, Container, Box } from '@material-ui/core'
+import { Grid, Typography, Link, Container, Box, Divider } from '@material-ui/core'
 
 import Copyright from '../home/Copyright'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary,
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
+    backgroundColor: theme.palette.background.default,
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
   },
@@ -39,6 +37,7 @@ const Footer = (props) => {
   return (
     <>
       <footer className={classes.footer}>
+        <Divider />
         <Container maxWidth='md' component='footer' className={classes.footer}>
           <Grid container spacing={4} justify='space-evenly'>
             {footers.map((footer) => (

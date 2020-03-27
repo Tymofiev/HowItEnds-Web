@@ -134,10 +134,9 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
+
           <SideDrawer isOpen={open} closeDrawer={toggleDrawer} />
-          {/* <Typography className={classes.title} variant='h6' noWrap>
-            HowItEnds
-          </Typography> */}
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -163,26 +162,6 @@ const Header = () => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* <IconButton aria-label='show 4 new mails' color='inherit'>
-              <Badge badgeContent={4} color='secondary'>
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label='show 17 new notifications' color='inherit'>
-              <Badge badgeContent={17} color='secondary'>
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'
-            >
-              <Avatar alt='User' src='/broken-image.jpg' className={classes.orange} />
-            </IconButton> */}
             <Button href='/login' color='primary' variant='outlined' className={classes.signin}>
               Sign in
             </Button>

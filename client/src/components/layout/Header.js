@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Hidden, Toolbar, Button, IconButton, Typography, Badge, Avatar } from '@material-ui/core'
+import { Hidden, Toolbar, Button, IconButton, Typography, Badge, Avatar, AppBar } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
 import MailIcon from '@material-ui/icons/Mail'
@@ -58,7 +58,7 @@ const Header = () => {
   }
 
   return (
-    <>
+    <AppBar position='static' color='default'>
       <Toolbar className={classes.toolbar}>
         <IconButton
           edge='start'
@@ -121,7 +121,7 @@ const Header = () => {
       </Toolbar>
 
       <AccountMenu anchorEl={anchorEl} closeMenu={handleMenuClose} />
-    </>
+    </AppBar>
   )
 }
 
