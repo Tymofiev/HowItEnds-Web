@@ -84,7 +84,7 @@ const Header = ({ themeToggler }) => {
         <SideDrawer isOpen={open} closeDrawer={toggleDrawer} />
 
         <Typography component='h2' variant='h5' color='inherit' align='center' noWrap className={classes.toolbarTitle}>
-          HowItEnds
+          <StyledLink to='/'>HowItEnds</StyledLink>
         </Typography>
 
         <IconButton>
