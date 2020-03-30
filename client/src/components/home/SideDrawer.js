@@ -32,22 +32,50 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname } }) => {
           <Typography className={classes.menuTitle} variant='h5' component='h1' align='center'>
             Pages
           </Typography>
+
           <Divider />
           <List>
-            <ListItemLink to='/' primary='Home' icon={<HomeOutlined />} selected={'/' === pathname} />
-            <ListItemLink to='/blog' primary='Blog' icon={<ViewListOutlined />} selected={'/blog' === pathname} />
-            <ListItemLink to='/forum' primary='Forum' icon={<ForumOutlined />} selected={'/forum' === pathname} />
+            <ListItemLink
+              to='/'
+              primary='Home'
+              icon={<HomeOutlined />}
+              selected={'/' === pathname}
+              onClick={closeDrawer()}
+            />
+            <ListItemLink
+              to='/blog'
+              primary='Blog'
+              icon={<ViewListOutlined />}
+              selected={'/blog' === pathname}
+              onClick={closeDrawer()}
+            />
+            <ListItemLink
+              to='/forum'
+              primary='Forum'
+              icon={<ForumOutlined />}
+              selected={'/forum' === pathname}
+              onClick={closeDrawer()}
+            />
           </List>
+
           <Divider />
           <List>
-            <ListItemLink to='/support' primary='Support' icon={<MailOutline />} selected={'/support' === pathname} />
+            <ListItemLink
+              to='/support'
+              primary='Support'
+              icon={<MailOutline />}
+              selected={'/support' === pathname}
+              onClick={closeDrawer()}
+            />
             <ListItemLink
               to='/ask-question'
               primary='Ask question'
               icon={<MailOutline />}
               selected={'/ask-question' === pathname}
+              onClick={closeDrawer()}
             />
           </List>
+
           <Divider />
           <List>
             <ListItem>

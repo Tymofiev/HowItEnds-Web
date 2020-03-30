@@ -16,7 +16,7 @@ import { insertUser } from '../../redux/actions/userActions'
 import { logout } from '../../services/user'
 import { register } from '../../api/user'
 
-import Input from '../own/OwnInput'
+import Input from '../controls/OwnInput'
 import Copyright from '../home/Copyright'
 
 const useStyles = makeStyles((theme) => ({

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ListItemLink = (props) => {
   const classes = useStyles()
-  const { icon, primary, to, selected } = props
+  const { icon, primary, to, ...rest } = props
 
   const renderLink = React.useMemo(
     () => React.forwardRef((itemProps, ref) => <Link to={to} ref={ref} {...itemProps} style={{ color: 'inherit' }} />),
@@ -28,9 +28,9 @@ const ListItemLink = (props) => {
   return (
     <li>
       <ListItem
+        {...rest}
         button
         component={renderLink}
-        selected={selected}
         classes={{ root: classes.listItem, selected: classes.selected }}
       >
         {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}

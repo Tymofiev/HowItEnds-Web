@@ -10,8 +10,8 @@ const OwnInput = (props) => {
   return (
     <>
       <TextField
-        id='outlined-error'
-        helperText={error}
+        //id='outlined-error'
+        helperText={touched && error}
         variant='standard'
         {...input}
         {...rest}

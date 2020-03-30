@@ -4,7 +4,9 @@ import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { makeStyles } from '@material-ui/core/styles'
+import Brightness7Icon from '@material-ui/icons/Brightness7'
+import Brightness4Icon from '@material-ui/icons/Brightness4'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import SideDrawer from '../home/SideDrawer'
 import AccountMenu from '../styled/AccountMenu'
@@ -37,10 +39,13 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const Header = () => {
+const Header = ({ themeToggler }) => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
+  const themeType = useTheme().palette.type
+
+  const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [theme, setTheme] = useState(themeType)
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -55,6 +60,12 @@ const Header = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
+  }
+
+  const changeColorTheme = () => {
+    let newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    themeToggler(newTheme)
   }
 
   return (
@@ -78,6 +89,10 @@ const Header = () => {
 
         <IconButton>
           <SearchIcon />
+        </IconButton>
+
+        <IconButton onClick={() => changeColorTheme()}>
+          {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
 
         <Hidden smDown>

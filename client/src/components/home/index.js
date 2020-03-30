@@ -13,8 +13,8 @@ const Home = () => {
 
   const post = {
     title: 'HowItEnds',
-    description: 'Evolution simultor',
-    linkText: 'Buy',
+    description: 'Incredible evolution simultor',
+    linkText: 'Get started',
     imgText: 'main image description',
   }
   return (

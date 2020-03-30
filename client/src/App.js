@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
 import SingUp from './components/user/SignUp'
 import SingIn from './components/user/SignIn'
-import Profile from './components/user/Profile'
+import Profile from './components/user/profile/Profile'
 
 import Home from './components/home'
 import NotFound from './components/routes/NotFound'
@@ -18,9 +18,9 @@ import Layout from './components/layout/index'
 import PrivateRoute from './components/routes/PrivateRoute'
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const [themeType, setThemeType] = useState('dark')
 
-  const theme = useMemo(
+  let theme = useMemo(
     () =>
       createMuiTheme({
         palette: {
@@ -30,11 +30,16 @@ const App = () => {
           secondary: {
             main: '#fbc02d',
           },
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: themeType,
         },
       }),
-    [prefersDarkMode],
+    [themeType],
   )
+  theme = responsiveFontSizes(theme)
+
+  const changeColorTheme = (type) => {
+    setThemeType(type)
+  }
 
   return (
     <Provider store={store}>
@@ -44,8 +49,7 @@ const App = () => {
             <Route exact path='/login' component={SingIn} />
             <Route exact path='/register' component={SingUp} />
             <Route path='/'>
-              <Layout>
-                {/* <Header /> */}
+              <Layout themeToggler={changeColorTheme}>
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <PrivateRoute exact path='/profile'>

@@ -11,4 +11,7 @@ const email = (value) =>
 const composeValidators = (...validators) => (value) =>
   validators.reduce((error, validator) => error || validator(value), undefined)
 
-export { required, email, minLength5, minLength2, composeValidators }
+const match = (value) => (valueConfirm) =>
+  valueConfirm && value !== valueConfirm ? 'Passwords don`t match' : undefined
+
+export { required, email, minLength5, minLength2, composeValidators, match }

@@ -2,20 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper, Link } from '@material-ui/core'
 import { Form, Field } from 'react-final-form'
-import {
-  LockOutlined,
-  ExitToAppOutlined,
-  VpnKeyOutlined,
-  AccountCircleOutlined,
-  ChildCareOutlined,
-} from '@material-ui/icons'
+import { LockOutlined, ExitToAppOutlined, AccountCircleOutlined, ChildCareOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { required, minLength5, email, composeValidators } from '../../utils/validators'
+import { required, minLength5, composeValidators } from '../../utils/validators'
 import { insertUser } from '../../redux/actions/userActions'
 import { login } from '../../api/user'
 
-import Input from '../own/OwnInput'
+import Input from '../controls/OwnInput'
 import Copyright from '../home/Copyright'
 
 const useStyles = makeStyles((theme) => ({
