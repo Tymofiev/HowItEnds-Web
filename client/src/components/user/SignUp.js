@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper, Link } from '@material-ui/core'
-import { Form, Field } from 'react-final-form'
+import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper } from '@material-ui/core'
 import {
   LockOutlined,
   EmailOutlined,
@@ -10,14 +9,16 @@ import {
   ChildCareOutlined,
 } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
-
-import { required, minLength5, email, composeValidators } from '../../utils/validators'
-import { insertUser } from '../../redux/actions/userActions'
-import { logout } from '../../services/user'
-import { register } from '../../api/user'
+import { Form, Field } from 'react-final-form'
 
 import Input from '../controls/OwnInput'
 import Copyright from '../home/Copyright'
+import StyledSnackbar from '../controls/StyledSnackbar'
+import StyledLink from '../controls/StyledLink'
+
+import { required, minLength5, email, composeValidators } from '../../utils/validators'
+import { register } from '../../api/user'
+import { insertUser } from '../../redux/actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,24 +50,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SingUpForm = ({ insertUser, history, currentUser, logout }) => {
+const SingUpForm = ({ history, insertUser }) => {
   const classes = useStyles()
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    type: '',
+    msg: '',
+  })
 
   const sendToServer = ({ username, email, password }) => {
-    alert(username + email + password)
-    // if (currentUser) {
-    //   logout()
-    // }
-    // register({ email, password })
-    //   .then(({ user, token }) => {
-    //     localStorage.setItem('token', token)
-    //     localStorage.setItem('user', JSON.stringify(user))
-    //     insertUser(user)
-    //   })
-    //   .then(() => {
-    //     history.push('/')
-    //   })
-    //   .catch((err) => console.log(err))
+    register({ username, email, password })
+      .then((res) => {
+        if (res.err) {
+          return Promise.reject(res.err)
+        }
+        insertUser(res)
+      })
+      .then(() => {
+        setSnackbar({ open: true, type: 'success', msg: 'Succesfuly signed up!' })
+        setTimeout(() => {
+          history.push('/login')
+        }, 3000)
+      })
+      .catch((err) => setSnackbar({ open: true, type: 'error', msg: err }))
+  }
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setSnackbar({ open: false, type: snackbar.type, msg: snackbar.msg })
   }
 
   return (
@@ -124,14 +137,14 @@ const SingUpForm = ({ insertUser, history, currentUser, logout }) => {
                   </Grid>
                   <Grid container>
                     <Grid item xs>
-                      <Link href='/' variant='body2'>
+                      <StyledLink to='/' variant='body2'>
                         Back Home
-                      </Link>
+                      </StyledLink>
                     </Grid>
                     <Grid item>
-                      <Link href='/login' variant='body2'>
+                      <StyledLink to='/login' variant='body2'>
                         {'Already have an account? Sign In'}
-                      </Link>
+                      </StyledLink>
                     </Grid>
                   </Grid>
                   <Box mt={5}>
@@ -143,17 +156,16 @@ const SingUpForm = ({ insertUser, history, currentUser, logout }) => {
           </div>
         </Grid>
       </Grid>
+      <StyledSnackbar
+        message={snackbar.msg}
+        open={snackbar.open}
+        severity={snackbar.type}
+        handleClose={handleSnackbarClose}
+      />
     </>
   )
 }
 
-const mapStateToProps = (store) => {
-  return {
-    currentUser: store.user.data,
-  }
-}
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   insertUser,
-  logout,
 })(SingUpForm)

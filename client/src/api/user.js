@@ -8,11 +8,11 @@ export const login = ({ email, password }) => {
   })
 }
 
-export const register = ({ email, password }) => {
+export const register = ({ username, email, password }) => {
   return request({
     url: '/user/register',
     method: 'post',
-    data: { email, password },
+    data: { username, email, password },
   })
 }
 

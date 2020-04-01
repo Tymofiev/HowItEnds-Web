@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+// import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
 import SingUp from './components/user/SignUp'

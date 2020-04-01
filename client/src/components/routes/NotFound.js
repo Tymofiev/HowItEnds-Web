@@ -41,7 +41,8 @@ const NotFound = () => {
         </Grid>
         <Grid item xs={12} sm={12}>
           <Typography component='h3' variant='h5' align='center' className={classes.text}>
-            The link you followed may be broken, or the page may have been removed. <Link>Go back to HowItEnds</Link>
+            The link you followed may be broken, or the page may have been removed.{' '}
+            <Link to='/'>Go back to HowItEnds</Link>
           </Typography>
         </Grid>
       </Grid>

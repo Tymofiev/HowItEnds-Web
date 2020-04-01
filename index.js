@@ -9,6 +9,7 @@ const { passport } = require('./server/lib/auth')
 const db = require('./server/lib/db')
 
 app.use(cors())
+app.use('/server/uploads', express.static('server/uploads'))
 app.use(bodyParser.json())
 app.use(
   session({

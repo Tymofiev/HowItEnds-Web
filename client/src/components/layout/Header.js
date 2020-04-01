@@ -9,8 +9,8 @@ import Brightness4Icon from '@material-ui/icons/Brightness4'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import SideDrawer from '../home/SideDrawer'
-import AccountMenu from '../styled/AccountMenu'
-import StyledLink from '../styled/StyledLink'
+import AccountMenu from '../controls/AccountMenu'
+import StyledLink from '../controls/StyledLink'
 
 const useStyles = makeStyles((theme) => {
   return {

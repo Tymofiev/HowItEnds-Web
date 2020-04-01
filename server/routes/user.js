@@ -2,12 +2,37 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-
-const { passport } = require('../lib/auth')
+const multer = require('multer')
 
 const User = require('../models/User')
+const { passport, isAuth } = require('../lib/auth')
+const { userExists } = require('../lib/validations')
 
-router.get('/', function(req, res) {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './server/uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.params.id + '_avatar_' + file.originalname)
+  },
+})
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
+    cb(null, true)
+  } else {
+    cb(new Error('Unaccepted file type'), false)
+  }
+}
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 1024 * 1024 * 10,
+  },
+  fileFilter,
+})
+
+router.get('/', (req, res) => {
   User.find({})
     .then((users) => {
       res.json(users)
@@ -17,17 +42,15 @@ router.get('/', function(req, res) {
     })
 })
 
-router.post('/login', function(req, res) {
-  passport.authenticate('local', { session: false }, (err, user) => {
+router.post('/login', (req, res) => {
+  passport.authenticate('local', (err, user) => {
     if (err || !user) {
-      return res.status(400).json({
-        message: err,
-        user: user,
-      })
+      return res.status(400).send({ err })
     }
-    req.login(user, { session: false }, (err) => {
+    //{ session: false },
+    req.login(user, (err) => {
       if (err) {
-        res.send(err)
+        return res.status(400).send({ err })
       }
 
       const token = jwt.sign(user.toJSON(), 'secret')
@@ -36,15 +59,70 @@ router.post('/login', function(req, res) {
   })(req, res)
 })
 
-router.post('/register', function(req, res) {
-  const { email, password } = req.body
+router.post('/register', (req, res) => {
+  const { username, email, password } = req.body
+
+  userExists(username, email)
+    .then(() => {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          const user = new User({ username, email, password: hash, active: false })
+
+          user
+            .save()
+            .then((result) => res.send(result))
+            .catch((err) => {
+              console.log(err)
+            })
+        })
+      })
+    })
+    .catch((err) => res.send({ err }))
+})
+
+router.put('/updateAvatar/:id', upload.single('avatar'), (req, res) => {
+  console.log(req.file)
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      avatar: req.file.path,
+    },
+    { new: true },
+  )
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+router.put('/updateEmail/:id', (req, res) => {
+  const { email } = req.body
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      email,
+    },
+    { new: true },
+  )
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+router.put('/updatePssword/:id', (req, res) => {
+  const { password } = req.body
 
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, (err, hash) => {
-      const user = new User({ email, password: hash })
-
-      user
-        .save()
+      User.findByIdAndUpdate(
+        req.params.id,
+        {
+          password: hash,
+        },
+        { new: true },
+      )
         .then((result) => res.send(result))
         .catch((err) => {
           console.log(err)
@@ -52,8 +130,8 @@ router.post('/register', function(req, res) {
     })
   })
 })
-
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+//passport.authenticate('jwt', { session: false }),
+router.get('/profile', isAuth, (req, res) => {
   res.send(req.user)
 })
 

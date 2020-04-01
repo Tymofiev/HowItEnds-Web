@@ -33,8 +33,6 @@ const opts = {
 }
 
 const jwtStrategy = new JwtStrategy(opts, (jwt_payload, done) => {
-  //console.log('---', jwt_payload)
-
   User.findOne({ email: jwt_payload.email }).then((user) => {
     return done(null, user)
   })
