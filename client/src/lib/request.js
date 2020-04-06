@@ -1,5 +1,4 @@
 import axios from 'axios'
-const config = require('../config.json')
 
 const request = ({ url, method = 'get', data = {} }) => {
   const token = localStorage.getItem('token')
@@ -9,7 +8,7 @@ const request = ({ url, method = 'get', data = {} }) => {
   }
 
   return axios({
-    url: `${url}`,
+    url,
     method,
     data,
     headers,
@@ -20,5 +19,5 @@ const request = ({ url, method = 'get', data = {} }) => {
       return Promise.reject(err)
     })
 }
-//${config.apiUrl}
+
 export default request

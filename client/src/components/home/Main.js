@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
-import Input from '@material-ui/core/Input'
+import robot from '../../images/robot.jpg'
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
     height: '90vh',
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${robot})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 const Main = (props) => {
   const classes = useStyles()
   const { post } = props
+
+  console.log(robot)
 
   return (
     <Paper className={classes.mainFeaturedPost}>

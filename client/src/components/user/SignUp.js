@@ -17,15 +17,15 @@ import StyledSnackbar from '../controls/StyledSnackbar'
 import StyledLink from '../controls/StyledLink'
 
 import { required, minLength5, email, composeValidators } from '../../utils/validators'
-import { register } from '../../api/user'
-import { insertUser } from '../../redux/actions/userActions'
+import { register } from '../../services/user'
+import rose from '../../images/rose-oled-8k-8v.jpg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${rose})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SingUpForm = ({ history, insertUser }) => {
+const SingUpForm = ({ history, register }) => {
   const classes = useStyles()
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -60,19 +60,21 @@ const SingUpForm = ({ history, insertUser }) => {
 
   const sendToServer = ({ username, email, password }) => {
     register({ username, email, password })
-      .then((res) => {
-        if (res.err) {
-          return Promise.reject(res.err)
+      .then((err) => {
+        if (err) {
+          return Promise.reject(err)
         }
-        insertUser(res)
       })
       .then(() => {
         setSnackbar({ open: true, type: 'success', msg: 'Succesfuly signed up!' })
         setTimeout(() => {
           history.push('/login')
-        }, 3000)
+        }, 1000)
       })
-      .catch((err) => setSnackbar({ open: true, type: 'error', msg: err }))
+      .catch((err) => {
+        console.log(err)
+        setSnackbar({ open: true, type: 'error', msg: err })
+      })
   }
 
   const handleSnackbarClose = (event, reason) => {
@@ -167,5 +169,5 @@ const SingUpForm = ({ history, insertUser }) => {
 }
 
 export default connect(null, {
-  insertUser,
+  register,
 })(SingUpForm)

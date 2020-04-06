@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Snackbar, IconButton } from '@material-ui/core'
 import { CloseOutlined } from '@material-ui/icons'
-import { Alert } from '@material-ui/lab'
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
   snackbar: {
@@ -10,11 +10,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const StyledSnackbar = ({ open, message, severity, handleClose }) => {
+const StyledSnackbar = ({
+  open,
+  message,
+  severity,
+  handleClose,
+  anchorOrigin = { horizontal: 'center', vertical: 'bottom' },
+  title = true,
+}) => {
   const classes = useStyles()
 
   return (
-    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+    <Snackbar anchorOrigin={anchorOrigin} open={open} autoHideDuration={4000} onClose={handleClose}>
       <Alert
         severity={severity}
         action={
@@ -25,7 +32,8 @@ const StyledSnackbar = ({ open, message, severity, handleClose }) => {
           </>
         }
       >
-        {message}
+        {title == true ? <AlertTitle>{severity.toUpperCase()}</AlertTitle> : null}
+        {JSON.stringify(message)}
       </Alert>
     </Snackbar>
   )

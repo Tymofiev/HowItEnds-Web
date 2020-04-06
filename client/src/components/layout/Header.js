@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Hidden, Toolbar, Button, IconButton, Typography, Badge, Avatar, AppBar } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const Header = ({ themeToggler }) => {
+const Header = ({ themeToggler, user }) => {
   const classes = useStyles()
   const themeType = useTheme().palette.type
 
@@ -108,31 +109,33 @@ const Header = ({ themeToggler }) => {
           </IconButton>
         </Hidden>
 
-        <IconButton
-          edge='end'
-          aria-label='account of current user'
-          aria-controls='account-menu'
-          aria-haspopup='true'
-          onClick={handleProfileMenuOpen}
-          color='inherit'
-        >
-          <Avatar alt='User' src='/broken-image.jpg' className={classes.orange} />
-        </IconButton>
-
-        <Hidden smDown>
-          <Button component={StyledLink} to='/login' color='primary' variant='contained' className={classes.signin}>
-            Sign in
-          </Button>
-          <Button
-            component={StyledLink}
-            to='/register'
-            color='secondary'
-            variant='contained'
-            className={classes.signup}
+        {user === 'Unauthorized' ? (
+          <Hidden smDown>
+            <Button component={StyledLink} to='/login' color='primary' variant='contained' className={classes.signin}>
+              Sign in
+            </Button>
+            <Button
+              component={StyledLink}
+              to='/register'
+              color='secondary'
+              variant='contained'
+              className={classes.signup}
+            >
+              Sign up
+            </Button>
+          </Hidden>
+        ) : (
+          <IconButton
+            edge='end'
+            aria-label='account of current user'
+            aria-controls='account-menu'
+            aria-haspopup='true'
+            onClick={handleProfileMenuOpen}
+            color='inherit'
           >
-            Sign up
-          </Button>
-        </Hidden>
+            <Avatar alt={user?.username} src={user?.avatar} className={classes.orange} />
+          </IconButton>
+        )}
       </Toolbar>
 
       <AccountMenu anchorEl={anchorEl} closeMenu={handleMenuClose} />
@@ -140,4 +143,10 @@ const Header = ({ themeToggler }) => {
   )
 }
 
-export default Header
+const mapStateToProps = (store) => {
+  return {
+    user: store.user.data,
+  }
+}
+
+export default connect(mapStateToProps)(Header)

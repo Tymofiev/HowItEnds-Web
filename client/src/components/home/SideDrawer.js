@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, List, Divider, ListItem, Drawer, Typography } from '@material-ui/core'
@@ -22,16 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SideDrawer = ({ isOpen, closeDrawer, location: { pathname } }) => {
+const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
   const classes = useStyles()
 
   return (
     <>
       <Drawer anchor='left' open={isOpen} onClose={closeDrawer()}>
         <div className={classes.list} role='presentation'>
-          <Typography className={classes.menuTitle} variant='h5' component='h1' align='center'>
-            Pages
-          </Typography>
+          {user === 'Unauthorized' ? (
+            <Typography className={classes.menuTitle} variant='h5' component='h3' align='center'>
+              Pages
+            </Typography>
+          ) : (
+            <Typography className={classes.menuTitle} variant='h5' component='h3' color='secondary' align='center'>
+              {user?.username}
+            </Typography>
+          )}
 
           <Divider />
           <List>
@@ -75,24 +82,29 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname } }) => {
               onClick={closeDrawer()}
             />
           </List>
-
           <Divider />
-          <List>
-            <ListItem>
-              <Button component={StyledLink} to='/login' color='primary' variant='contained' fullWidth>
-                Sign in
-              </Button>
-            </ListItem>
-            <ListItem>
-              <Button component={StyledLink} to='/register' color='secondary' variant='contained' fullWidth>
-                Sign up
-              </Button>
-            </ListItem>
-          </List>
+          {user === 'Unauthorized' ? (
+            <List>
+              <ListItem>
+                <Button component={StyledLink} to='/login' color='primary' variant='contained' fullWidth>
+                  Sign in
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button component={StyledLink} to='/register' color='secondary' variant='contained' fullWidth>
+                  Sign up
+                </Button>
+              </ListItem>
+            </List>
+          ) : null}
         </div>
       </Drawer>
     </>
   )
 }
 
-export default withRouter(SideDrawer)
+export default connect((state) => {
+  return {
+    user: state.user.data,
+  }
+}, null)(withRouter(SideDrawer))

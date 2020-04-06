@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Grid, Button, Avatar, Input } from '@material-ui/core'
 import { CloudUploadOutlined } from '@material-ui/icons'
 import { DropzoneDialog } from 'material-ui-dropzone'
+
+import { updateAvatar } from '../../../redux/actions/userActions'
+import { editAvatar } from '../../../api/user'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -38,23 +42,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const AvatarSettings = () => {
+const AvatarSettings = ({ user, updateAvatar }) => {
   const classes = useStyles()
-  const [file, setFile] = useState()
   const [open, setOpen] = useState()
+  const [refreshImg, setImgRefresh] = useState()
+
+  const handleSave = (file) => {
+    setOpen(false)
+    editAvatar({ file, id: user._id }).then((result) => {
+      console.log(result)
+      updateAvatar(result?.avatar)
+      window.location.reload()
+      setImgRefresh(true)
+    })
+  }
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  const handleSave = (file) => {
-    setOpen(false)
-    setFile(file)
-  }
-
   const handleOpen = () => {
     setOpen(true)
   }
+
   return (
     <>
       <Typography variant='h6' gutterBottom>
@@ -62,22 +72,24 @@ const AvatarSettings = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} className={classes.avatarHolder}>
-          <Avatar alt='Remy Sharp' className={classes.avatar} />
+          <Avatar alt={user?.username} src={user?.avatar} className={classes.avatar} />
+        </Grid>
+        {/* <Button variant='outlined' color='primary' component='label' className={classes.inputButton}>
+          File dialog
+          <Input type='file' style={{ display: 'none' }} onChange={(e) => handleSave(e.target.files[0])} />
+        </Button> */}
+        <Grid item xs={12} sm={12} className={classes.inputHolder}>
+          <CloudUploadOutlined color='secondary' fontSize='large' className={classes.uploadIcon} />
         </Grid>
         <Grid item xs={12} sm={12} className={classes.inputHolder}>
-          <Button variant='outlined' color='primary' component='label' className={classes.inputButton}>
-            File dialog
-            <Input type='file' style={{ display: 'none' }} />
-          </Button>
-          <CloudUploadOutlined color='secondary' fontSize='large' className={classes.uploadIcon} />
           <Button variant='outlined' color='primary' onClick={() => handleOpen()} className={classes.inputButton}>
-            Dropzone
+            Choose file
           </Button>
         </Grid>
       </Grid>
       <DropzoneDialog
         open={open}
-        onSave={(file) => handleSave(file)}
+        onSave={(files) => handleSave(files[0])}
         acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
         showPreviews={false}
         maxFileSize={5000000}
@@ -89,4 +101,9 @@ const AvatarSettings = () => {
   )
 }
 
-export default AvatarSettings
+export default connect(
+  (state) => {
+    return { user: state.user.data }
+  },
+  { updateAvatar },
+)(AvatarSettings)

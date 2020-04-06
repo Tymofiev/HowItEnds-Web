@@ -13,7 +13,8 @@ const storage = multer.diskStorage({
     cb(null, './server/uploads')
   },
   filename: (req, file, cb) => {
-    cb(null, req.params.id + '_avatar_' + file.originalname)
+    const extension = file.originalname.split('.')
+    cb(null, req.params.id + '.' + extension[1])
   },
 })
 
@@ -44,17 +45,22 @@ router.get('/', (req, res) => {
 
 router.post('/login', (req, res) => {
   passport.authenticate('local', (err, user) => {
-    if (err || !user) {
-      return res.status(400).send({ err })
-    }
-    //{ session: false },
-    req.login(user, (err) => {
-      if (err) {
-        return res.status(400).send({ err })
+    new Promise((resolve, reject) => {
+      if (err || !user) {
+        return reject(err) //res.status(400).send({ err })
       }
+      //{ session: false },
+      req.login(user, (err) => {
+        if (err) {
+          return reject(err) //res.status(400).send({ err })
+        }
 
-      const token = jwt.sign(user.toJSON(), 'secret')
-      return res.json({ user, token })
+        const token = jwt.sign(user.toJSON(), 'secret')
+        return res.json({ user, token })
+      })
+    }).catch((err) => {
+      console.log(err)
+      res.send({ err })
     })
   })(req, res)
 })
@@ -80,8 +86,18 @@ router.post('/register', (req, res) => {
     .catch((err) => res.send({ err }))
 })
 
-router.put('/updateAvatar/:id', upload.single('avatar'), (req, res) => {
+router.post('/logout', isAuth, (req, res) => {
+  try {
+    req.logout()
+    res.send('Success')
+  } catch (e) {
+    console.log(e)
+  }
+})
+
+router.put('/updateAvatar/:id', upload.single('file'), (req, res) => {
   console.log(req.file)
+
   User.findByIdAndUpdate(
     req.params.id,
     {

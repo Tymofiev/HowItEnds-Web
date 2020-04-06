@@ -12,7 +12,7 @@ const Layout = ({ children, themeToggler, user, insertUser }) => {
     if (!user) {
       getProtected()
         .then((user) => {
-          console.log(user)
+          console.log('User Logined')
           insertUser(user)
         })
         .catch((err) => console.log(err))
