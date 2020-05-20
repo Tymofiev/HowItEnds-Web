@@ -2,13 +2,13 @@ import React, { useMemo, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
+import { SnackbarProvider } from 'notistack'
 import store from './redux/store'
-
 // import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
-import SingUp from './components/user/SignUp'
-import SingIn from './components/user/SignIn'
+import SingUp from './components/auth/SignUp'
+import SingIn from './components/auth/SignIn'
 import Profile from './components/user/profile/Profile'
 
 import Home from './components/home'
@@ -16,6 +16,8 @@ import NotFound from './components/routes/NotFound'
 import Layout from './components/layout/index'
 
 import PrivateRoute from './components/routes/PrivateRoute'
+import Spinner from './components/controls/Spinner'
+import Notifier from './components/controls/Notifier'
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
@@ -44,23 +46,27 @@ const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route exact path='/login' component={SingIn} />
-            <Route exact path='/register' component={SingUp} />
-            <Route path='/'>
-              <Layout themeToggler={changeColorTheme}>
-                <Switch>
-                  <Route exact path='/' component={Home} />
-                  <PrivateRoute exact path='/profile'>
-                    <Profile />
-                  </PrivateRoute>
-                  <Route path='*' component={NotFound} />
-                </Switch>
-              </Layout>
-            </Route>
-          </Switch>
-        </Router>
+        <SnackbarProvider maxSnack={3}>
+          <Notifier />
+          <Router>
+            <Switch>
+              <Route exact path='/login' component={SingIn} />
+              <Route exact path='/register' component={SingUp} />
+              <Route path='/'>
+                <Layout themeToggler={changeColorTheme}>
+                  <Switch>
+                    <Route exact path='/' component={Home} />
+                    <PrivateRoute exact path='/profile'>
+                      <Profile />
+                    </PrivateRoute>
+                    <Route path='*' component={NotFound} />
+                  </Switch>
+                </Layout>
+              </Route>
+            </Switch>
+          </Router>
+        </SnackbarProvider>
+        <Spinner />
       </ThemeProvider>
     </Provider>
   )

@@ -1,45 +1,58 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, withRouter } from 'react-router-dom'
+import { showSnackbar } from '../../services/ui'
 
-const PrivateRoute = ({ children, user, ...rest }) => {
+const PrivateRoute = ({ history, children, user, ...rest }) => {
   const isAuthorized = user === 'Unauthorized' ? false : true
   const isActive = true //user.active
 
-  if (isAuthorized) {
-    if (isActive) {
+  useEffect(() => {
+    if (isAuthorized) {
+      if (isActive) {
+      } else {
+        showSnackbar({ message: 'Account is unactive.', variant: 'warning' })
+        history.push('/confirmation')
+      }
     } else {
+      showSnackbar({ message: 'Unathorized.', variant: 'warning' })
+      history.push('/login')
     }
-  } else {
-  }
+  }, [user])
 
   return (
-    <>
-      <Route {...rest}>
-        {isAuthorized ? (
-          isActive ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: '/confirmation',
-              }}
-            />
-          )
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-            }}
-          />
-        )}
-      </Route>
-    </>
+    <>{children}</>
+    // <>
+    //   <Route {...rest}>
+    //     {isAuthorized ? (
+    //       isActive ? (
+    //         children
+    //       ) : (
+    //         <Redirect
+    //           to={{
+    //             pathname: '/confirmation',
+    //           }}
+    //         />
+    //       )
+    //     ) : (
+    //       <Redirect
+    //         to={{
+    //           pathname: '/login',
+    //         }}
+    //       />
+    //     )}
+    //   </Route>
+    // </>
   )
 }
 
-export default connect((state) => {
-  return {
-    user: state.user.data,
-  }
-}, null)(PrivateRoute)
+const PrivateRouteWithHistory = withRouter(PrivateRoute)
+
+export default connect(
+  (state) => {
+    return {
+      user: state.user.data,
+    }
+  },
+  { showSnackbar },
+)(PrivateRouteWithHistory)

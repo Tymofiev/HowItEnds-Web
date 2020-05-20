@@ -39,8 +39,6 @@ const Main = (props) => {
   const classes = useStyles()
   const { post } = props
 
-  console.log(robot)
-
   return (
     <Paper className={classes.mainFeaturedPost}>
       <div className={classes.overlay} />

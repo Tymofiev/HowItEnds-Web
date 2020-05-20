@@ -1,58 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper } from '@material-ui/core'
 import { Form, Field } from 'react-final-form'
+import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper } from '@material-ui/core'
 import { LockOutlined, ExitToAppOutlined, AccountCircleOutlined, EmailOutlined } from '@material-ui/icons'
-import { makeStyles } from '@material-ui/core/styles'
 
 import Input from '../controls/OwnInput'
+import PasswordInput from '../controls/PasswordInput'
 import Copyright from '../home/Copyright'
-import StyledSnackbar from '../controls/StyledSnackbar'
 import StyledLink from '../controls/StyledLink'
 
 import { required, email, composeValidators } from '../../utils/validators'
 import { login } from '../../services/user'
-import rose from '../../images/rose-oled-8k-8v.jpg'
+import { showSnackbar } from '../../services/ui'
+import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: `url(${rose})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
+import useStyles from './style'
 
-const SingIn = ({ login, history, user }) => {
+const SingIn = ({ login, startLoading, stopLoading, showSnackbar, history, user }) => {
   const classes = useStyles()
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    type: '',
-    msg: '',
-  })
 
   const handleLogin = ({ email, password }) => {
+    startLoading()
     login({ email, password })
       .then((err) => {
         if (err) {
@@ -60,19 +28,13 @@ const SingIn = ({ login, history, user }) => {
         }
       })
       .then(() => {
-        setSnackbar({ open: true, type: 'success', msg: 'Succesfuly signed in!' })
-        setTimeout(() => {
-          history.push('/')
-        }, 1000)
+        showSnackbar({ message: 'Succesfuly signed in!', variant: 'success' })
+        history.push('/')
       })
-      .catch((err) => setSnackbar({ open: true, type: 'error', msg: err }))
-  }
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbar({ open: false, type: snackbar.type, msg: snackbar.msg })
+      .catch((err) => showSnackbar({ message: err, variant: 'error' }))
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   return (
@@ -108,7 +70,12 @@ const SingIn = ({ login, history, user }) => {
                     <Typography component='span'>
                       <LockOutlined /> Password
                     </Typography>
-                    <Field name='password' type='password' component={Input} validate={composeValidators(required)} />
+                    <Field
+                      name='password'
+                      type='password'
+                      component={PasswordInput}
+                      validate={composeValidators(required)}
+                    />
                   </Grid>
                   <Grid item xl={12}>
                     <Button
@@ -144,12 +111,6 @@ const SingIn = ({ login, history, user }) => {
           </div>
         </Grid>
       </Grid>
-      <StyledSnackbar
-        message={snackbar.msg}
-        open={snackbar.open}
-        severity={snackbar.type}
-        handleClose={handleSnackbarClose}
-      />
     </>
   )
 }
@@ -161,5 +122,8 @@ const mapStateToProps = (store) => {
 }
 
 export default connect(mapStateToProps, {
+  startLoading,
+  stopLoading,
+  showSnackbar,
   login,
 })(SingIn)

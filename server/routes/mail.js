@@ -16,13 +16,13 @@ router.post('/send', (req, res) => {
 
   let options = {
     from: `"HowItEnds 👻" <${process.env.EMAIL}>`,
-    to: 'ilia.tumofiev@gmail.com',
+    to: email,
     subject: subject,
     text: msg,
     html: `    
     <h2>Question</h2>
     <p>${msg}</p>
-    <b>Email to respond: ${email}</b>
+    <b>Email to respond: ${process.env.EMAIL}</b>
     `,
   }
 

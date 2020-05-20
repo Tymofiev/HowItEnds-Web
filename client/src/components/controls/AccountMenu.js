@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Badge, Hidden, Fade } from '@material-ui/core'
 import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@material-ui/icons'
-import { withStyles } from '@material-ui/core/styles'
 
 import StyledLink from './StyledLink'
 import { logout } from '../../services/user'
-import StyledSnackbar from './StyledSnackbar'
+import { showSnackbar } from '../../services/ui'
+
+import { withStyles } from '@material-ui/core/styles'
 
 const StyledMenu = withStyles({
   paper: {
@@ -39,28 +40,16 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem)
 
-const AccountMenu = ({ anchorEl, closeMenu, logout }) => {
+const AccountMenu = ({ anchorEl, closeMenu, logout, showSnackbar }) => {
   const isMenuOpen = Boolean(anchorEl)
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    type: '',
-    msg: '',
-  })
 
   const handleLogout = () => {
     logout()
       .then(() => {
-        setSnackbar({ open: true, type: 'success', msg: 'Succesfuly logged out!' })
+        showSnackbar({ message: 'Succesfuly logged out!', variant: 'success' })
       })
       .catch((err) => console.log(err))
     closeMenu()
-  }
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbar({ open: false, type: snackbar.type, msg: snackbar.msg })
   }
 
   return (
@@ -109,18 +98,11 @@ const AccountMenu = ({ anchorEl, closeMenu, logout }) => {
           <ListItemText primary='Logout' />
         </StyledMenuItem>
       </StyledMenu>
-      <StyledSnackbar
-        message={snackbar.msg}
-        open={snackbar.open}
-        severity={snackbar.type}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        title={false}
-        handleClose={handleSnackbarClose}
-      />
     </>
   )
 }
 
 export default connect(null, {
+  showSnackbar,
   logout,
 })(AccountMenu)

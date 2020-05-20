@@ -1,5 +1,4 @@
 import request from '../lib/request'
-import axios from 'axios'
 
 export const login = ({ email, password }) => {
   return request({

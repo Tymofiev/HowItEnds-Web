@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper } from '@material-ui/core'
 import {
@@ -8,57 +8,24 @@ import {
   AccountCircleOutlined,
   ChildCareOutlined,
 } from '@material-ui/icons'
-import { makeStyles } from '@material-ui/core/styles'
 import { Form, Field } from 'react-final-form'
 
 import Input from '../controls/OwnInput'
 import Copyright from '../home/Copyright'
-import StyledSnackbar from '../controls/StyledSnackbar'
 import StyledLink from '../controls/StyledLink'
 
 import { required, minLength5, email, composeValidators } from '../../utils/validators'
 import { register } from '../../services/user'
-import rose from '../../images/rose-oled-8k-8v.jpg'
+import { showSnackbar } from '../../services/ui'
+import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: `url(${rose})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
+import useStyles from './style'
 
-const SingUpForm = ({ history, register }) => {
+const SingUpForm = ({ history, register, showSnackbar, startLoading, stopLoading }) => {
   const classes = useStyles()
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    type: '',
-    msg: '',
-  })
 
   const sendToServer = ({ username, email, password }) => {
+    startLoading()
     register({ username, email, password })
       .then((err) => {
         if (err) {
@@ -66,22 +33,15 @@ const SingUpForm = ({ history, register }) => {
         }
       })
       .then(() => {
-        setSnackbar({ open: true, type: 'success', msg: 'Succesfuly signed up!' })
-        setTimeout(() => {
-          history.push('/login')
-        }, 1000)
+        showSnackbar({ message: 'Succesfuly signed up!', variant: 'success' })
+        history.push('/login')
       })
       .catch((err) => {
-        console.log(err)
-        setSnackbar({ open: true, type: 'error', msg: err })
+        showSnackbar({ message: err, variant: 'error' })
       })
-  }
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbar({ open: false, type: snackbar.type, msg: snackbar.msg })
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   return (
@@ -158,16 +118,13 @@ const SingUpForm = ({ history, register }) => {
           </div>
         </Grid>
       </Grid>
-      <StyledSnackbar
-        message={snackbar.msg}
-        open={snackbar.open}
-        severity={snackbar.type}
-        handleClose={handleSnackbarClose}
-      />
     </>
   )
 }
 
 export default connect(null, {
+  startLoading,
+  stopLoading,
+  showSnackbar,
   register,
 })(SingUpForm)

@@ -1,7 +1,9 @@
 import { handleActions } from 'redux-actions'
 import { insertUser, logoutUser, updateAvatar } from '../actions/userActions'
 
-const initialState = {}
+const initialState = {
+  data: 'Unauthorized',
+}
 
 const userReducer = handleActions(
   {
@@ -11,12 +13,6 @@ const userReducer = handleActions(
         data: action.payload,
       }
     },
-    [logoutUser]: (state = initialState, action) => {
-      return {
-        ...state,
-        data: 'Unauthorized',
-      }
-    },
     [updateAvatar]: (state = initialState, action) => {
       const { avatar, ...rest } = state.data
       return {
@@ -24,6 +20,7 @@ const userReducer = handleActions(
         data: { ...rest, avatar: action.payload },
       }
     },
+    [logoutUser]: () => initialState,
   },
   initialState,
 )
