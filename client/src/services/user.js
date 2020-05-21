@@ -1,4 +1,4 @@
-import { login as loginAPI, register as registerAPI, logout as logoutAPI } from '../api/user'
+import { login as loginAPI, register as registerAPI, logout as logoutAPI, checkIfLoggedIn } from '../api/auth'
 import { logoutUser, insertUser } from '../redux/actions/userActions'
 
 export const register = ({ username, email, password }) => (dispatch) => {
@@ -6,25 +6,28 @@ export const register = ({ username, email, password }) => (dispatch) => {
     if (res.err) {
       return res.err
     }
-    dispatch(insertUser(res))
+    dispatch(insertUser({ data: res, isLoggedIn: true }))
   })
 }
 
-export const login = ({ email, password }) => (dispatch) => {
-  return loginAPI({ email, password }).then((result) => {
+export const login = ({ email, password, remember }) => (dispatch) => {
+  return loginAPI({ email, password, remember }).then((result) => {
     const { user, token, err } = result
     if (err) {
       return err
     }
-
-    localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(user))
-    dispatch(insertUser(user))
+    dispatch(insertUser({ data: user, isLoggedIn: true }))
   })
 }
 
 export const logout = () => (dispatch) => {
   return logoutAPI().then((res) => {
     dispatch(logoutUser())
+  })
+}
+
+export const checkAuthorized = () => (dispatch) => {
+  return checkIfLoggedIn().then((res) => {
+    dispatch(insertUser(res))
   })
 }

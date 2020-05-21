@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { SnackbarProvider } from 'notistack'
 import store from './redux/store'
-// import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
 import SingUp from './components/auth/SignUp'
@@ -18,6 +17,7 @@ import Layout from './components/layout/index'
 import PrivateRoute from './components/routes/PrivateRoute'
 import Spinner from './components/controls/Spinner'
 import Notifier from './components/controls/Notifier'
+import LoadingContainer from './components/controls/LoadingContainer'
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
@@ -48,23 +48,21 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={3}>
           <Notifier />
-          <Router>
-            <Switch>
-              <Route exact path='/login' component={SingIn} />
-              <Route exact path='/register' component={SingUp} />
-              <Route path='/'>
+          <LoadingContainer>
+            <Router>
+              <Switch>
+                <Route path='/login' component={SingIn} />
+                <Route path='/register' component={SingUp} />
                 <Layout themeToggler={changeColorTheme}>
                   <Switch>
                     <Route exact path='/' component={Home} />
-                    <PrivateRoute exact path='/profile'>
-                      <Profile />
-                    </PrivateRoute>
+                    <PrivateRoute exact path='/profile' component={<Profile />} />
                     <Route path='*' component={NotFound} />
                   </Switch>
                 </Layout>
-              </Route>
-            </Switch>
-          </Router>
+              </Switch>
+            </Router>
+          </LoadingContainer>
         </SnackbarProvider>
         <Spinner />
       </ThemeProvider>

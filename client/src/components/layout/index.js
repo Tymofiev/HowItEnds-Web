@@ -1,23 +1,9 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 
 import Header from './Header'
 import Footer from './Footer'
 
-import { getProtected } from '../../api/user'
-import { insertUser } from '../../redux/actions/userActions'
-
-const Layout = ({ children, themeToggler, user, insertUser }) => {
-  useEffect(() => {
-    if (!user) {
-      getProtected()
-        .then((user) => {
-          insertUser(user)
-        })
-        .catch((err) => console.log(err))
-    }
-  })
-
+const Layout = ({ children, themeToggler }) => {
   return (
     <>
       <Header themeToggler={themeToggler} />
@@ -26,13 +12,4 @@ const Layout = ({ children, themeToggler, user, insertUser }) => {
     </>
   )
 }
-
-const mapStateToProps = (store) => {
-  return {
-    user: store.user.data,
-  }
-}
-
-export default connect(mapStateToProps, {
-  insertUser,
-})(Layout)
+export default Layout

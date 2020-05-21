@@ -9,4 +9,5 @@ export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR'
 
 export const SAVE_USER = 'SAVE_USER'
 export const USER_LOGOUT = 'USER_LOGOUT'
+export const SET_ACTIVE = 'SET_ACTIVE'
 export const UPDATE_AVATAR = 'UPDATE_AVATAR'

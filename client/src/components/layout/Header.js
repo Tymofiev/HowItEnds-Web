@@ -109,7 +109,7 @@ const Header = ({ themeToggler, user }) => {
           </IconButton>
         </Hidden>
 
-        {user === 'Unauthorized' ? (
+        {!user.isLoggedIn ? (
           <Hidden smDown>
             <Button component={StyledLink} to='/login' color='primary' variant='contained' className={classes.signin}>
               Sign in
@@ -133,7 +133,7 @@ const Header = ({ themeToggler, user }) => {
             onClick={handleProfileMenuOpen}
             color='inherit'
           >
-            <Avatar alt={user?.username} src={user?.avatar} className={classes.orange} />
+            <Avatar alt={user.data?.username} src={user.data?.avatar} className={classes.orange} />
           </IconButton>
         )}
       </Toolbar>
@@ -145,7 +145,7 @@ const Header = ({ themeToggler, user }) => {
 
 const mapStateToProps = (store) => {
   return {
-    user: store.user.data,
+    user: store.user,
   }
 }
 

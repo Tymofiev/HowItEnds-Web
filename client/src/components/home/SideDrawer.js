@@ -30,13 +30,13 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
     <>
       <Drawer anchor='left' open={isOpen} onClose={closeDrawer()}>
         <div className={classes.list} role='presentation'>
-          {user === 'Unauthorized' ? (
+          {!user.isLoggedIn ? (
             <Typography className={classes.menuTitle} variant='h5' component='h3' align='center'>
               Pages
             </Typography>
           ) : (
             <Typography className={classes.menuTitle} variant='h5' component='h3' color='secondary' align='center'>
-              {user?.username}
+              {user.data?.username}
             </Typography>
           )}
 
@@ -83,7 +83,7 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
             />
           </List>
           <Divider />
-          {user === 'Unauthorized' ? (
+          {!user.isLoggedIn ? (
             <List>
               <ListItem>
                 <Button component={StyledLink} to='/login' color='primary' variant='contained' fullWidth>
@@ -105,6 +105,6 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
 
 export default connect((state) => {
   return {
-    user: state.user.data,
+    user: state.user,
   }
 }, null)(withRouter(SideDrawer))

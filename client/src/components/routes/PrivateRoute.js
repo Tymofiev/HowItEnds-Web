@@ -1,58 +1,52 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect, withRouter } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { showSnackbar } from '../../services/ui'
 
-const PrivateRoute = ({ history, children, user, ...rest }) => {
-  const isAuthorized = user === 'Unauthorized' ? false : true
-  const isActive = true //user.active
+const PrivateRoute = ({ component, user, location, showSnackbar }) => {
+  const isAuthorized = user.isLoggedIn
+  const isActive = user.data.active
 
   useEffect(() => {
-    if (isAuthorized) {
-      if (isActive) {
-      } else {
-        showSnackbar({ message: 'Account is unactive.', variant: 'warning' })
-        history.push('/confirmation')
-      }
-    } else {
-      showSnackbar({ message: 'Unathorized.', variant: 'warning' })
-      history.push('/login')
+    if (!isAuthorized) {
+      showSnackbar({ variant: 'warning', message: 'Unathorized.' })
+    } else if (!isActive) {
+      showSnackbar({ variant: 'warning', message: 'Unactive.' })
     }
-  }, [user])
+  })
 
   return (
-    <>{children}</>
-    // <>
-    //   <Route {...rest}>
-    //     {isAuthorized ? (
-    //       isActive ? (
-    //         children
-    //       ) : (
-    //         <Redirect
-    //           to={{
-    //             pathname: '/confirmation',
-    //           }}
-    //         />
-    //       )
-    //     ) : (
-    //       <Redirect
-    //         to={{
-    //           pathname: '/login',
-    //         }}
-    //       />
-    //     )}
-    //   </Route>
-    // </>
+    <>
+      {isAuthorized ? (
+        !isActive ? (
+          component
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: location },
+          }}
+        />
+      )}
+    </>
   )
 }
 
-const PrivateRouteWithHistory = withRouter(PrivateRoute)
+const PrivateWithRouter = withRouter(PrivateRoute)
 
 export default connect(
   (state) => {
     return {
-      user: state.user.data,
+      user: state.user,
     }
   },
   { showSnackbar },
-)(PrivateRouteWithHistory)
+)(PrivateWithRouter)

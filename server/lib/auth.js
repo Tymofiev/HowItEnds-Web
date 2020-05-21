@@ -13,14 +13,18 @@ const localStrategy = new LocalStrategy({ usernameField: 'email' }, (email, pass
         return done('Incorrect email.', false, { message: 'Incorrect email.' })
       }
 
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) throw err
-        if (isMatch) {
-          return done(null, user)
-        } else {
-          return done('Incorrect password.', false, { message: 'Incorrect password.' })
-        }
-      })
+      user
+        .login(password)
+        .then((isMatch) => {
+          if (isMatch) {
+            return done(null, user)
+          } else {
+            return done('Incorrect password.', false, { message: 'Incorrect password.' })
+          }
+        })
+        .catch((err) => {
+          throw err
+        })
     })
     .catch((e) => {
       return done(e)
@@ -54,7 +58,7 @@ const isAuth = (req, res, next) => {
     return next()
   }
 
-  res.send('Unauthorized')
+  res.send({ isLoggedIn: false, data: {} })
 }
 
 module.exports = {

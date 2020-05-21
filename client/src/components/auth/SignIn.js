@@ -6,6 +6,7 @@ import { LockOutlined, ExitToAppOutlined, AccountCircleOutlined, EmailOutlined }
 
 import Input from '../controls/OwnInput'
 import PasswordInput from '../controls/PasswordInput'
+import Checkbox from '../controls/OwnCheckbox'
 import Copyright from '../home/Copyright'
 import StyledLink from '../controls/StyledLink'
 
@@ -19,7 +20,7 @@ import useStyles from './style'
 const SingIn = ({ login, startLoading, stopLoading, showSnackbar, history, user }) => {
   const classes = useStyles()
 
-  const handleLogin = ({ email, password }) => {
+  const handleLogin = ({ email, password, remember }) => {
     startLoading()
     login({ email, password })
       .then((err) => {
@@ -76,6 +77,9 @@ const SingIn = ({ login, startLoading, stopLoading, showSnackbar, history, user 
                       component={PasswordInput}
                       validate={composeValidators(required)}
                     />
+                  </Grid>
+                  <Grid item xl={12}>
+                    <Field name='remember' type='checkbox' color='primary' component={Checkbox} />
                   </Grid>
                   <Grid item xl={12}>
                     <Button

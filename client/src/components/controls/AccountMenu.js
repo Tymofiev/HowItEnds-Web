@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Badge, Hidden, Fade } from '@material-ui/core'
 import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@material-ui/icons'
