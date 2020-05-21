@@ -10,9 +10,9 @@ import {
 } from '@material-ui/icons'
 import { Form, Field } from 'react-final-form'
 
-import Input from '../controls/OwnInput'
-import Copyright from '../home/Copyright'
-import StyledLink from '../controls/StyledLink'
+import Input from '../controls/own/OwnInput'
+import Copyright from '../layout/components/Copyright'
+import StyledLink from '../controls/styled/StyledLink'
 
 import { required, minLength5, email, composeValidators } from '../../utils/validators'
 import { register } from '../../services/user'

@@ -5,7 +5,7 @@ import { Typography, Grid, Button } from '@material-ui/core'
 import { VpnKeyOutlined } from '@material-ui/icons'
 
 import { required, match, composeValidators } from '../../../utils/validators'
-import Input from '../../controls/OwnInput'
+import Input from '../../controls/own/OwnInput'
 
 const useStyles = makeStyles((theme) => ({
   buttons: {

@@ -5,7 +5,7 @@ import { Paper, Typography, Tabs, Tab } from '@material-ui/core'
 import { AccountCircleOutlined, SettingsApplicationsOutlined } from '@material-ui/icons'
 
 import TabPanel from '../../controls/TabPanel'
-import StyledDivider from '../../controls/StyledDivider'
+import StyledDivider from '../../controls/styled/StyledDivider'
 import EmailSettings from './EmailSettings'
 import PasswordSettings from './PasswordSettings'
 import AvatarSettings from './AvatarSettings'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { checkAuthorized } from '../../services/user'
-import { startLoading, stopLoading } from '../../redux/actions/uiActions'
+import { checkAuthorized } from '../../../services/user'
+import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
 
 class LoadingContainer extends React.Component {
   constructor(props) {

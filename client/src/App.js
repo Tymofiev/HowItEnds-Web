@@ -15,9 +15,9 @@ import NotFound from './components/routes/NotFound'
 import Layout from './components/layout/index'
 
 import PrivateRoute from './components/routes/PrivateRoute'
-import Spinner from './components/controls/Spinner'
-import Notifier from './components/controls/Notifier'
-import LoadingContainer from './components/controls/LoadingContainer'
+import Spinner from './components/controls/wrappers/Spinner'
+import Notifier from './components/controls/wrappers/Notifier'
+import LoadingContainer from './components/controls/wrappers/LoadingContainer'
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')

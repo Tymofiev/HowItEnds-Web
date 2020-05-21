@@ -1,5 +1,9 @@
 import React from 'react'
-import Main from './Main'
+
+import Main from './components/Main'
+import Posts from './components/posts/index'
+import Guide from './components/guide/index'
+
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +25,8 @@ const Home = () => {
     <>
       <div className={classes.root}>
         <Main post={post} />
+        <Guide />
+        <Posts />
       </div>
     </>
   )

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Badge, Hidden, Fade } from '@material-ui/core'
 import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@material-ui/icons'
 
-import StyledLink from './StyledLink'
+import StyledLink from './styled/StyledLink'
 import { logout } from '../../services/user'
 import { showSnackbar } from '../../services/ui'
 

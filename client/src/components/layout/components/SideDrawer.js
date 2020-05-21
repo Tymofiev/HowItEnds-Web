@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Button, List, Divider, ListItem, Drawer, Typography } from '@material-ui/core'
 import { MailOutline, ViewListOutlined, ForumOutlined, HomeOutlined } from '@material-ui/icons'
 
-import StyledLink from '../controls/StyledLink'
-import ListItemLink from '../controls/ListItemLink'
+import StyledLink from '../../controls/styled/StyledLink'
+import ListItemLink from '../../controls/ListItemLink'
 
 const useStyles = makeStyles((theme) => ({
   list: {
