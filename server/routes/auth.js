@@ -1,9 +1,10 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
 
 const User = require('../models/User')
 const { passport, isAuth } = require('../lib/auth')
 const { userExists } = require('../lib/validations')
+const { sendEmail } = require('../lib/email')
+const { confirmation } = require('../email/templates')
 
 const ABSOLUTE_SESSION_LIFE = 24 * 60 * 60 * 1000 // Expires in 1 day
 const router = express.Router()
@@ -25,8 +26,7 @@ router.post('/login', (req, res) => {
           req.session.cookie.expires = false
         }
 
-        const token = jwt.sign(user.toJSON(), 'secret')
-        return res.json({ user, token })
+        return res.json({ user })
       })
     }).catch((err) => {
       console.log(err)
@@ -61,7 +61,17 @@ router.post('/logout', isAuth, (req, res) => {
   }
 })
 
-//passport.authenticate('jwt', { session: false }),
+router.post('/sendEmail', (req, res) => {
+  const { to, userId } = req.body
+
+  sendEmail(to, confirmation(userId))
+    .then((info) => {
+      console.log(info)
+      res.send({ success: true })
+    })
+    .catch((e) => console.log(e))
+})
+
 router.get('/logged_in', isAuth, (req, res) => {
   res.send({ isLoggedIn: true, data: req.user })
 })

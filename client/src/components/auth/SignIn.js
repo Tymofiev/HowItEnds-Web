@@ -22,7 +22,7 @@ const SingIn = ({ login, startLoading, stopLoading, showSnackbar, history, user 
 
   const handleLogin = ({ email, password, remember }) => {
     startLoading()
-    login({ email, password })
+    login({ email, password, remember })
       .then((err) => {
         if (err) {
           return Promise.reject(err)

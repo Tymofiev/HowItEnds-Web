@@ -28,7 +28,7 @@ app.use(passport.session())
 
 app.use('/', require('./server/routes/index'))
 app.use('/auth', require('./server/routes/auth'))
-app.use('/email', require('./server/routes/mail'))
+app.use('/email', require('./server/routes/email'))
 app.use('/user', require('./server/routes/user'))
 
 app.listen(5000, () => {

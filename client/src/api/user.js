@@ -9,3 +9,10 @@ export const editAvatar = ({ file, id }) => {
     data: formData,
   })
 }
+
+export const confirmEmail = (id) => {
+  return request({
+    url: `/user/emailConfirm/${id}`,
+    method: 'post',
+  })
+}

@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
   },
 })
 
-router.post('/send', (req, res) => {
+router.post('/confirm/:id', (req, res) => {
   const { email, subject, msg } = req.body
 
   let options = {

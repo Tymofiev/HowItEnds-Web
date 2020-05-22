@@ -9,16 +9,16 @@ const PrivateRoute = ({ component, user, location, showSnackbar }) => {
 
   useEffect(() => {
     if (!isAuthorized) {
-      showSnackbar({ variant: 'warning', message: 'Unathorized.' })
+      showSnackbar({ variant: 'error', message: 'Unathorized.' })
     } else if (!isActive) {
-      showSnackbar({ variant: 'warning', message: 'Unactive.' })
+      showSnackbar({ variant: 'error', message: 'Unactive.' })
     }
   })
 
   return (
     <>
       {isAuthorized ? (
-        !isActive ? (
+        isActive ? (
           component
         ) : (
           <Redirect

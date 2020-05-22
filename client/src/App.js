@@ -13,6 +13,7 @@ import Profile from './components/user/profile/Profile'
 import Home from './components/home'
 import NotFound from './components/routes/NotFound'
 import Layout from './components/layout/index'
+import Confirm from './components/email/Confirm'
 
 import PrivateRoute from './components/routes/PrivateRoute'
 import Spinner from './components/controls/wrappers/Spinner'
@@ -57,6 +58,7 @@ const App = () => {
                   <Switch>
                     <Route exact path='/' component={Home} />
                     <PrivateRoute exact path='/profile' component={<Profile />} />
+                    <Route exact path='/confirm/:id' component={Confirm} />
                     <Route path='*' component={NotFound} />
                   </Switch>
                 </Layout>

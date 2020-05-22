@@ -15,7 +15,7 @@ import Copyright from '../layout/components/Copyright'
 import StyledLink from '../controls/styled/StyledLink'
 
 import { required, minLength5, email, composeValidators } from '../../utils/validators'
-import { register } from '../../services/user'
+import { register, sendConfirm } from '../../services/user'
 import { showSnackbar } from '../../services/ui'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
@@ -27,10 +27,15 @@ const SingUpForm = ({ history, register, showSnackbar, startLoading, stopLoading
   const sendToServer = ({ username, email, password }) => {
     startLoading()
     register({ username, email, password })
-      .then((err) => {
-        if (err) {
-          return Promise.reject(err)
+      .then((res) => {
+        if (res.err) {
+          return Promise.reject(res.err)
         }
+        sendConfirm(res.email, res._id).then((res) => {
+          if (res.success) {
+            showSnackbar({ message: `Confirmation email was sent to ${email}`, variant: 'success' })
+          }
+        })
       })
       .then(() => {
         showSnackbar({ message: 'Succesfuly signed up!', variant: 'success' })

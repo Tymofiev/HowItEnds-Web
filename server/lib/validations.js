@@ -7,7 +7,6 @@ const userExists = (username, email) => {
     }
 
     return User.findOne({ email }).then((result) => {
-      console.log(result)
       if (result) {
         return Promise.reject('Email is busy.')
       }

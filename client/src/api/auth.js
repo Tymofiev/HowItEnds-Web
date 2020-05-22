@@ -29,3 +29,14 @@ export const checkIfLoggedIn = () => {
     method: 'get',
   })
 }
+
+export const sendConfirmationEmail = (to, userId) => {
+  return request({
+    url: '/auth/sendEmail',
+    method: 'post',
+    data: {
+      to,
+      userId,
+    },
+  })
+}

@@ -1,3 +1,4 @@
 {
-  "db": "mongodb://localhost/howitends"
+  "db": "mongodb://localhost/howitends",
+  "CLIENT_ORIGIN": "http://localhost:3000"
 }
