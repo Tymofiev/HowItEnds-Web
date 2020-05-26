@@ -3,7 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
-const upload = require('../lib/upload')
+const { upload, deleteCurrentFile } = require('../lib/upload')
 
 router.get('/', (req, res) => {
   User.find({})
@@ -15,9 +15,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.put('/updateAvatar/:id', upload.single('file'), (req, res) => {
-  console.log(req.file)
-
+router.put('/updateAvatar/:id', upload.single('file'), deleteCurrentFile, (req, res) => {
   User.findByIdAndUpdate(
     req.params.id,
     {
@@ -73,7 +71,7 @@ router.post('/emailConfirm/:id', (req, res) => {
     {
       active: true,
     },
-    { new: true, useFindAndModify: false },
+    { new: true },
   )
     .then((result) => {
       res.send({ success: true })

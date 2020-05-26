@@ -45,15 +45,11 @@ const useStyles = makeStyles((theme) => ({
 const AvatarSettings = ({ user, updateAvatar }) => {
   const classes = useStyles()
   const [open, setOpen] = useState()
-  const [refreshImg, setImgRefresh] = useState()
 
   const handleSave = (file) => {
     setOpen(false)
     editAvatar({ file, id: user._id }).then((result) => {
-      console.log(result)
       updateAvatar(result?.avatar)
-      window.location.reload()
-      setImgRefresh(true)
     })
   }
 
@@ -74,10 +70,12 @@ const AvatarSettings = ({ user, updateAvatar }) => {
         <Grid item xs={12} sm={12} className={classes.avatarHolder}>
           <Avatar alt={user?.username} src={user?.avatar} className={classes.avatar} />
         </Grid>
-        {/* <Button variant='outlined' color='primary' component='label' className={classes.inputButton}>
-          File dialog
-          <Input type='file' style={{ display: 'none' }} onChange={(e) => handleSave(e.target.files[0])} />
-        </Button> */}
+        <Grid item xs={12} sm={12} className={classes.inputHolder}>
+          <Button variant='outlined' color='primary' component='label' className={classes.inputButton}>
+            File dialog
+            <Input type='file' style={{ display: 'none' }} onChange={(e) => handleSave(e.target.files[0])} />
+          </Button>
+        </Grid>
         <Grid item xs={12} sm={12} className={classes.inputHolder}>
           <CloudUploadOutlined color='secondary' fontSize='large' className={classes.uploadIcon} />
         </Grid>
@@ -93,7 +91,7 @@ const AvatarSettings = ({ user, updateAvatar }) => {
         acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
         showPreviews={false}
         maxFileSize={5000000}
-        filesLimit={3}
+        filesLimit={1}
         showPreviewsInDropzone={true}
         onClose={() => handleClose()}
       />

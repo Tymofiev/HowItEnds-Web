@@ -96,7 +96,7 @@ const Header = ({ themeToggler, user }) => {
           {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
 
-        <Hidden smDown>
+        {/* <Hidden smDown>
           <IconButton aria-label='show 4 new mails' color='inherit'>
             <Badge badgeContent={4} color='secondary'>
               <MailIcon />
@@ -107,7 +107,7 @@ const Header = ({ themeToggler, user }) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-        </Hidden>
+        </Hidden> */}
 
         {!user.isLoggedIn ? (
           <Hidden smDown>
@@ -133,7 +133,7 @@ const Header = ({ themeToggler, user }) => {
             onClick={handleProfileMenuOpen}
             color='inherit'
           >
-            <Avatar alt={user.data?.username} src={user.data?.avatar} className={classes.orange} />
+            <Avatar alt={user.data?.username} src={user.data?.avatar} />
           </IconButton>
         )}
       </Toolbar>

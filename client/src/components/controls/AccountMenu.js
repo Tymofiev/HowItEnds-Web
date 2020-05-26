@@ -6,6 +6,7 @@ import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@materia
 import StyledLink from './styled/StyledLink'
 import { logout } from '../../services/user'
 import { showSnackbar } from '../../services/ui'
+import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
 import { withStyles } from '@material-ui/core/styles'
 
@@ -40,15 +41,19 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem)
 
-const AccountMenu = ({ anchorEl, closeMenu, logout, showSnackbar }) => {
+const AccountMenu = ({ anchorEl, closeMenu, logout, showSnackbar, startLoading, stopLoading }) => {
   const isMenuOpen = Boolean(anchorEl)
 
   const handleLogout = () => {
+    startLoading()
     logout()
       .then(() => {
         showSnackbar({ message: 'Succesfuly logged out!', variant: 'success' })
       })
       .catch((err) => console.log(err))
+      .finally(() => {
+        stopLoading()
+      })
     closeMenu()
   }
 
@@ -104,5 +109,7 @@ const AccountMenu = ({ anchorEl, closeMenu, logout, showSnackbar }) => {
 
 export default connect(null, {
   showSnackbar,
+  startLoading,
+  stopLoading,
   logout,
 })(AccountMenu)
