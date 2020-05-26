@@ -73,11 +73,13 @@ router.post('/emailConfirm/:id', (req, res) => {
     {
       active: true,
     },
-    { new: true },
+    { new: true, useFindAndModify: false },
   )
-    .then((result) => res.send({ success: true }))
+    .then((result) => {
+      res.send({ success: true })
+    })
     .catch((err) => {
-      console.log(err)
+      res.status(400).send({ err })
     })
 })
 

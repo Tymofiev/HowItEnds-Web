@@ -14,6 +14,7 @@ import Home from './components/home'
 import NotFound from './components/routes/NotFound'
 import Layout from './components/layout/index'
 import Confirm from './components/email/Confirm'
+import Confirmation from './components/email/Confirmation'
 
 import PrivateRoute from './components/routes/PrivateRoute'
 import Spinner from './components/controls/wrappers/Spinner'
@@ -57,6 +58,7 @@ const App = () => {
                 <Layout themeToggler={changeColorTheme}>
                   <Switch>
                     <Route exact path='/' component={Home} />
+                    <Route path='/confirmation' component={Confirmation} />
                     <PrivateRoute exact path='/profile' component={<Profile />} />
                     <Route exact path='/confirm/:id' component={Confirm} />
                     <Route path='*' component={NotFound} />

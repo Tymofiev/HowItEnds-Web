@@ -5,6 +5,8 @@ const { passport, isAuth } = require('../lib/auth')
 const { userExists } = require('../lib/validations')
 const { sendEmail } = require('../lib/email')
 const { confirmation } = require('../email/templates')
+const { getMessageByStatus } = require('../email/messages')
+const { CONFIRM } = require('../email/statuses')
 
 const ABSOLUTE_SESSION_LIFE = 24 * 60 * 60 * 1000 // Expires in 1 day
 const router = express.Router()
@@ -40,11 +42,15 @@ router.post('/register', (req, res) => {
 
   userExists(username, email)
     .then(() => {
-      const user = new User({ username, email, password, active: false })
+      const newUser = new User({ username, email, password, active: false })
 
-      user
+      newUser
         .save()
-        .then((result) => res.send(result))
+        .then((user) => {
+          sendEmail(user.email, confirmation(user._id)).then((info) => {
+            res.send({ user, emailStatus: getMessageByStatus(CONFIRM) })
+          })
+        })
         .catch((err) => {
           console.log(err)
         })
@@ -59,17 +65,6 @@ router.post('/logout', isAuth, (req, res) => {
   } catch (e) {
     console.log(e)
   }
-})
-
-router.post('/sendEmail', (req, res) => {
-  const { to, userId } = req.body
-
-  sendEmail(to, confirmation(userId))
-    .then((info) => {
-      console.log(info)
-      res.send({ success: true })
-    })
-    .catch((e) => console.log(e))
 })
 
 router.get('/logged_in', isAuth, (req, res) => {

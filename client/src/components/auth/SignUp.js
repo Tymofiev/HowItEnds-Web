@@ -31,11 +31,7 @@ const SingUpForm = ({ history, register, showSnackbar, startLoading, stopLoading
         if (res.err) {
           return Promise.reject(res.err)
         }
-        sendConfirm(res.email, res._id).then((res) => {
-          if (res.success) {
-            showSnackbar({ message: `Confirmation email was sent to ${email}`, variant: 'success' })
-          }
-        })
+        showSnackbar({ message: res.emailStatus, variant: 'success' })
       })
       .then(() => {
         showSnackbar({ message: 'Succesfuly signed up!', variant: 'success' })

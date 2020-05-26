@@ -10,6 +10,7 @@ class LoadingContainer extends React.Component {
       infoLoaded: false,
     }
   }
+
   componentDidMount() {
     const { checkAuthorized, startLoading, stopLoading } = this.props
 

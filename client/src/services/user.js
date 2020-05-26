@@ -9,7 +9,7 @@ import { logoutUser, insertUser } from '../redux/actions/userActions'
 
 export const register = ({ username, email, password }) => (dispatch) => {
   return registerAPI({ username, email, password }).then((res) => {
-    dispatch(insertUser({ data: res, isLoggedIn: true }))
+    dispatch(insertUser({ data: res.user, isLoggedIn: true }))
     return res
   })
 }
@@ -35,8 +35,4 @@ export const checkAuthorized = () => (dispatch) => {
   return checkIfLoggedIn().then((res) => {
     dispatch(insertUser(res))
   })
-}
-
-export const sendConfirm = (email, id) => {
-  return sendConfirmationEmail(email, id)
 }

@@ -46,11 +46,13 @@ passport.use(localStrategy)
 passport.use(jwtStrategy)
 
 passport.serializeUser((user, done) => {
-  done(null, user)
+  done(null, user._id)
 })
 
-passport.deserializeUser((user, done) => {
-  done(null, user)
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user)
+  })
 })
 
 const isAuth = (req, res, next) => {

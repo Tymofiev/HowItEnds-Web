@@ -32,7 +32,7 @@ export const checkIfLoggedIn = () => {
 
 export const sendConfirmationEmail = (to, userId) => {
   return request({
-    url: '/auth/sendEmail',
+    url: '/email/resendEmail',
     method: 'post',
     data: {
       to,
