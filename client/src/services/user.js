@@ -1,38 +1,21 @@
-import {
-  login as loginAPI,
-  register as registerAPI,
-  logout as logoutAPI,
-  checkIfLoggedIn,
-  sendConfirmationEmail,
-} from '../api/auth'
-import { logoutUser, insertUser } from '../redux/actions/userActions'
+import { updateAvatar, updateEmail, updatePassword } from '../api/user'
+import { insertUser, insertAvatar } from '../redux/actions/userActions'
 
-export const register = ({ username, email, password }) => (dispatch) => {
-  return registerAPI({ username, email, password }).then((res) => {
+export const updateUserAvatar = ({ file, id }) => (dispatch) => {
+  return updateAvatar({ file, id }).then((res) => {
+    dispatch(insertAvatar(res?.avatar))
+  })
+}
+
+export const updateUserEmail = (email, id) => (dispatch) => {
+  return updateEmail(email, id).then((res) => {
     dispatch(insertUser({ data: res.user, isLoggedIn: true }))
-    return res
+    return res.emailStatus
   })
 }
 
-export const login = ({ email, password, remember }) => (dispatch) => {
-  return loginAPI({ email, password, remember }).then((result) => {
-    const { user, err } = result
-    if (err) {
-      return err
-    }
-
-    dispatch(insertUser({ data: user, isLoggedIn: true }))
-  })
-}
-
-export const logout = () => (dispatch) => {
-  return logoutAPI().then((res) => {
-    dispatch(logoutUser())
-  })
-}
-
-export const checkAuthorized = () => (dispatch) => {
-  return checkIfLoggedIn().then((res) => {
-    dispatch(insertUser(res))
+export const updateUserPassword = (oldPassword, password, id) => (dispatch) => {
+  return updatePassword(oldPassword, password, id).then((res) => {
+    dispatch(insertUser({ data: res.user, isLoggedIn: true }))
   })
 }

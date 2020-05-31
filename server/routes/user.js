@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
 const { upload, deleteCurrentFile } = require('../lib/upload')
+const { sendEmail } = require('../lib/email')
+const { confirmation } = require('../email/templates')
+const { CONFIRM } = require('../email/statuses')
+const { getMessageByStatus } = require('../email/messages')
 
 router.get('/', (req, res) => {
   User.find({})
@@ -31,37 +35,66 @@ router.put('/updateAvatar/:id', upload.single('file'), deleteCurrentFile, (req, 
 
 router.put('/updateEmail/:id', (req, res) => {
   const { email } = req.body
+  const { id } = req.params
 
   User.findByIdAndUpdate(
-    req.params.id,
+    id,
     {
       email,
+      active: false,
     },
     { new: true },
   )
-    .then((result) => res.send(result))
+    .then((result) => {
+      sendEmail(email, confirmation(id)).then(() => {
+        res.send({ user: result, emailStatus: getMessageByStatus(CONFIRM) })
+      })
+    })
     .catch((err) => {
       console.log(err)
     })
 })
 
 router.put('/updatePassword/:id', (req, res) => {
-  const { password } = req.body
+  const { oldPassword, password } = req.body
+  new Promise((resolve, reject) => {
+    bcrypt.compare(password, req.user.password, (err, isMatch) => {
+      if (isMatch) {
+        reject({ code: 400, message: 'New password should not match the old one' })
+      }
 
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(password, salt, (err, hash) => {
-      User.findByIdAndUpdate(
-        req.params.id,
-        {
-          password: hash,
-        },
-        { new: true },
-      )
-        .then((result) => res.send(result))
-        .catch((err) => {
+      bcrypt.compare(oldPassword, req.user.password, (err, isMatch) => {
+        if (err) {
           console.log(err)
-        })
+        }
+
+        if (isMatch) {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(password, salt, (err, hash) => {
+              if (err) {
+                console.log(err)
+              }
+
+              User.findByIdAndUpdate(
+                req.params.id,
+                {
+                  password: hash,
+                },
+                { new: true },
+              )
+                .then((result) => res.send({ user: result }))
+                .catch((err) => {
+                  console.log(err)
+                })
+            })
+          })
+        } else {
+          reject({ code: 422, message: 'Old password is incorrect' })
+        }
+      })
     })
+  }).catch((err) => {
+    res.status(err.code).send({ message: err.message })
   })
 })
 

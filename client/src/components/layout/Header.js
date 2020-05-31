@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Hidden, Toolbar, Button, IconButton, Typography, Badge, Avatar, AppBar } from '@material-ui/core'
+import { Hidden, Toolbar, Button, IconButton, Typography, Avatar, AppBar } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
-import MailIcon from '@material-ui/icons/Mail'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -95,19 +93,6 @@ const Header = ({ themeToggler, user }) => {
         <IconButton onClick={() => changeColorTheme()}>
           {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
-
-        {/* <Hidden smDown>
-          <IconButton aria-label='show 4 new mails' color='inherit'>
-            <Badge badgeContent={4} color='secondary'>
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <IconButton aria-label='show 17 new notifications' color='inherit'>
-            <Badge badgeContent={17} color='secondary'>
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Hidden> */}
 
         {!user.isLoggedIn ? (
           <Hidden smDown>

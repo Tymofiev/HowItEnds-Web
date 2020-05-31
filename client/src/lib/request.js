@@ -15,7 +15,6 @@ const request = ({ url, method = 'get', data = {} }) => {
   })
     .then(({ data }) => data)
     .catch((err) => {
-      console.log(err)
       return Promise.reject(err)
     })
 }

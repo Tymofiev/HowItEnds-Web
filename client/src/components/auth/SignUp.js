@@ -11,11 +11,12 @@ import {
 import { Form, Field } from 'react-final-form'
 
 import Input from '../controls/own/OwnInput'
+import PasswordInput from '../controls/own/PasswordInput'
 import Copyright from '../layout/components/Copyright'
 import StyledLink from '../controls/styled/StyledLink'
 
 import { required, minLength5, email, composeValidators } from '../../utils/validators'
-import { register } from '../../services/user'
+import { register } from '../../services/auth'
 import { showSnackbar } from '../../services/ui'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
@@ -81,7 +82,7 @@ const SingUpForm = ({ history, register, showSnackbar, startLoading, stopLoading
                     <Field
                       name='password'
                       type='password'
-                      component={Input}
+                      component={PasswordInput}
                       validate={composeValidators(required, minLength5)}
                     />
                   </Grid>

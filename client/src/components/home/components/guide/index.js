@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { Paper, Grid, Box } from '@material-ui/core'
+import { Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Step from './Step'
 
 const useStyles = makeStyles((theme) => ({
   paperWrapper: {
-    marginTop: theme.spacing(5),
     padding: theme.spacing(10, 5, 10, 10),
   },
   stepOneRightBottom: {

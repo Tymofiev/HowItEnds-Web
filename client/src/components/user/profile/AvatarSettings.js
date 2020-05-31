@@ -5,8 +5,8 @@ import { Typography, Grid, Button, Avatar, Input } from '@material-ui/core'
 import { CloudUploadOutlined } from '@material-ui/icons'
 import { DropzoneDialog } from 'material-ui-dropzone'
 
-import { updateAvatar } from '../../../redux/actions/userActions'
-import { editAvatar } from '../../../api/user'
+import { updateUserAvatar } from '../../../services/user'
+import { startLoading, stopLoading, showSnackbar } from '../../../redux/actions/uiActions'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -42,15 +42,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const AvatarSettings = ({ user, updateAvatar }) => {
+const AvatarSettings = ({ user, updateUserAvatar, startLoading, stopLoading, showSnackbar }) => {
   const classes = useStyles()
   const [open, setOpen] = useState()
 
   const handleSave = (file) => {
     setOpen(false)
-    editAvatar({ file, id: user._id }).then((result) => {
-      updateAvatar(result?.avatar)
-    })
+    startLoading()
+    updateUserAvatar({ file, id: user._id })
+      .then(() => {
+        showSnackbar({ message: 'Avatar sucesfully updated', variant: 'success' })
+      })
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   const handleClose = () => {
@@ -103,5 +108,5 @@ export default connect(
   (state) => {
     return { user: state.user.data }
   },
-  { updateAvatar },
+  { updateUserAvatar, startLoading, stopLoading, showSnackbar },
 )(AvatarSettings)

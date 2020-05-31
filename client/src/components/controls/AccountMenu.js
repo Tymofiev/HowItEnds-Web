@@ -4,7 +4,7 @@ import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Badge, Hidden, Fad
 import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@material-ui/icons'
 
 import StyledLink from './styled/StyledLink'
-import { logout } from '../../services/user'
+import { logout } from '../../services/auth'
 import { showSnackbar } from '../../services/ui'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 

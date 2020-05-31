@@ -1,11 +1,15 @@
 import React from 'react'
 import { Form, Field } from 'react-final-form'
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Grid, Button } from '@material-ui/core'
 import { EmailOutlined } from '@material-ui/icons'
 
 import { required, email, composeValidators } from '../../../utils/validators'
 import Input from '../../controls/own/OwnInput'
+import { updateUserEmail } from '../../../services/user'
+import { showSnackbar } from '../../../services/ui'
+import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -22,11 +26,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const EmailSettings = () => {
+const EmailSettings = ({ user, updateUserEmail, startLoading, stopLoading, showSnackbar }) => {
   const classes = useStyles()
 
   const handleEmailUpdate = ({ email }) => {
     console.log(email)
+    startLoading()
+    updateUserEmail(email, user._id)
+      .then((status) => {
+        showSnackbar({ message: 'Email sucesfully updated', variant: 'success' })
+        showSnackbar({ message: status, variant: 'warning' })
+      })
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   return (
@@ -68,4 +81,14 @@ const EmailSettings = () => {
   )
 }
 
-export default EmailSettings
+export default connect(
+  (state) => {
+    return { user: state.user.data }
+  },
+  {
+    startLoading,
+    stopLoading,
+    showSnackbar,
+    updateUserEmail,
+  },
+)(EmailSettings)

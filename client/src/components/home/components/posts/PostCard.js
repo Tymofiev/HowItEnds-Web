@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import { ChevronRightOutlined } from '@material-ui/icons'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,15 +32,7 @@ const PostCard = ({ post }) => {
   return (
     <Card variant='outlined' className={classes.root}>
       <CardActionArea>
-        <CardHeader
-          // action={
-          //   <IconButton aria-label='settings'>
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title={title}
-          subheader={date}
-        />
+        <CardHeader title={title} subheader={date} />
         <CardMedia className={classes.media} image={image} />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>

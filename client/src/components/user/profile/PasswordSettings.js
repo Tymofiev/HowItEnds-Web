@@ -1,11 +1,15 @@
 import React from 'react'
 import { Form, Field } from 'react-final-form'
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Grid, Button } from '@material-ui/core'
 import { VpnKeyOutlined } from '@material-ui/icons'
 
-import { required, match, composeValidators } from '../../../utils/validators'
-import Input from '../../controls/own/OwnInput'
+import { required, match, composeValidators, minLength5 } from '../../../utils/validators'
+import PasswordInput from '../../controls/own/PasswordInput'
+import { updateUserPassword } from '../../../services/user'
+import { showSnackbar } from '../../../services/ui'
+import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -23,11 +27,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PasswordSettings = () => {
+const PasswordSettings = ({ user, updateUserPassword, startLoading, stopLoading, showSnackbar }) => {
   const classes = useStyles()
 
-  const handlePasswordUpdate = ({ password }) => {
-    console.log(password)
+  const handlePasswordUpdate = ({ oldPassword, password }) => {
+    startLoading()
+    updateUserPassword(oldPassword, password, user._id)
+      .then(() => {
+        showSnackbar({ message: 'Password sucesfully updated', variant: 'success' })
+      })
+      .catch((e) => {
+        if (e.response) {
+          const { message } = e.response.data
+          showSnackbar({ message: message, variant: 'error' })
+        } else {
+          console.log(e)
+        }
+      })
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   return (
@@ -37,8 +56,18 @@ const PasswordSettings = () => {
       </Typography>
       <Form
         onSubmit={handlePasswordUpdate}
-        render={({ handleSubmit, submitting, pristine, invalid, values: { password } }) => (
-          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+        render={({ handleSubmit, submitting, pristine, invalid, form, values: { password } }) => (
+          <form
+            onSubmit={async (event) => {
+              await handleSubmit(event)
+              form.reset()
+              form.resetFieldState('oldPassword')
+              form.resetFieldState('passwordRepeat')
+              form.resetFieldState('password')
+            }}
+            className={classes.form}
+            noValidate
+          >
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} className={classes.passwordHolder}>
                 <Typography component='span'>
@@ -48,13 +77,23 @@ const PasswordSettings = () => {
               <Grid item xs={12} sm={12} className={classes.passwordHolder}>
                 <Grid item xs={12} sm={6}>
                   <Typography>Old password</Typography>
-                  <Field name='oldPassword' type='password' component={Input} validate={composeValidators(required)} />
+                  <Field
+                    name='oldPassword'
+                    type='password'
+                    component={PasswordInput}
+                    validate={composeValidators(required)}
+                  />
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12} className={classes.passwordHolder}>
                 <Grid item xs={12} sm={6}>
                   <Typography>New password</Typography>
-                  <Field name='password' type='password' component={Input} validate={composeValidators(required)} />
+                  <Field
+                    name='password'
+                    type='password'
+                    component={PasswordInput}
+                    validate={composeValidators(required, minLength5)}
+                  />
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12} className={classes.passwordHolder}>
@@ -63,8 +102,8 @@ const PasswordSettings = () => {
                   <Field
                     name='passwordRepeat'
                     type='password'
-                    component={Input}
-                    validate={composeValidators(required, match(password))}
+                    component={PasswordInput}
+                    validate={composeValidators(required, minLength5, match(password))}
                   />
                 </Grid>
               </Grid>
@@ -87,4 +126,14 @@ const PasswordSettings = () => {
   )
 }
 
-export default PasswordSettings
+export default connect(
+  (state) => {
+    return { user: state.user.data }
+  },
+  {
+    updateUserPassword,
+    startLoading,
+    stopLoading,
+    showSnackbar,
+  },
+)(PasswordSettings)

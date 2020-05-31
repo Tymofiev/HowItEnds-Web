@@ -59,7 +59,7 @@ const uiReducer = handleActions(
         return {
           ...state,
           notifications: state.notifications.map((notification) =>
-            notification.key === action.payload.key ? { ...notification, dismissed: true } : { ...notification },
+            notification.key === action.payload ? { ...notification, dismissed: true } : { ...notification },
           ),
         }
       }

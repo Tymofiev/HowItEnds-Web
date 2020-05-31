@@ -3,7 +3,7 @@ import { Grid, Typography, Button, Paper } from '@material-ui/core'
 import { connect } from 'react-redux'
 
 import { showSnackbar } from '../../services/ui'
-import { checkAuthorized } from '../../services/user'
+import { checkAuthorized } from '../../services/auth'
 import { sendConfirmationEmail } from '../../api/auth'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
@@ -36,18 +36,24 @@ class Confirmation extends React.Component {
     const { user } = this.props
 
     if (user.active) {
-      this.setState({ emailStatus: 'Email have already been confirmed' })
+      this.setState({ emailStatus: 'Email has already been confirmed' })
     } else {
       this.setState({ emailStatus: 'Email was succesfully sent to you' })
     }
   }
 
   handleResendEmail = () => {
-    const { user } = this.props
-    console.log(user)
-    sendConfirmationEmail(user.email, user._id).then((res) => {
-      this.setState({ emailStatus: res.message })
-    })
+    const { user, startLoading, stopLoading, showSnackbar } = this.props
+
+    startLoading()
+    sendConfirmationEmail(user.email, user._id)
+      .then((res) => {
+        this.setState({ emailStatus: res.message })
+        showSnackbar({ message: res.message, variant: 'success' })
+      })
+      .finally(() => {
+        stopLoading()
+      })
   }
 
   render() {

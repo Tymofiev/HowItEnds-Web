@@ -11,7 +11,7 @@ import Copyright from '../layout/components/Copyright'
 import StyledLink from '../controls/styled/StyledLink'
 
 import { required, email, composeValidators } from '../../utils/validators'
-import { login } from '../../services/user'
+import { login } from '../../services/auth'
 import { showSnackbar } from '../../services/ui'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 

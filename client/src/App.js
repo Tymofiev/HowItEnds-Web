@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import { SnackbarProvider } from 'notistack'
-import store from './redux/store'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
+import store from './redux/store'
 import SingUp from './components/auth/SignUp'
 import SingIn from './components/auth/SignIn'
 import Profile from './components/user/profile/Profile'

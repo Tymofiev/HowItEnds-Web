@@ -23,7 +23,7 @@ const PrivateRoute = ({ component, user, location, showSnackbar }) => {
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/confirmation',
               state: { from: location },
             }}
           />

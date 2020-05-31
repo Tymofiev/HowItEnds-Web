@@ -3,7 +3,7 @@ import { Grid, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
 
 import { showSnackbar } from '../../services/ui'
-import { checkAuthorized } from '../../services/user'
+import { checkAuthorized } from '../../services/auth'
 import { confirmEmail } from '../../api/user'
 import { startLoading, stopLoading } from '../../redux/actions/uiActions'
 
@@ -16,13 +16,14 @@ class Confirm extends React.Component {
     confirmEmail(id)
       .then((res) => {
         checkAuthorized().then(() => {
-          showSnackbar({ message: 'Email succesfully confirmed!', variant: 'success' })
           history.push('/')
+          window.location.reload(false)
+          showSnackbar({ message: 'Email succesfully confirmed!', variant: 'success' })
         })
       })
       .catch((err) => {
-        showSnackbar({ message: err.message, variant: 'error' })
         history.push('/')
+        showSnackbar({ message: err.message, variant: 'error' })
       })
       .finally(() => {
         stopLoading()

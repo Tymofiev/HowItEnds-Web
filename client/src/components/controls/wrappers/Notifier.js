@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSnackbar } from 'notistack'
 import { removeSnackbar } from '../../../redux/actions/uiActions'
@@ -18,7 +18,7 @@ const Notifier = () => {
     displayed = [...displayed.filter((key) => id !== key)]
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     notifications.forEach(({ key, message, options = {}, dismissed = false }) => {
       if (dismissed) {
         // dismiss snackbar using notistack
@@ -28,11 +28,10 @@ const Notifier = () => {
 
       // do nothing if snackbar is already displayed
       if (displayed.includes(key)) return
-
       // display snackbar using notistack
       enqueueSnackbar(message, {
         key,
-        autoHideDuration: 2000,
+        autoHideDuration: 5000,
         ...options,
         onClose: (event, reason, myKey) => {
           if (options.onClose) {

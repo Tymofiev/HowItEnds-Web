@@ -5,8 +5,7 @@ import { Grid, CircularProgress, LinearProgress } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    position: 'absolute',
-    // top: theme.spacing(80),
+    position: 'fixed',
     top: 0,
     bottom: 0,
     right: 0,

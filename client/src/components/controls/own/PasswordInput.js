@@ -12,7 +12,6 @@ const PasswordInput = (props) => {
   return (
     <FormControl error={touched && !valid} fullWidth>
       <Input
-        id='component-error'
         {...input}
         {...rest}
         type={showPassword ? 'text' : 'password'}
