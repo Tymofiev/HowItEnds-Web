@@ -6,7 +6,8 @@ import { CloudUploadOutlined } from '@material-ui/icons'
 import { DropzoneDialog } from 'material-ui-dropzone'
 
 import { updateUserAvatar } from '../../../services/user'
-import { startLoading, stopLoading, showSnackbar } from '../../../redux/actions/uiActions'
+import { showSnackbar } from '../../../services/ui'
+import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -53,6 +54,7 @@ const AvatarSettings = ({ user, updateUserAvatar, startLoading, stopLoading, sho
       .then(() => {
         showSnackbar({ message: 'Avatar sucesfully updated', variant: 'success' })
       })
+      .catch(console.log)
       .finally(() => {
         stopLoading()
       })

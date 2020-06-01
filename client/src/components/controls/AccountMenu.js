@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Badge, Hidden, Fade } from '@material-ui/core'
-import { ExitToAppOutlined, NotificationsOutlined, MailOutlined } from '@material-ui/icons'
+import { Menu, MenuItem, ListItemIcon, ListItemText, Divider, Fade } from '@material-ui/core'
+import { ExitToAppOutlined, MailOutlined } from '@material-ui/icons'
 
 import StyledLink from './styled/StyledLink'
 import { logout } from '../../services/auth'
@@ -75,26 +75,6 @@ const AccountMenu = ({ anchorEl, closeMenu, logout, showSnackbar, startLoading, 
           </ListItemIcon>
           <ListItemText primary='Profile' />
         </StyledMenuItem>
-
-        <Hidden mdUp>
-          <StyledMenuItem onClick={closeMenu}>
-            <ListItemIcon>
-              <Badge badgeContent={4} color='secondary'>
-                <MailOutlined fontSize='small' />
-              </Badge>
-            </ListItemIcon>
-            <ListItemText primary='Messages' />
-          </StyledMenuItem>
-          <StyledMenuItem onClick={closeMenu}>
-            <ListItemIcon>
-              <Badge badgeContent={17} color='secondary'>
-                <NotificationsOutlined fontSize='small' />
-              </Badge>
-            </ListItemIcon>
-            <ListItemText primary='Notifications' />
-          </StyledMenuItem>
-        </Hidden>
-
         <Divider />
         <StyledMenuItem component={StyledLink} to='/' onClick={handleLogout}>
           <ListItemIcon>

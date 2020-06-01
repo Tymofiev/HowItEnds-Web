@@ -4,7 +4,7 @@ export const updateAvatar = ({ file, id }) => {
   const formData = new FormData()
   formData.append('file', file)
   return request({
-    url: `/user/updateAvatar/${id}`,
+    url: `/users/updateAvatar/${id}`,
     method: 'put',
     data: formData,
   })
@@ -12,7 +12,7 @@ export const updateAvatar = ({ file, id }) => {
 
 export const updateEmail = (email, id) => {
   return request({
-    url: `/user/updateEmail/${id}`,
+    url: `/users/updateEmail/${id}`,
     method: 'put',
     data: {
       email,
@@ -22,7 +22,7 @@ export const updateEmail = (email, id) => {
 
 export const updatePassword = (oldPassword, password, id) => {
   return request({
-    url: `/user/updatePassword/${id}`,
+    url: `/users/updatePassword/${id}`,
     method: 'put',
     data: {
       oldPassword,
@@ -33,7 +33,7 @@ export const updatePassword = (oldPassword, password, id) => {
 
 export const confirmEmail = (id) => {
   return request({
-    url: `/user/emailConfirm/${id}`,
+    url: `/users/emailConfirm/${id}`,
     method: 'post',
   })
 }

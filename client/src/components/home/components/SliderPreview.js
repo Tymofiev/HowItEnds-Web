@@ -35,10 +35,11 @@ const carouselSettings = {
   showStatus: false,
   swipeable: true,
   infiniteLoop: true,
-  autoPlay: true,
-  transitionTime: 300,
+  autoPlay: false,
+  transitionTime: 3000,
   stopOnHover: true,
   showThumbs: false,
+  interval: 10000,
 }
 
 const SliderPreview = (props) => {
@@ -46,6 +47,23 @@ const SliderPreview = (props) => {
 
   return (
     <Carousel {...carouselSettings}>
+      <Paper className={classes.mainFeaturedPost}>
+        <Grid container>
+          <Grid item md={6}>
+            <div className={classes.mainFeaturedPostContent}>
+              <Typography component='h1' variant='h3' color='inherit' gutterBottom>
+                Build your perfect simulation!
+              </Typography>
+              <Typography variant='h5' color='inherit' paragraph>
+                Compete with friends
+              </Typography>
+              <Link variant='subtitle1' href='#'>
+                Download now
+              </Link>
+            </div>
+          </Grid>
+        </Grid>
+      </Paper>
       <Paper className={classes.mainFeaturedPost}>
         <Grid container>
           <Grid item md={6}>

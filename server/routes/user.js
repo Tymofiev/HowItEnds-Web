@@ -12,7 +12,17 @@ const { getMessageByStatus } = require('../email/messages')
 router.get('/', (req, res) => {
   User.find({})
     .then((users) => {
-      res.json(users)
+      res.send(users)
+    })
+    .catch(() => {
+      res.json([])
+    })
+})
+
+router.get('/:id', (req, res) => {
+  User.find({ _id: req.params.id })
+    .then((user) => {
+      res.send(user)
     })
     .catch(() => {
       res.json([])

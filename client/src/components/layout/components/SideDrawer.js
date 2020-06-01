@@ -3,7 +3,17 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, List, Divider, ListItem, Drawer, Typography } from '@material-ui/core'
-import { MailOutline, ViewListOutlined, ForumOutlined, HomeOutlined } from '@material-ui/icons'
+import {
+  MailOutline,
+  ViewListOutlined,
+  PhotoLibraryOutlined,
+  HomeOutlined,
+  ExpandMoreOutlined,
+  PeopleOutline,
+} from '@material-ui/icons'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 
 import StyledLink from '../../controls/styled/StyledLink'
 import ListItemLink from '../../controls/ListItemLink'
@@ -25,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
   const classes = useStyles()
+  const [expanded, setExpanded] = React.useState(false)
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false)
+  }
 
   return (
     <>
@@ -50,17 +65,17 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
               onClick={closeDrawer()}
             />
             <ListItemLink
-              to='/blog'
-              primary='Blog'
+              to='/news'
+              primary='News'
               icon={<ViewListOutlined />}
-              selected={'/blog' === pathname}
+              selected={'/news' === pathname}
               onClick={closeDrawer()}
             />
             <ListItemLink
-              to='/forum'
-              primary='Forum'
-              icon={<ForumOutlined />}
-              selected={'/forum' === pathname}
+              to='/gallery'
+              primary='Gallery'
+              icon={<PhotoLibraryOutlined />}
+              selected={'/gallery' === pathname}
               onClick={closeDrawer()}
             />
           </List>
@@ -68,21 +83,48 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
           <Divider />
           <List>
             <ListItemLink
-              to='/support'
-              primary='Support'
-              icon={<MailOutline />}
-              selected={'/support' === pathname}
-              onClick={closeDrawer()}
-            />
-            <ListItemLink
               to='/ask-question'
-              primary='Ask question'
+              primary='Leave feedback'
               icon={<MailOutline />}
               selected={'/ask-question' === pathname}
               onClick={closeDrawer()}
             />
           </List>
           <Divider />
+          {!user.isAdmin && (
+            <>
+              <Typography className={classes.menuTitle} variant='h5' component='h5' align='center'>
+                Admin
+              </Typography>
+              <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreOutlined />}
+                  aria-controls='panel1bh-content'
+                  id='panel1bh-header'
+                >
+                  <Typography className={classes.heading}>Actions</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <List>
+                    <ListItemLink
+                      to='/admin/users'
+                      primary='Users'
+                      icon={<PeopleOutline />}
+                      selected={'/admin/users' === pathname}
+                      onClick={closeDrawer()}
+                    />
+                    <ListItemLink
+                      to='/admin/posts'
+                      primary='Posts'
+                      icon={<ViewListOutlined />}
+                      selected={'/admin/posts' === pathname}
+                      onClick={closeDrawer()}
+                    />
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </>
+          )}
           {!user.isLoggedIn ? (
             <List>
               <ListItem>
