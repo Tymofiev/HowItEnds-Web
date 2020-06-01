@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Grid, LinearProgress } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { useViewportScroll, useTransform, useSpring } from 'framer-motion'
 
 import Posts from './components/posts/index'
 import Guide from './components/guide/index'
@@ -8,8 +11,9 @@ import ImageGallery from './components/ImageGallery'
 import Separator from './components/Separator'
 import ContactForm from './components/ContactForm'
 
-import { Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import ParallexItem from './ParallexItem'
+
+import smoothScrollTop from '../../lib/smoothScrollTop'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +26,12 @@ const Home = ({ history }) => {
 
   const openPostsPage = () => {
     history.push('/news')
+    smoothScrollTop()
   }
 
   const openGalleryPage = () => {
     history.push('/gallery')
+    smoothScrollTop()
   }
 
   return (
@@ -39,7 +45,9 @@ const Home = ({ history }) => {
         <Separator title='Guide' />
         <Guide />
         <Separator title='Latest news' btn={{ text: 'Read', onClick: openPostsPage }} />
-        <Posts />
+        <ParallexItem>
+          <Posts />
+        </ParallexItem>
         <Separator title='Gallery' btn={{ text: 'View', onClick: openGalleryPage }} />
         <Grid container>
           <Grid item xs={12}>

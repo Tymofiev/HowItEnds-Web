@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
@@ -23,7 +23,11 @@ import LoadingContainer from './components/controls/wrappers/LoadingContainer'
 
 import News from './components/news/index'
 import Gallery from './components/gallery/index'
-import Admin from './components/admin/index'
+import NewsPost from './components/news/NewsPost'
+
+import Users from './components/admin/Users'
+import Posts from './components/admin/Posts'
+const Admin = lazy(() => import('./components/admin/index'))
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
@@ -56,22 +60,27 @@ const App = () => {
           <Notifier />
           <LoadingContainer>
             <Router>
-              <Switch>
-                <Route path='/admin' component={Admin} />
-                <Route path='/login' component={SingIn} />
-                <Route path='/register' component={SingUp} />
-                <Layout themeToggler={changeColorTheme}>
-                  <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/confirmation' component={Confirmation} />
-                    <Route path='/news' component={News} />
-                    <Route path='/gallery' component={Gallery} />
-                    <PrivateRoute exact path='/profile' component={<Profile />} />
-                    <Route exact path='/confirm/:id' component={Confirm} />
-                    <Route path='*' component={NotFound} />
-                  </Switch>
-                </Layout>
-              </Switch>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                  <Route path='/login' component={SingIn} />
+                  <Route path='/register' component={SingUp} />
+                  <Route exact path='/admin' component={Admin} />
+                  <Route exact path='/admin/users' component={Users} />
+                  <Route exact path='/admin/posts' component={Posts} />
+                  <Layout themeToggler={changeColorTheme}>
+                    <Switch>
+                      <Route path='/confirmation' component={Confirmation} />
+                      <Route path='/gallery' component={Gallery} />
+                      <PrivateRoute exact path='/profile' component={<Profile />} />
+                      <Route exact path='/confirm/:id' component={Confirm} />
+                      <Route exact path='/news' component={News} />
+                      <Route exact path='/news/:id' component={NewsPost} />
+                      <Route path='/' component={Home} />
+                      <Route path='*' component={NotFound} />
+                    </Switch>
+                  </Layout>
+                </Switch>
+              </Suspense>
             </Router>
           </LoadingContainer>
         </SnackbarProvider>

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Grid, Typography } from '@material-ui/core'
+import { motion } from 'framer-motion'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,12 +12,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Separator = ({ title, btn }) => {
   const classes = useStyles()
+  const constraintsRef = useRef(null)
 
   return (
-    <Grid container direction='row' justify='space-around' alignItems='center' className={classes.root}>
-      <Typography variant='h2' color='textPrimary'>
-        {title}
-      </Typography>
+    <Grid
+      ref={constraintsRef}
+      container
+      direction='row'
+      justify='space-around'
+      alignItems='center'
+      className={classes.root}
+    >
+      <motion.div drag dragConstraints={constraintsRef}>
+        <Typography variant='h2' color='textPrimary'>
+          {title}
+        </Typography>
+      </motion.div>
       {btn && (
         <Button onClick={btn.onClick} variant='outlined'>
           <Typography variant='subtitle1'>{btn.text}</Typography>
