@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, LinearProgress } from '@material-ui/core'
+import React from 'react'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useViewportScroll, useTransform, useSpring } from 'framer-motion'
 
 import Posts from './components/posts/index'
 import Guide from './components/guide/index'
@@ -9,10 +8,6 @@ import Guide from './components/guide/index'
 import SliderPreview from './components/SliderPreview'
 import ImageGallery from './components/ImageGallery'
 import Separator from './components/Separator'
-import ContactForm from '../layout/components/ContactForm'
-
-import ParallexItem from './ParallexItem'
-
 import smoothScrollTop from '../../lib/smoothScrollTop'
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Link, Container, Box, Divider } from '@material-ui/core'
+import { Grid, Typography, Link, Container, Box } from '@material-ui/core'
 
 import Copyright from './components/Copyright'
 import ContactForm from './components/ContactForm'
@@ -31,7 +31,6 @@ const Footer = () => {
   return (
     <>
       <footer className={classes.footer}>
-        {/* <Divider /> */}
         <WaveBorder
           upperColor={theme.palette.background.paper}
           lowerColor={theme.palette.background.default}

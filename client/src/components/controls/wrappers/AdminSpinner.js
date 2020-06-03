@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { Grid, CircularProgress, LinearProgress } from '@material-ui/core'
+import { Grid, CircularProgress } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -35,7 +35,6 @@ const Spinner = () => {
   return (
     <Grid container className={classes.wrapper}>
       <ColorCircularProgress variant='indeterminate' disableShrink size={100} thickness={5} />
-      {/* <LinearProgress className={classes.progressWidth} /> */}
     </Grid>
   )
 }

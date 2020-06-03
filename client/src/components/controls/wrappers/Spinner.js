@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { Grid, CircularProgress, LinearProgress } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Grid, LinearProgress } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -24,12 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ColorCircularProgress = withStyles((theme) => ({
-  root: {
-    color: theme.palette.secondary,
-  },
-}))(CircularProgress)
-
 const Spinner = () => {
   const { isLoading } = useSelector((state) => state.ui)
   const classes = useStyles()
@@ -37,7 +31,6 @@ const Spinner = () => {
   if (isLoading) {
     return (
       <Grid container className={classes.wrapper}>
-        {/* <ColorCircularProgress variant='indeterminate' disableShrink size={100} thickness={5} /> */}
         <LinearProgress className={classes.progressWidth} />
       </Grid>
     )
