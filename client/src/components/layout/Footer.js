@@ -1,26 +1,19 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Grid, Typography, Link, Container, Box, Divider } from '@material-ui/core'
 
 import Copyright from './components/Copyright'
+import ContactForm from './components/ContactForm'
+import WaveBorder from '../controls/WaveBorder'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.background.default,
-    paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
   },
 }))
 
 const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-  },
   {
     title: 'Resources',
     description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
@@ -31,15 +24,27 @@ const footers = [
   },
 ]
 
-const Footer = (props) => {
+const Footer = () => {
   const classes = useStyles()
+  const theme = useTheme()
 
   return (
     <>
       <footer className={classes.footer}>
-        <Divider />
+        {/* <Divider /> */}
+        <WaveBorder
+          upperColor={theme.palette.background.paper}
+          lowerColor={theme.palette.background.default}
+          animationNegativeDelay={4}
+        />
         <Container maxWidth='md' component='footer' className={classes.footer}>
           <Grid container spacing={4} justify='space-evenly'>
+            <Grid item xs={6} sm={5}>
+              <Typography variant='h6' color='textPrimary' gutterBottom>
+                Contact us
+              </Typography>
+              <ContactForm />
+            </Grid>
             {footers.map((footer) => (
               <Grid item xs={6} sm={3} key={footer.title}>
                 <Typography variant='h6' color='textPrimary' gutterBottom>

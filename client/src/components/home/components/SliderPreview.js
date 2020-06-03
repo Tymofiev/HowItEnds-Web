@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
+import { Button } from '@material-ui/core'
+import { Link as DownloadLink } from 'react-router-dom'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
@@ -15,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
-    height: '90vh',
+    height: '91vh',
     backgroundImage: `url(${robot})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -57,9 +59,13 @@ const SliderPreview = (props) => {
               <Typography variant='h5' color='inherit' paragraph>
                 Compete with friends
               </Typography>
-              <Link variant='subtitle1' href='#'>
-                Download now
-              </Link>
+              <DownloadLink to='/howitends.zip' target='_blank' download>
+                <Button variant='contained' color='primary'>
+                  <Typography variant='h5' color='inherit'>
+                    Download now
+                  </Typography>
+                </Button>
+              </DownloadLink>
             </div>
           </Grid>
         </Grid>

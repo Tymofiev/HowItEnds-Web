@@ -45,10 +45,6 @@ const posts = [
 const useStyles = makeStyles((theme) => ({
   paperWrapper: {
     padding: theme.spacing(10, 5, 10, 10),
-    backgroundImage: `url(${news})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
   },
   paginationWrapper: {
     marginTop: theme.spacing(2),

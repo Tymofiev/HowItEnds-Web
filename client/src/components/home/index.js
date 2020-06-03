@@ -9,7 +9,7 @@ import Guide from './components/guide/index'
 import SliderPreview from './components/SliderPreview'
 import ImageGallery from './components/ImageGallery'
 import Separator from './components/Separator'
-import ContactForm from './components/ContactForm'
+import ContactForm from '../layout/components/ContactForm'
 
 import ParallexItem from './ParallexItem'
 
@@ -37,25 +37,35 @@ const Home = ({ history }) => {
   return (
     <>
       <div className={classes.root}>
-        <Grid container>
+        <Grid container data-aos-delay='200' data-aos='zoom-in'>
           <Grid item xs={12}>
             <SliderPreview />
           </Grid>
         </Grid>
-        <Separator title='Guide' />
-        <Guide />
-        <Separator title='Latest news' btn={{ text: 'Read', onClick: openPostsPage }} />
-        <ParallexItem>
+        <Grid data-aos='fade-right' data-aos-anchor-placement='top-center'>
+          <Separator title='Guide' />
+        </Grid>
+        <Grid data-aos='fade-down' data-aos-easing='linear' data-aos-duration='1500'>
+          <Guide />
+        </Grid>
+        <Grid data-aos='fade-right' data-aos-anchor-placement='top-center'>
+          <Separator title='Latest news' btn={{ text: 'Read', onClick: openPostsPage }} />
+        </Grid>
+        {/* <ParallexItem> */}
+        <Grid data-aos='fade-down' data-aos-easing='linear' data-aos-duration='1500'>
           <Posts />
-        </ParallexItem>
-        <Separator title='Gallery' btn={{ text: 'View', onClick: openGalleryPage }} />
-        <Grid container>
+        </Grid>
+        {/* </ParallexItem> */}
+        <Grid data-aos='fade-right' data-aos-anchor-placement='top-center'>
+          <Separator title='Gallery' btn={{ text: 'View', onClick: openGalleryPage }} />
+        </Grid>
+        <Grid container data-aos='fade-down' data-aos-easing='linear' data-aos-duration='1500'>
           <Grid item xs={12}>
             <ImageGallery />
           </Grid>
         </Grid>
-        <Separator title='Leave us feedback' />
-        <ContactForm />
+        {/* <Separator title='Leave us feedback' /> */}
+        {/* <ContactForm /> */}
       </div>
     </>
   )

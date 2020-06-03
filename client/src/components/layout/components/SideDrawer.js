@@ -10,6 +10,7 @@ import {
   HomeOutlined,
   ExpandMoreOutlined,
   PeopleOutline,
+  DashboardOutlined,
 } from '@material-ui/icons'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
@@ -106,6 +107,13 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <List>
+                    <ListItemLink
+                      to='/admin'
+                      primary='Dashboard'
+                      icon={<DashboardOutlined />}
+                      selected={'/admin' === pathname}
+                      onClick={closeDrawer()}
+                    />
                     <ListItemLink
                       to='/admin/users'
                       primary='Users'

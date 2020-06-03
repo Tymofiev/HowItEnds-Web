@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { SnackbarProvider } from 'notistack'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 import store from './redux/store'
 import SingUp from './components/auth/SignUp'
@@ -27,7 +29,10 @@ import NewsPost from './components/news/NewsPost'
 
 import Users from './components/admin/Users'
 import Posts from './components/admin/Posts'
-const Admin = lazy(() => import('./components/admin/index'))
+import Dashboard from './components/admin/index'
+const AdminLayout = lazy(() => import('./components/admin/Layout'))
+
+AOS.init()
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
@@ -64,9 +69,15 @@ const App = () => {
                 <Switch>
                   <Route path='/login' component={SingIn} />
                   <Route path='/register' component={SingUp} />
-                  <Route exact path='/admin' component={Admin} />
-                  <Route exact path='/admin/users' component={Users} />
-                  <Route exact path='/admin/posts' component={Posts} />
+                  <Route path='/admin'>
+                    <Switch>
+                      <AdminLayout>
+                        <Route exact path='/admin' component={Dashboard} />
+                        <Route exact path='/admin/users' component={Users} />
+                        <Route exact path='/admin/posts' component={Posts} />
+                      </AdminLayout>
+                    </Switch>
+                  </Route>
                   <Layout themeToggler={changeColorTheme}>
                     <Switch>
                       <Route path='/confirmation' component={Confirmation} />
@@ -75,7 +86,7 @@ const App = () => {
                       <Route exact path='/confirm/:id' component={Confirm} />
                       <Route exact path='/news' component={News} />
                       <Route exact path='/news/:id' component={NewsPost} />
-                      <Route path='/' component={Home} />
+                      <Route exact path='/' component={Home} />
                       <Route path='*' component={NotFound} />
                     </Switch>
                   </Layout>

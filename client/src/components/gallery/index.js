@@ -72,7 +72,7 @@ export default function TitlebarGridList() {
           <ListSubheader component='div'>Menu</ListSubheader>
         </GridListTile>
         {tileData.map((tile) => (
-          <GridListTile className={classes.gridList} key={tile.img}>
+          <GridListTile data-aos='zoom-in-up' data-aos-delay={5} className={classes.gridList} key={tile.img}>
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
               title={tile.title}

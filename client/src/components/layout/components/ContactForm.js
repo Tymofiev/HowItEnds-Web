@@ -12,10 +12,6 @@ import { sendFeedbackEmail } from '../../../api/email'
 import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(5, 20),
-  },
   form: {
     width: '100%',
   },
@@ -51,8 +47,8 @@ const ContactForm = ({ user, startLoading, stopLoading, showSnackbar }) => {
           noValidate
           className={classes.form}
         >
-          <Grid container direction='row' justify='space-between' alignItems='center' className={classes.root}>
-            <Grid item xs={3}>
+          <Grid container direction='column' className={classes.root}>
+            <Grid item xs={12}>
               <Typography component='span' color='textPrimary'>
                 <EmailOutlined /> Email
               </Typography>
@@ -63,13 +59,13 @@ const ContactForm = ({ user, startLoading, stopLoading, showSnackbar }) => {
                 validate={composeValidators(required, email)}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12}>
               <Typography component='span' color='textPrimary'>
                 <MessageOutlined /> Message
               </Typography>
               <Field name='message' multiline component={Input} validate={composeValidators(required)} />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12}>
               <Button
                 type='submit'
                 variant='contained'
