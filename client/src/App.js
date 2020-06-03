@@ -27,6 +27,7 @@ import News from './components/news/index'
 import Gallery from './components/gallery/index'
 import NewsPost from './components/news/NewsPost'
 
+import AdminSpinner from './components/controls/wrappers/AdminSpinner'
 import Users from './components/admin/Users'
 import Posts from './components/admin/Posts'
 import Dashboard from './components/admin/index'
@@ -65,7 +66,7 @@ const App = () => {
           <Notifier />
           <LoadingContainer>
             <Router>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<AdminSpinner />}>
                 <Switch>
                   <Route path='/login' component={SingIn} />
                   <Route path='/register' component={SingUp} />
