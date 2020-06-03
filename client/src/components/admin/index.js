@@ -4,13 +4,9 @@ import { Container, Grid, Paper, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Chart from './components/Chart'
-import Deposits from './components/Deposits'
-import Orders from './components/Orders'
+import RecentUsers from './components/RecentUsers'
+import RecentPosts from './components/RecentPosts'
 import Copyright from './components/Copyright'
-
-function preventDefault(event) {
-  event.preventDefault()
-}
 
 const useStyles = makeStyles((theme) => ({
   depositContext: {
@@ -44,13 +40,13 @@ const Dashboard = () => {
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={fixedHeightPaper}>
-            <Deposits />
+            <RecentUsers />
           </Paper>
         </Grid>
         {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Orders />
+            <RecentPosts />
           </Paper>
         </Grid>
       </Grid>
