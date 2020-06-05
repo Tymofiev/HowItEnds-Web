@@ -28,37 +28,37 @@ const tileData = [
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
   {
     img: robot,
     title: 'Image',
-    author: 'author',
+    date: 'December 14th, 2020',
   },
 ]
 
@@ -76,7 +76,7 @@ export default function TitlebarGridList() {
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
-              subtitle={<span>by: {tile.author}</span>}
+              subtitle={tile.date}
               actionIcon={
                 <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
                   <InfoIcon />

@@ -92,7 +92,7 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
             />
           </List>
           <Divider />
-          {!user.isAdmin && (
+          {/* {!user.isAdmin && (
             <>
               <Typography className={classes.menuTitle} variant='h5' component='h5' align='center'>
                 Admin
@@ -132,7 +132,7 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             </>
-          )}
+          )} */}
           {!user.isLoggedIn ? (
             <List>
               <ListItem>

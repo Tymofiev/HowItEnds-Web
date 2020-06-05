@@ -86,10 +86,6 @@ const Header = ({ themeToggler, user }) => {
           <StyledLink to='/'>HowItEnds</StyledLink>
         </Typography>
 
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
-
         <IconButton onClick={() => changeColorTheme()}>
           {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>

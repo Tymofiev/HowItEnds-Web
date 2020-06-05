@@ -41,9 +41,9 @@ const PostCard = ({ post }) => {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
+        {/* <IconButton aria-label='add to favorites'>
           <FavoriteIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton aria-label='share'>
           <ShareIcon />
         </IconButton>

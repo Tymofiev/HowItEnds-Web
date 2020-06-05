@@ -72,7 +72,7 @@ export default [
   {
     title: 'Post 1',
     id: 1,
-    date: 1576281600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
@@ -81,7 +81,7 @@ export default [
   {
     title: 'Post 2',
     id: 2,
-    date: 1576391600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
@@ -90,7 +90,7 @@ export default [
   {
     title: 'Post 3',
     id: 3,
-    date: 1577391600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
@@ -99,7 +99,7 @@ export default [
   {
     title: 'Post 4',
     id: 4,
-    date: 1572281600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
@@ -108,7 +108,7 @@ export default [
   {
     title: 'Post 5',
     id: 5,
-    date: 1573281600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
@@ -117,7 +117,7 @@ export default [
   {
     title: 'Post 6',
     id: 6,
-    date: 1575281600,
+    date: 'December 14th, 2020',
     imageSrc: news,
     snippet:
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',

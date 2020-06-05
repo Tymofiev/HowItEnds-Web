@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { Button, Typography, Grid, Avatar, CssBaseline, Box, Paper } from '@material-ui/core'
 import { LockOutlined, ExitToAppOutlined, AccountCircleOutlined, EmailOutlined } from '@material-ui/icons'
+import clsx from 'clsx'
 
 import Input from '../controls/own/OwnInput'
 import PasswordInput from '../controls/own/PasswordInput'
@@ -40,10 +41,10 @@ const SingIn = ({ login, startLoading, stopLoading, showSnackbar, history, user 
 
   return (
     <>
-      <Grid container component='main' className={classes.root}>
+      <Grid container component='main' className={clsx(classes.root, classes.image)}>
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={false} sm={3} md={3} />
+        <Grid item xs={12} sm={6} md={6} component={Paper} elevation={6}>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <AccountCircleOutlined />

@@ -4,6 +4,7 @@ import rose from '../../images/rose-oled-8k-8v.jpg'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    padding: theme.spacing(10, 0),
   },
   image: {
     backgroundImage: `url(${rose})`,

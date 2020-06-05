@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core'
-import { AccountCircleOutlined, SettingsApplicationsOutlined } from '@material-ui/icons'
+import { AccountCircleOutlined, SettingsApplicationsOutlined, EmojiNatureOutlined } from '@material-ui/icons'
 
 import TabPanel from '../../controls/TabPanel'
 import StyledDivider from '../../controls/styled/StyledDivider'
@@ -62,7 +62,7 @@ const Profile = () => {
           >
             <Tab icon={<SettingsApplicationsOutlined />} label='Settings' />
             <Tab icon={<AccountCircleOutlined />} aria-label='favorite' />
-            <Tab label='Smth' />
+            <Tab icon={<EmojiNatureOutlined />} label='Creatures' />
           </Tabs>
           <TabPanel value={value} index={0}>
             <Paper elevation={3} variant='elevation' className={classes.settingPaper}>
