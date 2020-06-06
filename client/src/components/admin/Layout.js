@@ -15,6 +15,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import ViewListOutlined from '@material-ui/icons/ViewListOutlined'
 import PeopleOutline from '@material-ui/icons/PeopleOutline'
@@ -23,6 +26,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment'
 import ListItemLink from '../controls/ListItemLink'
 import StyledLink from '../controls/styled/StyledLink'
 import CreatePostDialog from './dialogs/CreatePostDialog'
+import Copyright from './components/Copyright'
 
 import useStyles from './style'
 
@@ -120,6 +124,13 @@ export default ({ children, location: { pathname } }) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {children}
+        <Container maxWidth='lg' className={classes.container}>
+          <Grid container spacing={3} justify='center' alignItems='center'>
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Grid>
+        </Container>
       </main>
     </div>
   )

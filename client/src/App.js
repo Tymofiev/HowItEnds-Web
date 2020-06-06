@@ -27,6 +27,7 @@ import News from './components/news/index'
 import Gallery from './components/gallery/index'
 import NewsPost from './components/news/NewsPost'
 
+import AdminRoute from './components/routes/AdminRoute'
 import AdminSpinner from './components/controls/wrappers/AdminSpinner'
 import Users from './components/admin/Users'
 import Posts from './components/admin/Posts'
@@ -73,9 +74,11 @@ const App = () => {
                   <Route path='/admin'>
                     <Switch>
                       <AdminLayout>
-                        <Route exact path='/admin' component={Dashboard} />
-                        <Route exact path='/admin/users' component={Users} />
-                        <Route exact path='/admin/posts' component={Posts} />
+                        <AdminRoute path='/admin'>
+                          <Route exact path='/admin' component={Dashboard} />
+                          <Route exact path='/admin/users' component={Users} />
+                          <Route exact path='/admin/posts' component={Posts} />
+                        </AdminRoute>
                       </AdminLayout>
                     </Switch>
                   </Route>

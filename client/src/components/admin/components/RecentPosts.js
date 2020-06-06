@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import Typography from '@material-ui/core/Typography'
@@ -6,22 +6,11 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import moment from 'moment'
 
+import { getAllPosts } from '../../../api/post'
 import StyledLink from '../../controls/styled/StyledLink'
 import Title from './Title'
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod) {
-  return { id, date, name, shipTo, paymentMethod }
-}
-
-const rows = [
-  createData(0, '16 Mar, 2019', 'Lorem ipsum', 'Img', 'Content'),
-  createData(0, '16 Mar, 2019', 'Lorem ipsum', 'Img', 'Content'),
-  createData(0, '16 Mar, 2019', 'Lorem ipsum', 'Img', 'Content'),
-  createData(0, '16 Mar, 2019', 'Lorem ipsum', 'Img', 'Content'),
-  createData(0, '16 Mar, 2019', 'Lorem ipsum', 'Img', 'Content'),
-]
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -31,6 +20,14 @@ const useStyles = makeStyles((theme) => ({
 
 const RecentPosts = () => {
   const classes = useStyles()
+  const [posts, setPosts] = useState()
+
+  useEffect(() => {
+    getAllPosts().then((result) => {
+      const posts = result.posts.sort((a, b) => a.title > b.title)
+      setPosts(posts.slice(Math.max(posts.length - 3, 0)))
+    })
+  }, [])
 
   return (
     <React.Fragment>
@@ -39,20 +36,23 @@ const RecentPosts = () => {
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell>Image</TableCell>
             <TableCell>Title</TableCell>
-            <TableCell>Content</TableCell>
+            <TableCell>Snippet</TableCell>
+            <TableCell>Image</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-            </TableRow>
-          ))}
+          {posts &&
+            posts.map((post) => (
+              <TableRow key={post._id}>
+                <TableCell>{moment(post.date).format('MMMM Do YYYY')}</TableCell>
+                <TableCell>{post.title}</TableCell>
+                <TableCell>{post.snippet}</TableCell>
+                <TableCell>
+                  <img src={`/${post.image}`} style={{ width: 50, borderRadius: '50%' }} />
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>

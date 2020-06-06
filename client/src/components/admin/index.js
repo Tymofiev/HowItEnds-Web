@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Chart from './components/Chart'
 import RecentUsers from './components/RecentUsers'
 import RecentPosts from './components/RecentPosts'
-import Copyright from './components/Copyright'
 
 const useStyles = makeStyles((theme) => ({
   depositContext: {
@@ -31,28 +30,22 @@ const Dashboard = () => {
   return (
     <Container maxWidth='lg' className={classes.container}>
       <Grid container spacing={3}>
-        {/* Chart */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={fixedHeightPaper}>
             <Chart />
           </Paper>
         </Grid>
-        {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={fixedHeightPaper}>
             <RecentUsers />
           </Paper>
         </Grid>
-        {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <RecentPosts />
           </Paper>
         </Grid>
       </Grid>
-      <Box pt={4}>
-        <Copyright />
-      </Box>
     </Container>
   )
 }

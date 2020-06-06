@@ -36,7 +36,7 @@ export const getPost = (id) => {
   })
 }
 
-export const updateData = (id, title, snippet, body) => {
+export const updateData = ({ id, title, snippet, body }) => {
   return request({
     url: `/posts/${id}`,
     method: 'put',

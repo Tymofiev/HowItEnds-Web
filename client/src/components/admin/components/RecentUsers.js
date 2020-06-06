@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
@@ -7,23 +7,9 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
+import { getAllUsers } from '../../../api/user'
 import StyledLink from '../../controls/styled/StyledLink'
 import Title from './Title'
-
-const users = [
-  {
-    email: 'email@gmail.com',
-  },
-  {
-    email: 'email@gmail.com',
-  },
-  {
-    email: 'email@gmail.com',
-  },
-  {
-    email: 'email@gmail.com',
-  },
-]
 
 const useStyles = makeStyles({
   depositContext: {
@@ -33,6 +19,15 @@ const useStyles = makeStyles({
 
 const RecentUsers = () => {
   const classes = useStyles()
+  const [users, setUsers] = useState()
+
+  useEffect(() => {
+    getAllUsers().then((result) => {
+      const users = result.users
+      setUsers(users.slice(Math.max(users.length - 3, 0)))
+    })
+  }, [])
+
   return (
     <React.Fragment>
       <Title>Recent Users</Title>
@@ -43,11 +38,12 @@ const RecentUsers = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.email}>
-              <TableCell>{user.email}</TableCell>
-            </TableRow>
-          ))}
+          {users &&
+            users.map((user) => (
+              <TableRow key={user.email}>
+                <TableCell>{user.email}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <div>

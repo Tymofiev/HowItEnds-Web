@@ -135,4 +135,12 @@ router.post('/emailConfirm/:id', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+  User.deleteOne({ _id: req.params.id })
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
 module.exports = router

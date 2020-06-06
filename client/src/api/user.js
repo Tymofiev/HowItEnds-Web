@@ -45,6 +45,13 @@ export const updatePassword = (oldPassword, password, id) => {
   })
 }
 
+export const deleteUser = (id) => {
+  return request({
+    url: `/users/${id}`,
+    method: 'delete',
+  })
+}
+
 export const confirmEmail = (id) => {
   return request({
     url: `/users/emailConfirm/${id}`,
