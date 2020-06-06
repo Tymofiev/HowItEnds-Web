@@ -8,17 +8,15 @@ import CardActions from '@material-ui/core/CardActions'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import { ChevronRightOutlined } from '@material-ui/icons'
+import moment from 'moment'
+
+import StyledLink from '../../../controls/styled/StyledLink'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
   },
   expand: {
     marginLeft: 'auto',
@@ -27,29 +25,26 @@ const useStyles = makeStyles((theme) => ({
 
 const PostCard = ({ post }) => {
   const classes = useStyles()
-  const { title, date, image, body } = post
+  const { _id, title, date, image, snippet } = post
 
   return (
     <Card variant='outlined' className={classes.root}>
       <CardActionArea>
-        <CardHeader title={title} subheader={date} />
-        <CardMedia className={classes.media} image={image} />
+        <CardHeader title={title} subheader={moment(date).format('MMMM Do YYYY')} />
+        <CardMedia component='img' className={classes.media} src={image} />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
-            {body}
+            {snippet}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        {/* <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
-        </IconButton> */}
         <IconButton aria-label='share'>
           <ShareIcon />
         </IconButton>
         <IconButton className={classes.expand}>
           <Typography variant='body2' component='p'>
-            Open post
+            <StyledLink to={`/news/${_id}`}>Open post</StyledLink>
           </Typography>
           <ChevronRightOutlined />
         </IconButton>

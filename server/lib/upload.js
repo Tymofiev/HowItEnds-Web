@@ -31,7 +31,7 @@ const upload = multer({
 const deleteCurrentFile = (req, res, next) => {
   const { destination, filename } = req.file
   const { _id } = req.user
-
+  console.log(destination)
   fs.readdir(destination, (err, files) => {
     const currentUserAvatars = files.filter((file) => file.includes(_id))
     const oldFile = currentUserAvatars.filter((file) => file !== filename)[0]
@@ -49,7 +49,29 @@ const deleteCurrentFile = (req, res, next) => {
   })
 }
 
+const deleteOldImage = (req, res, next) => {
+  console.log(req.file)
+  const destination = './server/uploads'
+  const { id } = req.params
+
+  fs.readdir(destination, (err, files) => {
+    const currentImage = files.filter((file) => file.includes(id))[0]
+    console.log(currentImage)
+    if (currentImage) {
+      fs.unlink(path.join(destination, currentImage), (err) => {
+        if (err) {
+          throw err
+        }
+        next()
+      })
+    } else {
+      next()
+    }
+  })
+}
+
 module.exports = {
   upload,
   deleteCurrentFile,
+  deleteOldImage,
 }

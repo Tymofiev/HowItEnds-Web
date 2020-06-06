@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import format from 'date-fns/format'
+import moment from 'moment'
 import classNames from 'classnames'
 import { Typography, Card, Box, withStyles } from '@material-ui/core'
 
@@ -50,17 +50,19 @@ const styles = (theme) => ({
 })
 
 const NewsCard = (props) => {
-  const { classes, url, src, date, title, snippet } = props
+  const { classes, url, image, date, title, snippet } = props
+
+  console.log(image)
   return (
     <Card className={classes.card}>
-      {src && (
+      {image && (
         <Link to={url} tabIndex={-1}>
-          <img src={src} className={classes.img} alt='' />
+          <img src={`/${image}`} className={classes.img} alt='' />
         </Link>
       )}
       <Box p={2}>
         <Typography variant='body2' color='textSecondary'>
-          {date}
+          {moment(date).format('MMMM Do YYYY')}
         </Typography>
         <Link to={url} className={classNames(classes.noDecoration, classes.showFocus)}>
           <Typography variant='h6'>
@@ -76,15 +78,6 @@ const NewsCard = (props) => {
       </Box>
     </Card>
   )
-}
-
-NewsCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  url: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-  snippet: PropTypes.string.isRequired,
-  src: PropTypes.string,
 }
 
 export default withStyles(styles, { withTheme: true })(NewsCard)

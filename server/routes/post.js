@@ -1,33 +1,90 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
 
 const Post = require('../models/Post')
-const { upload, deleteCurrentFile } = require('../lib/upload')
+const { upload, deleteOldImage } = require('../lib/upload')
 
-router.get('/', (req, res) => {
-  Post.find({})
-    .then((posts) => {
-      res.json(posts)
+router.get('/', async (req, res) => {
+  const { page = 1, limit = 4 } = req.query
+
+  try {
+    const posts = await Post.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec()
+
+    const count = await Post.countDocuments()
+
+    res.send({
+      posts,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
     })
-    .catch(() => {
-      res.json([])
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+router.get('/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((post) => {
+      res.send(post)
+    })
+    .catch((err) => console.log(err))
+})
+
+router.post('/', (req, res) => {
+  const { title, snippet, body } = req.body
+  const post = new Post({ title, snippet, body })
+
+  post
+    .save()
+    .then((post) => {
+      res.send(post)
+    })
+    .catch((err) => {
+      res.status(400).send(err)
     })
 })
 
-router.post('/', upload.array('files', 3), (req, res) => {
-  const { title, body } = req.body
-  //   const files = req.files
-  //   console.log(files)
-  //   const post = new Post({ title, body, image: files[0] })
-
-  //   post
-  //     .save()
-  //     .then((post) => {
-  //       console.log(post)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
+router.put('/setImage/:id', deleteOldImage, upload.single('image'), (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      image: req.file.path,
+    },
+    { new: true },
+  )
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
 })
+
+router.put('/:id', (req, res) => {
+  const { title, snippet, body } = req.body
+
+  Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      title,
+      snippet,
+      body,
+    },
+    { new: true },
+  )
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+router.delete('/:id', (req, res) => {
+  Post.deleteOne({ _id: req.params.id })
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
 module.exports = router

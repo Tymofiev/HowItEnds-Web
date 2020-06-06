@@ -68,12 +68,12 @@ const ZoomImage = (props) => {
         <Portal>
           <div onClick={zoomOut} className={classes.portalImgWrapper}>
             <div className={classes.portalImgInnerWrapper}>
-              <img alt={alt} src={src} className={classes.portalImg} {...zoomedImgProps}></img>
+              <img alt={alt} src={`/${src}`} className={classes.portalImg} {...zoomedImgProps}></img>
             </div>
           </div>
         </Portal>
       )}
-      <img alt={alt} src={src} onClick={zoomIn} style={{ cursor: 'pointer' }} {...rest}></img>
+      <img alt={alt} src={`/${src}`} onClick={zoomIn} style={{ cursor: 'pointer' }} {...rest}></img>
     </Fragment>
   )
 }

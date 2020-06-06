@@ -1,28 +1,27 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const PostSchema = new Schema(
+const CreatureSchema = new Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
-    snippet: {
+    type: {
       type: String,
       required: true,
-    },
-    body: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-      default: Date.now(),
     },
     image: {
       type: String,
-      required: false,
+      required: true,
+    },
+    genotype: {
+      type: Array,
+      required: true,
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
     },
   },
   {
@@ -30,4 +29,4 @@ const PostSchema = new Schema(
   },
 )
 
-module.exports = mongoose.model('Post', PostSchema)
+module.exports = mongoose.model('Creature', CreatureSchema)

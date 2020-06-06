@@ -114,7 +114,7 @@ const Header = ({ themeToggler, user }) => {
             onClick={handleProfileMenuOpen}
             color='inherit'
           >
-            <Avatar alt={user.data?.username} src={user.data?.avatar} />
+            <Avatar alt={user.data?.username} src={`/${user.data?.avatar}`} />
           </IconButton>
         )}
       </Toolbar>

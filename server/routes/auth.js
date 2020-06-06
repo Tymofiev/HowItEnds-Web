@@ -42,8 +42,8 @@ router.post('/register', (req, res) => {
 
   userExists(username, email)
     .then(() => {
-      const newUser = new User({ username, email, password, active: false })
-
+      const newUser = new User({ username, email, password, active: false, admin: false })
+      console.log(username, email)
       newUser
         .save()
         .then((user) => {

@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
-import format from 'date-fns/format'
 import { Grid, Typography, Card, Box, withStyles, Paper } from '@material-ui/core'
-import NewsCard from './NewsCard'
+import { Skeleton } from '@material-ui/lab'
+import moment from 'moment'
+
+import { startLoading, stopLoading } from '../../redux/actions/uiActions'
+import { getPost, getAllPosts } from '../../api/post'
 import ShareButton from '../../components/controls/ShareButton'
 import ZoomImage from '../../components/controls/ZoomImage'
 import smoothScrollTop from '../../lib/smoothScrollTop'
-import dummyData from './dummyData'
+import NewsCard from './NewsCard'
 
 const styles = (theme) => ({
   contentWrapper: {
@@ -30,71 +34,89 @@ const styles = (theme) => ({
   },
 })
 
-const NewsPost = (props) => {
-  const { classes } = props
-  const { date, title, imageSrc, content } = dummyData[0]
-  const otherArticles = dummyData
+const NewsPost = ({ classes, startLoading, stopLoading, ...props }) => {
+  const [post, setPost] = useState()
+  const [otherArticles, setOtherArticles] = useState()
+  const { id } = props.match.params
 
   useEffect(() => {
-    document.title = `HowItEnds - ${title}`
-    smoothScrollTop()
-  }, [])
+    startLoading()
+    getPost(id)
+      .then((result) => {
+        setPost(result)
+        smoothScrollTop()
+        getAllPosts().then((result) => {
+          const posts = result.posts.filter((post) => post._id !== id)
+          const shuffled = posts.sort(() => 0.5 - Math.random())
+          setOtherArticles(shuffled.slice(Math.max(shuffled.length - 3, 0)))
+        })
+      })
+      .finally(() => stopLoading())
+  }, [id])
 
   return (
-    <Grid className={classNames(classes.wrapper)} justifyContent='center'>
+    <Grid className={classNames(classes.wrapper)}>
       <Paper className={classes.contentWrapper}>
         <Grid container spacing={5}>
-          <Grid item md={9}>
-            <Card className={classes.card}>
-              <Box pt={3} pr={3} pl={3} pb={2}>
-                <Typography variant='h4'>
-                  <b>{title}</b>
-                </Typography>
-                <Typography variant='body1' color='textSecondary'>
-                  {date}
-                </Typography>
-              </Box>
-              <ZoomImage className={classes.img} src={imageSrc} alt='' />
-              <Box p={3}>
-                {content}
-                <Box pt={2}>
-                  <Grid spacing={1} container>
-                    {['Facebook', 'Twitter', 'Reddit', 'Telegram'].map((type, index) => (
-                      <Grid item key={index}>
-                        <ShareButton
-                          type={type}
-                          title='React SaaS Template'
-                          description='I found an awesome template for an webapp using React!'
-                          disableElevation
-                          variant='contained'
-                          className='text-white'
-                          classes={{
-                            label: 'text-white',
-                          }}
-                        />
+          {post ? (
+            <>
+              <Grid item md={9}>
+                <Card className={classes.card}>
+                  <Box pt={3} pr={3} pl={3} pb={2}>
+                    <Typography variant='h4'>
+                      <b>{post.title}</b>
+                    </Typography>
+                    <Typography variant='body1' color='textSecondary'>
+                      {moment(post.date).format('MMMM Do YYYY')}
+                    </Typography>
+                  </Box>
+                  <ZoomImage className={classes.img} src={post.image} alt='' />
+                  <Box p={3}>
+                    {post.body}
+                    <Box pt={2}>
+                      <Grid spacing={1} container>
+                        {['Facebook', 'Twitter', 'Reddit', 'Telegram'].map((type, index) => (
+                          <Grid item key={index}>
+                            <ShareButton
+                              type={type}
+                              title='HowItEnds'
+                              description='I found an awesome game!'
+                              disableElevation
+                              variant='contained'
+                              className='text-white'
+                              classes={{
+                                label: 'text-white',
+                              }}
+                            />
+                          </Grid>
+                        ))}
                       </Grid>
-                    ))}
-                  </Grid>
-                </Box>
-              </Box>
-            </Card>
-          </Grid>
+                    </Box>
+                  </Box>
+                </Card>
+              </Grid>
+            </>
+          ) : (
+            <Skeleton animation='wave' />
+          )}
           <Grid item md={3}>
             <Typography variant='h6' paragraph>
               Other arcticles
             </Typography>
-            {otherArticles.map((newsPost) => (
-              <Paper>
-                <Box key={newsPost.id} mb={3}>
-                  <NewsCard
-                    title={newsPost.title}
-                    snippet={newsPost.snippet}
-                    date={newsPost.date}
-                    url={`/news/${newsPost.id}`}
-                  />
-                </Box>
-              </Paper>
-            ))}
+            {otherArticles &&
+              otherArticles.map((newsPost) => (
+                <Paper key={newsPost._id}>
+                  <Box mb={3}>
+                    <NewsCard
+                      title={newsPost.title}
+                      image={newsPost.image}
+                      snippet={newsPost.snippet}
+                      date={newsPost.date}
+                      url={`/news/${newsPost._id}`}
+                    />
+                  </Box>
+                </Paper>
+              ))}
           </Grid>
         </Grid>
       </Paper>
@@ -102,4 +124,7 @@ const NewsPost = (props) => {
   )
 }
 
-export default withStyles(styles, { withTheme: true })(NewsPost)
+export default connect(null, {
+  startLoading,
+  stopLoading,
+})(withStyles(styles, { withTheme: true })(NewsPost))

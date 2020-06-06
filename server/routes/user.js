@@ -9,14 +9,25 @@ const { confirmation } = require('../email/templates')
 const { CONFIRM } = require('../email/statuses')
 const { getMessageByStatus } = require('../email/messages')
 
-router.get('/', (req, res) => {
-  User.find({})
-    .then((users) => {
-      res.send(users)
+router.get('/', async (req, res) => {
+  const { page = 1, limit = 10 } = req.query
+
+  try {
+    const users = await User.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec()
+
+    const count = await User.countDocuments()
+
+    res.send({
+      users,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
     })
-    .catch(() => {
-      res.json([])
-    })
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/:id', (req, res) => {
@@ -24,8 +35,8 @@ router.get('/:id', (req, res) => {
     .then((user) => {
       res.send(user)
     })
-    .catch(() => {
-      res.json([])
+    .catch((e) => {
+      console.log(e)
     })
 })
 

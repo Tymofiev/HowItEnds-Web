@@ -1,5 +1,19 @@
 import request from '../lib/request'
 
+export const getAllUsers = (page, limit) => {
+  return request({
+    url: `/users?page=${page}&limit=${limit}`,
+    method: 'get',
+  })
+}
+
+export const getUser = (id) => {
+  return request({
+    url: `/users/${id}`,
+    method: 'get',
+  })
+}
+
 export const updateAvatar = ({ file, id }) => {
   const formData = new FormData()
   formData.append('file', file)
