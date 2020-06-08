@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import { DialogTitle, IconButton, Grid, Typography } from '@material-ui/core'
 import { ColorizeOutlined } from '@material-ui/icons'
 
-import { clearPalette } from '../../../api/palette'
+import { DEFAULT_PALETTE } from '../../../constants'
 import ColorPicker from './ColorPicker'
 
 class ColorSettingsDialog extends React.Component {
@@ -15,10 +15,10 @@ class ColorSettingsDialog extends React.Component {
     this.state = {
       open: false,
       type: '',
-      primary: '#00838f',
-      secondary: '#fbc02d',
-      background: '#303030',
-      paper: '#424242',
+      primary: DEFAULT_PALETTE.primary.main,
+      secondary: DEFAULT_PALETTE.secondary.main,
+      background: DEFAULT_PALETTE.background.default,
+      paper: DEFAULT_PALETTE.background.paper,
     }
   }
 
@@ -34,15 +34,8 @@ class ColorSettingsDialog extends React.Component {
     this.setState((state) => ({ [state.type]: color, open: false }))
   }
 
-  clearUserPalette = () => {
-    const { user, handleClose } = this.props
-
-    clearPalette(user)
-    handleClose()
-  }
-
   render() {
-    const { open, handleClose, handleSave } = this.props
+    const { open, handleClose, handleSave, clearPalette } = this.props
     const { primary, secondary, background, paper } = this.state
     const palette = {
       primary: {
@@ -106,7 +99,7 @@ class ColorSettingsDialog extends React.Component {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.clearUserPalette()} color='default'>
+            <Button onClick={() => clearPalette()} color='default'>
               <Typography color='error'>Clear current palette</Typography>
             </Button>
             <Button onClick={handleClose} color='primary'>

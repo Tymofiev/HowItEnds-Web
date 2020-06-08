@@ -12,6 +12,7 @@ import SideDrawer from './components/SideDrawer'
 import AccountMenu from '../controls/AccountMenu'
 import StyledLink from '../controls/styled/StyledLink'
 import ColorSettingsDialog from './components/ColorSettingsDialog'
+import { DEFAULT_PALETTE } from '../../constants'
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -97,6 +98,12 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
     handleDialogClose()
   }
 
+  const clearUserPalette = () => {
+    clearPalette(user)
+    paletteChanger(DEFAULT_PALETTE)
+    handleDialogClose()
+  }
+
   return (
     <AppBar position='static' color='default'>
       <Toolbar className={classes.toolbar}>
@@ -157,6 +164,7 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
         open={isDialogOpen}
         handleClose={() => setDialogOpen((prevState) => !prevState)}
         handleSave={changePalette}
+        clearPalette={clearUserPalette}
         user={user.data?._id}
       />
       <AccountMenu anchorEl={anchorEl} closeMenu={handleMenuClose} />
