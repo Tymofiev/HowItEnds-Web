@@ -1,15 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
+import { Typography, IconButton, Grid } from '@material-ui/core'
+import { RefreshOutlined } from '@material-ui/icons'
 
-export default function Title(props) {
+const Title = ({ children, refresh }) => {
   return (
-    <Typography component='h2' variant='h6' color='primary' gutterBottom>
-      {props.children}
-    </Typography>
+    <>
+      <Grid container justify='space-around'>
+        <Grid item>
+          <Typography component='h2' variant='h6' color='primary' gutterBottom>
+            {children}
+          </Typography>
+        </Grid>
+        {refresh && (
+          <Grid item>
+            <IconButton onClick={() => refresh()}>
+              <RefreshOutlined />
+            </IconButton>
+          </Grid>
+        )}
+      </Grid>
+    </>
   )
 }
 
-Title.propTypes = {
-  children: PropTypes.node,
-}
+export default Title

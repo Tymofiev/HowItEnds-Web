@@ -6,10 +6,11 @@ import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import { Button } from '@material-ui/core'
 import { Link as DownloadLink } from 'react-router-dom'
-
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
+import moment from 'moment'
 
+import { updateDownloadsCount } from '../../../api/downloads'
 import robot from '../../../images/robot.jpg'
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +48,7 @@ const carouselSettings = {
 const SliderPreview = (props) => {
   const classes = useStyles()
 
+  const dateTime = moment().format('YYYY-MM-DD')
   return (
     <Carousel {...carouselSettings}>
       <Paper className={classes.mainFeaturedPost}>
@@ -59,7 +61,7 @@ const SliderPreview = (props) => {
               <Typography variant='h5' color='inherit' paragraph>
                 Compete with friends
               </Typography>
-              <DownloadLink to='/howitends.zip' target='_blank' download>
+              <DownloadLink to='/howitends.zip' target='_blank' download onClick={() => updateDownloadsCount(dateTime)}>
                 <Button variant='contained' color='primary'>
                   <Typography variant='h5' color='inherit'>
                     Download now

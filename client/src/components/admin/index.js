@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  fixedHeight: {
+    height: 240,
+  },
 }))
 
 const Dashboard = () => {

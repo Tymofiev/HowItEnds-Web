@@ -1,50 +1,79 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from '@material-ui/core/styles'
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts'
+import { Typography } from '@material-ui/core'
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts'
+import { Grid, IconButton, CircularProgress } from '@material-ui/core'
+import { RefreshOutlined } from '@material-ui/icons'
+import moment from 'moment'
+
+import { getDownloads } from '../../../api/downloads'
 import Title from './Title'
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount }
+const CustomTooltip = ({ payload, label, active }) => {
+  if (active) {
+    return (
+      <div>
+        <Typography>Downloads: {payload[0] && payload[0].value}</Typography>
+      </div>
+    )
+  }
+
+  return null
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-]
-
-export default function Chart() {
+const Chart = () => {
   const theme = useTheme()
+  const [downloads, setDownloads] = useState()
+
+  useEffect(() => {
+    refreshChart()
+  }, [])
+
+  const refreshChart = () => {
+    getDownloads().then((downloads) => {
+      const sortedArray = downloads
+        .sort((a, b) => {
+          return moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD')
+        })
+        .map((item) => ({ count: item.count, date: moment(item.date).format('MMMM Do YYYY') }))
+      setDownloads(sortedArray)
+      console.log('SETT')
+    })
+  }
 
   return (
-    <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey='time' stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label angle={270} position='left' style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}>
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line type='monotone' dataKey='amount' stroke={theme.palette.primary.main} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
-    </React.Fragment>
+    <>
+      <Title refresh={refreshChart}>Downloads</Title>
+      {downloads ? (
+        <Grid style={{ height: 125 }}>
+          <ResponsiveContainer>
+            <LineChart
+              data={downloads}
+              margin={{
+                top: 16,
+                right: 16,
+                bottom: 0,
+                left: 24,
+              }}
+            >
+              <XAxis dataKey='date' stroke={theme.palette.text.secondary} />
+              <YAxis stroke={theme.palette.text.secondary}>
+                <Label angle={270} position='left' style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}>
+                  Count
+                </Label>
+              </YAxis>
+              <Line type='monotone' dataKey='count' stroke={theme.palette.primary.main} dot={false} />
+              <Tooltip content={<CustomTooltip />} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Grid>
+      ) : (
+        <Grid container justify='center' alignItems='center'>
+          <CircularProgress />
+        </Grid>
+      )}
+    </>
   )
 }
+
+export default Chart
