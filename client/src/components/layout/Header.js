@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Hidden, Toolbar, Button, IconButton, Typography, Avatar, AppBar } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
+import PaletteOutlined from '@material-ui/icons/Palette'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
+import { savePalette, getPalette, clearPalette } from '../../api/palette'
 import SideDrawer from './components/SideDrawer'
 import AccountMenu from '../controls/AccountMenu'
 import StyledLink from '../controls/styled/StyledLink'
+import ColorSettingsDialog from './components/ColorSettingsDialog'
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -38,13 +40,25 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const Header = ({ themeToggler, user }) => {
+const Header = ({ themeToggler, paletteChanger, user }) => {
   const classes = useStyles()
   const themeType = useTheme().palette.type
 
   const [open, setOpen] = useState(false)
+  const [isDialogOpen, setDialogOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [theme, setTheme] = useState(themeType)
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      getPalette(user.data._id).then(({ type, palette }) => {
+        if (type && palette) {
+          themeToggler(type)
+          paletteChanger(palette)
+        }
+      })
+    }
+  }, [])
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -61,10 +75,26 @@ const Header = ({ themeToggler, user }) => {
     setAnchorEl(null)
   }
 
+  const handleDialogOpen = () => {
+    setDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
+
   const changeColorTheme = () => {
     let newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     themeToggler(newTheme)
+  }
+
+  const changePalette = (palette) => {
+    if (user.isLoggedIn) {
+      savePalette(user.data._id, theme, palette)
+    }
+    paletteChanger(palette)
+    handleDialogClose()
   }
 
   return (
@@ -85,6 +115,10 @@ const Header = ({ themeToggler, user }) => {
         <Typography component='h2' variant='h5' color='inherit' align='center' noWrap className={classes.toolbarTitle}>
           <StyledLink to='/'>HowItEnds</StyledLink>
         </Typography>
+
+        <IconButton onClick={() => handleDialogOpen()}>
+          <PaletteOutlined />
+        </IconButton>
 
         <IconButton onClick={() => changeColorTheme()}>
           {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
@@ -119,6 +153,12 @@ const Header = ({ themeToggler, user }) => {
         )}
       </Toolbar>
 
+      <ColorSettingsDialog
+        open={isDialogOpen}
+        handleClose={() => setDialogOpen((prevState) => !prevState)}
+        handleSave={changePalette}
+        user={user.data?._id}
+      />
       <AccountMenu anchorEl={anchorEl} closeMenu={handleMenuClose} />
     </AppBar>
   )

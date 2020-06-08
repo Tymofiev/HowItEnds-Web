@@ -3,10 +3,10 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 
-const Layout = ({ children, themeToggler }) => {
+const Layout = ({ children, themeToggler, paletteChanger }) => {
   return (
     <>
-      <Header themeToggler={themeToggler} />
+      <Header themeToggler={themeToggler} paletteChanger={paletteChanger} />
       {children}
       <Footer />
     </>

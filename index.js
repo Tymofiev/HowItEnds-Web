@@ -31,6 +31,7 @@ app.use('/auth', require('./server/routes/auth'))
 app.use('/email', require('./server/routes/email'))
 app.use('/users', require('./server/routes/user'))
 app.use('/posts', require('./server/routes/post'))
+app.use('/palettes', require('./server/routes/palette'))
 
 app.listen(5000, () => {
   console.info(`Server started: http://localhost:5000`)

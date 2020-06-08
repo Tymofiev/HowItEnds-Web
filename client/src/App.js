@@ -38,26 +38,33 @@ AOS.init()
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
+  const [palette, setPalette] = useState({
+    primary: {
+      main: '#00838f',
+    },
+    secondary: {
+      main: '#fbc02d',
+    },
+  })
 
   let theme = useMemo(
     () =>
       createMuiTheme({
         palette: {
-          primary: {
-            main: '#00838f',
-          },
-          secondary: {
-            main: '#fbc02d',
-          },
+          ...palette,
           type: themeType,
         },
       }),
-    [themeType],
+    [themeType, palette],
   )
   theme = responsiveFontSizes(theme)
 
   const changeColorTheme = (type) => {
     setThemeType(type)
+  }
+
+  const changePalette = (palette) => {
+    setPalette(palette)
   }
 
   return (
@@ -82,7 +89,7 @@ const App = () => {
                       </AdminLayout>
                     </Switch>
                   </Route>
-                  <Layout themeToggler={changeColorTheme}>
+                  <Layout themeToggler={changeColorTheme} paletteChanger={changePalette}>
                     <Switch>
                       <Route path='/confirmation' component={Confirmation} />
                       <Route path='/gallery' component={Gallery} />
