@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { Button, Grid, Typography } from '@material-ui/core'
 import { motion } from 'framer-motion'
 

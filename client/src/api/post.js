@@ -29,6 +29,20 @@ export const getAllPosts = (page, limit) => {
   })
 }
 
+export const getAllPostsByTitle = (page, limit, search) => {
+  return request({
+    url: `/posts?page=${page}&limit=${limit}&search=${search}`,
+    method: 'get',
+  })
+}
+
+export const getAllPostsByDate = (page, limit, date) => {
+  return request({
+    url: `/posts?page=${page}&limit=${limit}&date=${date}`,
+    method: 'get',
+  })
+}
+
 export const getPost = (id) => {
   return request({
     url: `/posts/${id}`,

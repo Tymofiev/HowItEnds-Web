@@ -49,7 +49,7 @@ const RecentPosts = () => {
                 <TableCell>{post.title}</TableCell>
                 <TableCell>{post.snippet}</TableCell>
                 <TableCell>
-                  <img src={`/${post.image}`} style={{ width: 50, borderRadius: '50%' }} />
+                  <img src={`/${post.image}`} style={{ width: 50, borderRadius: '50%' }} alt='No image' />
                 </TableCell>
               </TableRow>
             ))}

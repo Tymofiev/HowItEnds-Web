@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import classNames from 'classnames'
@@ -52,7 +51,6 @@ const styles = (theme) => ({
 const NewsCard = (props) => {
   const { classes, url, image, date, title, snippet } = props
 
-  console.log(image)
   return (
     <Card className={classes.card}>
       {image && (

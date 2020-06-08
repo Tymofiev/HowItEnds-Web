@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts'
-import { Grid, IconButton, CircularProgress } from '@material-ui/core'
-import { RefreshOutlined } from '@material-ui/icons'
+import { Grid, CircularProgress } from '@material-ui/core'
 import moment from 'moment'
 
 import { getDownloads } from '../../../api/downloads'
@@ -37,7 +36,6 @@ const Chart = () => {
         })
         .map((item) => ({ count: item.count, date: moment(item.date).format('MMMM Do YYYY') }))
       setDownloads(sortedArray)
-      console.log('SETT')
     })
   }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -11,14 +10,7 @@ import { getAllUsers } from '../../../api/user'
 import StyledLink from '../../controls/styled/StyledLink'
 import Title from './Title'
 
-const useStyles = makeStyles({
-  depositContext: {
-    flex: 1,
-  },
-})
-
 const RecentUsers = () => {
-  const classes = useStyles()
   const [users, setUsers] = useState()
 
   useEffect(() => {

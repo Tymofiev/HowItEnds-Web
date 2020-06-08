@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { Container, Grid, Paper, Box } from '@material-ui/core'
+import { Container, Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Chart from './components/Chart'

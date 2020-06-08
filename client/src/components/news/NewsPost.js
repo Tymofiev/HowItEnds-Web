@@ -52,7 +52,7 @@ const NewsPost = ({ classes, startLoading, stopLoading, ...props }) => {
         })
       })
       .finally(() => stopLoading())
-  }, [id])
+  }, [id, startLoading, stopLoading])
 
   return (
     <Grid className={classNames(classes.wrapper)}>

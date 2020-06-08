@@ -5,10 +5,18 @@ const Post = require('../models/Post')
 const { upload, deleteOldImage } = require('../lib/upload')
 
 router.get('/', async (req, res) => {
-  const { page = 1, limit = 4 } = req.query
+  const { page = 1, limit = 4, search = '', date = null } = req.query
+
+  const searchOptions = {
+    title: { $regex: search, $options: 'i' },
+  }
+
+  if (date) {
+    searchOptions.date = { $gte: new Date(date) }
+  }
 
   try {
-    const posts = await Post.find()
+    const posts = await Post.find(searchOptions)
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec()

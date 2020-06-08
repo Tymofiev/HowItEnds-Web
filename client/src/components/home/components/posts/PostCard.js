@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -25,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 const PostCard = ({ post }) => {
   const classes = useStyles()
+  const history = useHistory()
   const { _id, title, date, image, snippet } = post
 
   return (
     <Card variant='outlined' className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => history.push(`/news/${_id}`)}>
         <CardHeader title={title} subheader={moment(date).format('MMMM Do YYYY')} />
         <CardMedia component='img' className={classes.media} src={image} />
         <CardContent>

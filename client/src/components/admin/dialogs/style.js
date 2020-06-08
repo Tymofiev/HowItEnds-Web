@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles'
-import rose from '../../../images/robot.jpg'
 
 const useStyles = makeStyles((theme) => ({
   paper: {

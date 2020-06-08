@@ -58,7 +58,9 @@ export default () => {
                 title: 'Image',
                 field: 'image',
                 export: false,
-                render: (rowData) => <img src={`/${rowData.image}`} style={{ width: 50, borderRadius: '50%' }} />,
+                render: (rowData) => (
+                  <img src={`/${rowData.image}`} style={{ width: 50, borderRadius: '50%' }} alt='' />
+                ),
               },
             ]}
             actions={[

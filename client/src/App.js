@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { SnackbarProvider } from 'notistack'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -64,43 +66,45 @@ const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3}>
-          <Notifier />
-          <LoadingContainer>
-            <Router>
-              <Suspense fallback={<AdminSpinner />}>
-                <Switch>
-                  <Route path='/login' component={SingIn} />
-                  <Route path='/register' component={SingUp} />
-                  <Route path='/admin'>
-                    <Switch>
-                      <AdminLayout>
-                        <AdminRoute path='/admin'>
-                          <Route exact path='/admin' component={Dashboard} />
-                          <Route exact path='/admin/users' component={Users} />
-                          <Route exact path='/admin/posts' component={Posts} />
-                        </AdminRoute>
-                      </AdminLayout>
-                    </Switch>
-                  </Route>
-                  <Layout themeToggler={changeColorTheme} paletteChanger={changePalette}>
-                    <Switch>
-                      <Route path='/confirmation' component={Confirmation} />
-                      <Route path='/gallery' component={Gallery} />
-                      <PrivateRoute exact path='/profile' component={<Profile />} />
-                      <Route exact path='/confirm/:id' component={Confirm} />
-                      <Route exact path='/news' component={News} />
-                      <Route exact path='/news/:id' component={NewsPost} />
-                      <Route exact path='/' component={Home} />
-                      <Route path='*' component={NotFound} />
-                    </Switch>
-                  </Layout>
-                </Switch>
-              </Suspense>
-            </Router>
-          </LoadingContainer>
-        </SnackbarProvider>
-        <Spinner />
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <SnackbarProvider maxSnack={3}>
+            <Notifier />
+            <LoadingContainer>
+              <Router>
+                <Suspense fallback={<AdminSpinner />}>
+                  <Switch>
+                    <Route path='/login' component={SingIn} />
+                    <Route path='/register' component={SingUp} />
+                    <Route path='/admin'>
+                      <Switch>
+                        <AdminLayout>
+                          <AdminRoute path='/admin'>
+                            <Route exact path='/admin' component={Dashboard} />
+                            <Route exact path='/admin/users' component={Users} />
+                            <Route exact path='/admin/posts' component={Posts} />
+                          </AdminRoute>
+                        </AdminLayout>
+                      </Switch>
+                    </Route>
+                    <Layout themeToggler={changeColorTheme} paletteChanger={changePalette}>
+                      <Switch>
+                        <Route path='/confirmation' component={Confirmation} />
+                        <Route path='/gallery' component={Gallery} />
+                        <PrivateRoute exact path='/profile' component={<Profile />} />
+                        <Route exact path='/confirm/:id' component={Confirm} />
+                        <Route exact path='/news' component={News} />
+                        <Route exact path='/news/:id' component={NewsPost} />
+                        <Route exact path='/' component={Home} />
+                        <Route path='*' component={NotFound} />
+                      </Switch>
+                    </Layout>
+                  </Switch>
+                </Suspense>
+              </Router>
+            </LoadingContainer>
+          </SnackbarProvider>
+          <Spinner />
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </Provider>
   )
