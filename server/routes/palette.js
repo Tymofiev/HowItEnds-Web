@@ -17,8 +17,8 @@ router.post('/', (req, res) => {
   const { type, palette, user } = req.body
   const newPalette = new Palette({ type, palette, user })
 
-  Palette.findOne({ user }).then((palette) => {
-    if (!palette) {
+  Palette.findOne({ user }).then((result) => {
+    if (!result) {
       newPalette
         .save()
         .then((palette) => {
@@ -28,7 +28,11 @@ router.post('/', (req, res) => {
           console.log(err)
         })
     } else {
-      Palette.findByIdAndUpdate(palette._id, { type, palette, user }, { new: true })
+      Palette.findByIdAndUpdate(result._id, {
+        type,
+        palette,
+        user,
+      })
         .then((palette) => {
           res.send(palette)
         })

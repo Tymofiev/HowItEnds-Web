@@ -6,19 +6,19 @@ import DialogContent from '@material-ui/core/DialogContent'
 import { DialogTitle, IconButton, Grid, Typography } from '@material-ui/core'
 import { ColorizeOutlined } from '@material-ui/icons'
 
-import { DEFAULT_PALETTE } from '../../../constants'
 import ColorPicker from './ColorPicker'
 
 class ColorSettingsDialog extends React.Component {
   constructor(props) {
     super(props)
+    const { palette } = props
     this.state = {
       open: false,
       type: '',
-      primary: DEFAULT_PALETTE.primary.main,
-      secondary: DEFAULT_PALETTE.secondary.main,
-      background: DEFAULT_PALETTE.background.default,
-      paper: DEFAULT_PALETTE.background.paper,
+      primary: palette.primary.main,
+      secondary: palette.secondary.main,
+      background: palette.background.default,
+      paper: palette.background.paper,
     }
   }
 
@@ -105,7 +105,7 @@ class ColorSettingsDialog extends React.Component {
             <Button onClick={handleClose} color='primary'>
               Cancel
             </Button>
-            <Button onClick={() => handleSave(palette)} variant='outlined' color='primary'>
+            <Button onClick={() => handleSave(palette)} variant='contained' color='primary'>
               Save
             </Button>
           </DialogActions>

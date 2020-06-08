@@ -7,6 +7,7 @@ import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
+import { DEFAULT_PALETTE } from './constants'
 import store from './redux/store'
 import SingUp from './components/auth/SignUp'
 import SingIn from './components/auth/SignIn'
@@ -38,14 +39,7 @@ AOS.init()
 
 const App = () => {
   const [themeType, setThemeType] = useState('dark')
-  const [palette, setPalette] = useState({
-    primary: {
-      main: '#00838f',
-    },
-    secondary: {
-      main: '#fbc02d',
-    },
-  })
+  const [palette, setPalette] = useState(DEFAULT_PALETTE)
 
   let theme = useMemo(
     () =>

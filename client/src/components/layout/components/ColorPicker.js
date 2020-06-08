@@ -21,11 +21,11 @@ const ColorPicker = ({ open, handleClose, handleSave }) => {
           <SwatchesPicker onChangeComplete={(color) => handleColorChange(color)} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleSave(color)} color='primary'>
-            Okay
-          </Button>
           <Button onClick={() => handleClose()} color='primary'>
             Cancel
+          </Button>
+          <Button onClick={() => handleSave(color)} color='primary' variant='contained'>
+            Okay
           </Button>
         </DialogActions>
       </Dialog>

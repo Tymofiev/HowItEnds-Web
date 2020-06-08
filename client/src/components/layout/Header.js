@@ -49,6 +49,7 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [theme, setTheme] = useState(themeType)
+  const [palette, setPalette] = useState()
 
   useEffect(() => {
     if (user.isLoggedIn) {
@@ -56,6 +57,9 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
         if (type && palette) {
           themeToggler(type)
           paletteChanger(palette)
+          setPalette(palette)
+        } else {
+          setPalette(DEFAULT_PALETTE)
         }
       })
     }
@@ -95,12 +99,14 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
       savePalette(user.data._id, theme, palette)
     }
     paletteChanger(palette)
+    setPalette(palette)
     handleDialogClose()
   }
 
   const clearUserPalette = () => {
     clearPalette(user)
     paletteChanger(DEFAULT_PALETTE)
+    setPalette(DEFAULT_PALETTE)
     handleDialogClose()
   }
 
@@ -159,14 +165,16 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
           </IconButton>
         )}
       </Toolbar>
-
-      <ColorSettingsDialog
-        open={isDialogOpen}
-        handleClose={() => setDialogOpen((prevState) => !prevState)}
-        handleSave={changePalette}
-        clearPalette={clearUserPalette}
-        user={user.data?._id}
-      />
+      {palette && (
+        <ColorSettingsDialog
+          open={isDialogOpen}
+          handleClose={() => setDialogOpen((prevState) => !prevState)}
+          handleSave={changePalette}
+          clearPalette={clearUserPalette}
+          palette={palette}
+          user={user.data?._id}
+        />
+      )}
       <AccountMenu anchorEl={anchorEl} closeMenu={handleMenuClose} />
     </AppBar>
   )
