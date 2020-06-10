@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import robot from '../../images/robot.jpg'
+import { Typography, Grid } from '@material-ui/core'
+import moment from 'moment'
+
+import ZoomImage from '../../components/controls/ZoomImage'
+import { getAllImages } from '../../api/image'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,78 +19,49 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    height: 'auto',
+    width: '100%',
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
 }))
 
-const tileData = [
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-  {
-    img: robot,
-    title: 'Image',
-    date: 'December 14th, 2020',
-  },
-]
-
-export default function TitlebarGridList() {
+const Gallery = () => {
   const classes = useStyles()
+  const [imagesPack, setImagesPack] = useState()
+
+  useEffect(() => {
+    getAllImages().then((images) => {
+      const pack = images.reduce((p, c) => {
+        return p[c.category] ? { ...p, [c.category]: [...p[c.category], c] } : { ...p, [c.category]: [c] }
+      }, {})
+      setImagesPack(pack)
+    })
+  }, [])
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300}>
-        <GridListTile key='Subheader' cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component='div'>Menu</ListSubheader>
-        </GridListTile>
-        {tileData.map((tile) => (
-          <GridListTile data-aos='zoom-in-up' data-aos-delay={5} className={classes.gridList} key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={tile.date}
-              actionIcon={
-                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-        <GridListTile key='Subheader' cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component='div'>Gameplay</ListSubheader>
-        </GridListTile>
-      </GridList>
+      <Grid container>
+        {imagesPack &&
+          Object.keys(imagesPack).map((key) => (
+            <GridList cellHeight={500} cols={2} className={classes.gridList}>
+              <GridListTile key='Subheader' cols={2} style={{ height: 'auto' }}>
+                <ListSubheader component='div'>{key.toUpperCase()}</ListSubheader>
+              </GridListTile>
+              {imagesPack[key].map((image) => {
+                return (
+                  <GridListTile data-aos='zoom-in-up' data-aos-delay={1} cols={1} key={image._id}>
+                    {/* <img src={`/${image.path}`} alt={image.title} /> */}
+                    <ZoomImage src={image.path} alt='' />
+                    <GridListTileBar title={image.title} subtitle={moment(image.date).format('DD/MM/YYYY')} />
+                  </GridListTile>
+                )
+              })}
+            </GridList>
+          ))}
+      </Grid>
     </div>
   )
 }
+
+export default Gallery
