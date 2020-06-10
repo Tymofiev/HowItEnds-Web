@@ -4,7 +4,7 @@ import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import { Typography, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import moment from 'moment'
 
 import ZoomImage from '../../components/controls/ZoomImage'
@@ -51,7 +51,6 @@ const Gallery = () => {
               {imagesPack[key].map((image) => {
                 return (
                   <GridListTile data-aos='zoom-in-up' data-aos-delay={1} cols={1} key={image._id}>
-                    {/* <img src={`/${image.path}`} alt={image.title} /> */}
                     <ZoomImage src={image.path} alt='' />
                     <GridListTileBar title={image.title} subtitle={moment(image.date).format('DD/MM/YYYY')} />
                   </GridListTile>

@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     padding: theme.spacing(1, 0),
   },
+  margin: {
+    marginTop: theme.spacing(1),
+  },
 }))
 
 const getVerticalNewsPosts = (width, newsPosts) => {
@@ -128,7 +131,7 @@ const News = ({ width, startLoading, stopLoading }) => {
         <>
           <Paper className={classes.contentWrapper}>
             <Grid container justify='center' alignItems='center' className={classes.filtersWrapper}>
-              <Grid item xs={4}>
+              <Grid item md={3} xs={12}>
                 <KeyboardDatePicker
                   disableToolbar
                   variant='inline'
@@ -144,7 +147,7 @@ const News = ({ width, startLoading, stopLoading }) => {
                   autoOk
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item md={3} xs={12}>
                 <TextField
                   className={classes.margin}
                   id='input-with-icon-textfield'

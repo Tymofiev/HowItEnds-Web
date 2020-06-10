@@ -1,17 +1,12 @@
 import axios from 'axios'
 
 const request = ({ url, method = 'get', data = {} }) => {
-  const token = localStorage.getItem('token')
-  let headers = {}
-  if (token) {
-    headers = { ...headers, Authorization: `Bearer ${token}` }
-  }
-
+  const apiUrl = 'http://localhost:5000'
   return axios({
+    url: apiUrl + url,
     url,
     method,
     data,
-    headers,
   })
     .then(({ data }) => data)
     .catch((err) => {
