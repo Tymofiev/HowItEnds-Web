@@ -34,6 +34,7 @@ import AdminRoute from './components/routes/AdminRoute'
 import AdminSpinner from './components/controls/wrappers/AdminSpinner'
 import Users from './components/admin/Users'
 import Posts from './components/admin/Posts'
+import Images from './components/admin/Images'
 import Dashboard from './components/admin/index'
 const AdminLayout = lazy(() => import('./components/admin/Layout'))
 
@@ -82,6 +83,7 @@ const App = () => {
                             <Route exact path='/admin' component={Dashboard} />
                             <Route exact path='/admin/users' component={Users} />
                             <Route exact path='/admin/posts' component={Posts} />
+                            <Route exact path='/admin/images' component={Images} />
                           </AdminRoute>
                         </AdminLayout>
                       </Switch>

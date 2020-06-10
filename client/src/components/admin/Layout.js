@@ -21,10 +21,13 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import ViewListOutlined from '@material-ui/icons/ViewListOutlined'
 import PeopleOutline from '@material-ui/icons/PeopleOutline'
 import AssignmentIcon from '@material-ui/icons/Assignment'
+import ImageOutlined from '@material-ui/icons/ImageOutlined'
+import PhotoLibraryOutlined from '@material-ui/icons/PhotoLibraryOutlined'
 
 import ListItemLink from '../controls/ListItemLink'
 import StyledLink from '../controls/styled/StyledLink'
 import CreatePostDialog from './dialogs/CreatePostDialog'
+import CreateImageDialog from './dialogs/CreateImageDialog'
 import Copyright from './components/Copyright'
 
 import useStyles from './style'
@@ -33,6 +36,7 @@ export default ({ children, location: { pathname } }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const [isDialogOpen, setDialogOpen] = React.useState(false)
+  const [isImageDialogOpen, setImageDialogOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -42,12 +46,20 @@ export default ({ children, location: { pathname } }) => {
     setOpen(false)
   }
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true)
+  const handleDialogOpen = (image = false) => {
+    if (image) {
+      setImageDialogOpen(true)
+    } else {
+      setDialogOpen(true)
+    }
   }
 
-  const handleDialogClose = () => {
-    setDialogOpen(false)
+  const handleDialogClose = (image = false) => {
+    if (image) {
+      setImageDialogOpen(false)
+    } else {
+      setDialogOpen(false)
+    }
   }
 
   return (
@@ -107,6 +119,13 @@ export default ({ children, location: { pathname } }) => {
             selected={'/admin/posts' === pathname}
             onClick={handleDrawerClose}
           />
+          <ListItemLink
+            to='/admin/images'
+            primary='Images'
+            icon={<PhotoLibraryOutlined />}
+            selected={'/admin/images' === pathname}
+            onClick={handleDrawerClose}
+          />
         </List>
         <Divider />
         <List>
@@ -117,9 +136,16 @@ export default ({ children, location: { pathname } }) => {
             </ListItemIcon>
             <ListItemText primary='Create post' />
           </ListItem>
+          <ListItem button onClick={() => handleDialogOpen(true)}>
+            <ListItemIcon>
+              <ImageOutlined />
+            </ListItemIcon>
+            <ListItemText primary='Create image' />
+          </ListItem>
         </List>
       </Drawer>
       <CreatePostDialog open={isDialogOpen} handleClose={handleDialogClose} />
+      <CreateImageDialog open={isImageDialogOpen} handleClose={handleDialogClose} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {children}
