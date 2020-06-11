@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import MaterialTable from 'material-table'
 import moment from 'moment'
+import { Grid, makeStyles, Typography } from '@material-ui/core'
 
 import { getAllImages, deleteImage } from '../../api/image'
-import { Grid, makeStyles, Typography } from '@material-ui/core'
+import Image from '../controls/Image'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +50,8 @@ export default () => {
                 field: 'path',
                 filtering: false,
                 render: (rowData) => (
-                  <img
-                    src={`/${rowData.path}`}
+                  <Image
+                    src={rowData.path}
                     alt='No image'
                     style={{ width: '100%', height: 250, borderRadius: '50%' }}
                   />

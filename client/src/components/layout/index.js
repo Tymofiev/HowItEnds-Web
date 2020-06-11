@@ -12,4 +12,5 @@ const Layout = ({ children, themeToggler, paletteChanger }) => {
     </>
   )
 }
+
 export default Layout

@@ -4,6 +4,8 @@ import moment from 'moment'
 import classNames from 'classnames'
 import { Typography, Card, Box, withStyles } from '@material-ui/core'
 
+import Image from '../controls/Image'
+
 const styles = (theme) => ({
   img: {
     width: '100%',
@@ -55,7 +57,7 @@ const NewsCard = (props) => {
     <Card className={classes.card}>
       {image && (
         <Link to={url} tabIndex={-1}>
-          <img src={`/${image}`} className={classes.img} alt='' />
+          <Image src={image} className={classes.img} alt='' />
         </Link>
       )}
       <Box p={2}>

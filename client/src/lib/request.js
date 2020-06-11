@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const request = ({ url, method = 'get', data = {} }) => {
-  const apiUrl = 'http://localhost:5000'
+  const apiUrl = `http://localhost:5000${url}`
+
   return axios({
-    url: apiUrl + url,
-    url,
+    url: apiUrl,
     method,
     data,
   })

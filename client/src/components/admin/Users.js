@@ -4,6 +4,8 @@ import MaterialTable from 'material-table'
 import { getAllUsers, deleteUser } from '../../api/user'
 import { Grid, makeStyles } from '@material-ui/core'
 
+import Image from '../controls/Image'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(5),
@@ -44,7 +46,7 @@ export default () => {
                 field: 'avatar',
                 export: false,
                 render: (rowData) => (
-                  <img src={`/${rowData.avatar}`} alt='No image' style={{ width: 50, borderRadius: '50%' }} />
+                  <Image src={rowData.avatar} alt='No image' style={{ width: 50, borderRadius: '50%' }} />
                 ),
               },
             ]}

@@ -14,6 +14,7 @@ import { ChevronRightOutlined } from '@material-ui/icons'
 import moment from 'moment'
 
 import StyledLink from '../../../controls/styled/StyledLink'
+import { getImageUrl } from '../../../../utils/url'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const PostCard = ({ post }) => {
     <Card variant='outlined' className={classes.root}>
       <CardActionArea onClick={() => history.push(`/news/${_id}`)}>
         <CardHeader title={title} subheader={moment(date).format('MMMM Do YYYY')} />
-        <CardMedia component='img' className={classes.media} src={image} />
+        <CardMedia component='img' className={classes.media} src={getImageUrl(image)} />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
             {snippet}

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Portal, Backdrop, withStyles } from '@material-ui/core'
 import ScrollbarSize from '@material-ui/core/Tabs/ScrollbarSize'
 
+import Image from '../controls/Image'
+
 const styles = (theme) => ({
   backdrop: {
     zIndex: theme.zIndex.modal,
@@ -68,12 +70,12 @@ const ZoomImage = (props) => {
         <Portal>
           <div onClick={zoomOut} className={classes.portalImgWrapper}>
             <div className={classes.portalImgInnerWrapper}>
-              <img alt={alt} src={`/${src}`} className={classes.portalImg} {...zoomedImgProps}></img>
+              <Image alt={alt} src={src} className={classes.portalImg} {...zoomedImgProps} />
             </div>
           </div>
         </Portal>
       )}
-      <img alt={alt} src={`/${src}`} onClick={zoomIn} style={{ cursor: 'pointer' }} {...rest}></img>
+      <Image alt={alt} src={src} onClick={zoomIn} style={{ cursor: 'pointer' }} {...rest} />
     </Fragment>
   )
 }

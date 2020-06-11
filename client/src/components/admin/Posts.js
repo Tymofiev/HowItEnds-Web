@@ -5,6 +5,7 @@ import { Typography, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
 import EditPostDialog from './dialogs/EditPostDialog'
+import Image from '../controls/Image'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,9 +59,7 @@ export default () => {
                 title: 'Image',
                 field: 'image',
                 export: false,
-                render: (rowData) => (
-                  <img src={`/${rowData.image}`} style={{ width: 50, borderRadius: '50%' }} alt='' />
-                ),
+                render: (rowData) => <Image src={rowData.image} style={{ width: 50, borderRadius: '50%' }} alt='' />,
               },
             ]}
             actions={[

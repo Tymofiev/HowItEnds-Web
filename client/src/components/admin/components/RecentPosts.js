@@ -10,6 +10,7 @@ import moment from 'moment'
 
 import { getAllPosts } from '../../../api/post'
 import StyledLink from '../../controls/styled/StyledLink'
+import Image from '../../controls/Image'
 import Title from './Title'
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const RecentPosts = () => {
                 <TableCell>{post.title}</TableCell>
                 <TableCell>{post.snippet}</TableCell>
                 <TableCell>
-                  <img src={`/${post.image}`} style={{ width: 50, borderRadius: '50%' }} alt='No image' />
+                  <Image src={post.image} style={{ width: 50, borderRadius: '50%' }} alt='No image' />
                 </TableCell>
               </TableRow>
             ))}

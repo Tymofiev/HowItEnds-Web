@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import moment from 'moment'
+import { withRouter, Link as DownloadLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, List, Divider, ListItem, Drawer, Typography } from '@material-ui/core'
 import {
@@ -11,11 +12,13 @@ import {
   ExpandMoreOutlined,
   PeopleOutline,
   DashboardOutlined,
+  CloudDownloadOutlined,
 } from '@material-ui/icons'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 
+import { updateDownloadsCount } from '../../../api/downloads'
 import StyledLink from '../../controls/styled/StyledLink'
 import ListItemLink from '../../controls/ListItemLink'
 
@@ -42,6 +45,7 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
     setExpanded(isExpanded ? panel : false)
   }
 
+  const dateTime = moment().format('YYYY-MM-DD')
   return (
     <>
       <Drawer anchor='left' open={isOpen} onClose={closeDrawer()}>
@@ -84,11 +88,12 @@ const SideDrawer = ({ isOpen, closeDrawer, location: { pathname }, user }) => {
           <Divider />
           <List>
             <ListItemLink
-              to='/ask-question'
-              primary='Leave feedback'
-              icon={<MailOutline />}
-              selected={'/ask-question' === pathname}
-              onClick={closeDrawer()}
+              primary='Download'
+              to='/howitends.zip'
+              target='_blank'
+              download
+              onClick={() => updateDownloadsCount(dateTime)}
+              icon={<CloudDownloadOutlined />}
             />
           </List>
           <Divider />

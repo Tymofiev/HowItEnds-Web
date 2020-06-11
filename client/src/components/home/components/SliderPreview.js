@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: 0,
     },
   },
+  downloadButton: {
+    padding: theme.spacing(3, 2, 3, 2),
+  },
 }))
 
 const carouselSettings = {
@@ -58,12 +61,12 @@ const SliderPreview = (props) => {
               <Typography component='h1' variant='h3' color='inherit' gutterBottom>
                 Build your perfect simulation!
               </Typography>
-              <Typography variant='h5' color='inherit' paragraph>
+              <Typography variant='h3' color='inherit' paragraph>
                 Compete with friends
               </Typography>
               <DownloadLink to='/howitends.zip' target='_blank' download onClick={() => updateDownloadsCount(dateTime)}>
                 <Button variant='contained' color='primary'>
-                  <Typography variant='h5' color='inherit'>
+                  <Typography className={classes.downloadButton} variant='h5' color='inherit'>
                     Download now
                   </Typography>
                 </Button>
