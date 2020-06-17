@@ -12,7 +12,7 @@ import SideDrawer from './components/SideDrawer'
 import AccountMenu from '../controls/AccountMenu'
 import StyledLink from '../controls/styled/StyledLink'
 import ColorSettingsDialog from './components/ColorSettingsDialog'
-import { DEFAULT_PALETTE } from '../../constants'
+import { DEFAULT_DARK_PALETTE, DARK, LIGHT } from '../../constants'
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -59,7 +59,7 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
           paletteChanger(palette)
           setPalette(palette)
         } else {
-          setPalette(DEFAULT_PALETTE)
+          setPalette(DEFAULT_DARK_PALETTE)
         }
       })
     }
@@ -89,7 +89,7 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
   }
 
   const changeColorTheme = () => {
-    let newTheme = theme === 'light' ? 'dark' : 'light'
+    let newTheme = theme === LIGHT ? DARK : LIGHT
     setTheme(newTheme)
     themeToggler(newTheme)
   }
@@ -104,9 +104,9 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
   }
 
   const clearUserPalette = () => {
-    clearPalette(user)
-    paletteChanger(DEFAULT_PALETTE)
-    setPalette(DEFAULT_PALETTE)
+    clearPalette(user.data._id)
+    paletteChanger(DEFAULT_DARK_PALETTE)
+    setPalette(DEFAULT_DARK_PALETTE)
     handleDialogClose()
   }
 
@@ -129,9 +129,11 @@ const Header = ({ themeToggler, paletteChanger, user }) => {
           <StyledLink to='/'>HowItEnds</StyledLink>
         </Typography>
 
-        <IconButton onClick={() => handleDialogOpen()}>
-          <PaletteOutlined />
-        </IconButton>
+        {user.isLoggedIn && (
+          <IconButton onClick={() => handleDialogOpen()}>
+            <PaletteOutlined />
+          </IconButton>
+        )}
 
         <IconButton onClick={() => changeColorTheme()}>
           {theme === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}

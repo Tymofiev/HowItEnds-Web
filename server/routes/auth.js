@@ -14,6 +14,7 @@ const router = express.Router()
 
 router.post('/login', (req, res) => {
   passport.authenticate('local', (err, user) => {
+    console.log('HERE')
     new Promise((resolve, reject) => {
       if (err || !user) {
         return reject(err)
@@ -26,7 +27,7 @@ router.post('/login', (req, res) => {
         if (req.body.remember) {
           req.session.cookie.originalMaxAge = ABSOLUTE_SESSION_LIFE
         } else {
-          req.session.cookie.expires = false
+          req.session.cookie.expires = null
         }
 
         return res.json({ user })

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import rose from '../../images/rose-oled-8k-8v.jpg'
+import land from '../../images/land1.jpg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(10, 0),
   },
   image: {
-    backgroundImage: `url(${rose})`,
+    backgroundImage: `url(${land})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',

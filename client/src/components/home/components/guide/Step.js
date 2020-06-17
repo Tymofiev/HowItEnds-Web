@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid, Typography, Card, CardMedia, CardContent } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
-import robot from '../../../../images/robot.jpg'
 
 const useStyles = makeStyles((theme) => ({
   stepTitle: {
@@ -10,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Step = ({ title, subtitle, caption, image, isReverse = false }) => {
+const Step = ({ title, subtitle, caption, imageCaption, image, isReverse = false }) => {
   const classes = useStyles()
 
   return (
@@ -19,24 +18,24 @@ const Step = ({ title, subtitle, caption, image, isReverse = false }) => {
         <>
           <Grid item md={6}>
             <Card>
-              <CardMedia component='img' alt='Image' image={robot} />
+              <CardMedia component='img' alt='Image' image={image} />
               <CardContent>
                 <Typography variant='body2' color='textSecondary' component='p'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  {imageCaption}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item md={5}>
             <Typography variant='h3' color='textPrimary' className={classes.stepTitle}>
-              Some title
+              {title}
             </Typography>
             <Typography variant='subtitle1' component='p'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id mi sed ante imperdiet mattis. Lorem ipsum
               dolor sit amet, consectetur adipiscing elit. Cras id mi sed ante imperdiet mattis.
             </Typography>
             <Typography variant='caption' component='p' color='error'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              {caption}
             </Typography>
           </Grid>
         </>
@@ -44,22 +43,22 @@ const Step = ({ title, subtitle, caption, image, isReverse = false }) => {
         <>
           <Grid item md={5}>
             <Typography variant='h3' color='textPrimary' className={classes.stepTitle}>
-              Some title
+              {title}
             </Typography>
             <Typography variant='subtitle1' component='p'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id mi sed ante imperdiet mattis. Lorem ipsum
               dolor sit amet, consectetur adipiscing elit. Cras id mi sed ante imperdiet mattis.
             </Typography>
             <Typography variant='caption' component='p' color='error'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              {caption}
             </Typography>
           </Grid>
           <Grid item md={6}>
             <Card>
-              <CardMedia component='img' alt='Image' image={robot} />
+              <CardMedia component='img' alt='Image' image={image} />
               <CardContent>
                 <Typography variant='body2' color='textSecondary' component='p'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  {imageCaption}
                 </Typography>
               </CardContent>
             </Card>

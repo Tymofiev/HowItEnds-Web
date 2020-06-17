@@ -8,8 +8,9 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import {} from './api/palette'
 
-import { DEFAULT_PALETTE } from './constants'
+import { DARK, LIGHT, DEFAULT_DARK_PALETTE, DEFAULT_LIGHT_PALETTE } from './constants'
 import store from './redux/store'
 import SingUp from './components/auth/SignUp'
 import SingIn from './components/auth/SignIn'
@@ -41,8 +42,9 @@ const AdminLayout = lazy(() => import('./components/admin/Layout'))
 AOS.init()
 
 const App = () => {
-  const [themeType, setThemeType] = useState('dark')
-  const [palette, setPalette] = useState(DEFAULT_PALETTE)
+  const [themeType, setThemeType] = useState(DARK)
+  const [palette, setPalette] = useState(themeType === DARK ? DEFAULT_DARK_PALETTE : DEFAULT_LIGHT_PALETTE)
+  const [customPalette, setCustomPalette] = useState(DEFAULT_DARK_PALETTE)
 
   let theme = useMemo(
     () =>
@@ -58,10 +60,16 @@ const App = () => {
 
   const changeColorTheme = (type) => {
     setThemeType(type)
+    if (type === LIGHT) {
+      setPalette(DEFAULT_LIGHT_PALETTE)
+    } else {
+      setPalette(customPalette)
+    }
   }
 
   const changePalette = (palette) => {
     setPalette(palette)
+    setCustomPalette(palette)
   }
 
   return (

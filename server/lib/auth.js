@@ -1,8 +1,6 @@
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy
-const JwtStrategy = require('passport-jwt').Strategy
-const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const User = require('../models/User')
 
@@ -31,21 +29,10 @@ const localStrategy = new LocalStrategy({ usernameField: 'email' }, (email, pass
     })
 })
 
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'secret',
-}
-
-const jwtStrategy = new JwtStrategy(opts, (jwt_payload, done) => {
-  User.findOne({ email: jwt_payload.email }).then((user) => {
-    return done(null, user)
-  })
-})
-
 passport.use(localStrategy)
-passport.use(jwtStrategy)
 
 passport.serializeUser((user, done) => {
+  console.log('lol')
   done(null, user._id)
 })
 

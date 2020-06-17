@@ -8,10 +8,10 @@ import { DropzoneArea } from 'material-ui-dropzone'
 
 import Input from '../../controls/own/OwnInput'
 
-import { required, composeValidators } from '../../../utils/validators'
 import { updateData, setImage } from '../../../api/post'
 import { showSnackbar } from '../../../services/ui'
 import { startLoading, stopLoading } from '../../../redux/actions/uiActions'
+import { getImageUrl } from '../../../utils/url'
 
 import useStyles from './style'
 
@@ -56,19 +56,19 @@ const PostForm = ({ post, startLoading, stopLoading, showSnackbar, closeDialog }
                     <Typography component='span'>
                       <TitleOutlined /> Title
                     </Typography>
-                    <Field name='title' component={Input} validate={composeValidators(required)} />
+                    <Field name='title' component={Input} />
                   </Grid>
                   <Grid item xl={12}>
                     <Typography component='span'>
                       <SubtitlesOutlined /> Subtitle
                     </Typography>
-                    <Field name='snippet' multiline component={Input} validate={composeValidators(required)} />
+                    <Field name='snippet' multiline component={Input} />
                   </Grid>
                   <Grid item xl={12}>
                     <Typography component='span'>
                       <SubjectOutlined /> Body
                     </Typography>
-                    <Field name='body' multiline component={Input} validate={composeValidators(required)} />
+                    <Field name='body' multiline component={Input} />
                   </Grid>
                   <Grid item xl={12}>
                     <Typography component='span'>
@@ -80,7 +80,7 @@ const PostForm = ({ post, startLoading, stopLoading, showSnackbar, closeDialog }
                       filesLimit={1}
                       dropzoneParagraphClass={classes.dropzoneText}
                       dropzoneClass={classes.dropzone}
-                      initialFiles={[`/${post.image}`]}
+                      initialFiles={[getImageUrl(post.image)]}
                       onChange={(files) => handleFileChange(files[0])}
                     />
                   </Grid>

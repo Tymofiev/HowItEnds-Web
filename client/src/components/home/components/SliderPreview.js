@@ -11,7 +11,8 @@ import { Carousel } from 'react-responsive-carousel'
 import moment from 'moment'
 
 import { updateDownloadsCount } from '../../../api/downloads'
-import robot from '../../../images/robot.jpg'
+import land2 from '../../../images/land2.jpg'
+import land3 from '../../../images/land3.jpg'
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -19,7 +20,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
     height: '91vh',
-    backgroundImage: `url(${robot})`,
+    backgroundImage: `url(${land2})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
+  secondFeaturePost: {
+    position: 'relative',
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.common.white,
+    height: '91vh',
+    backgroundImage: `url(${land3})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -62,7 +73,7 @@ const SliderPreview = (props) => {
                 Build your perfect simulation!
               </Typography>
               <Typography variant='h3' color='inherit' paragraph>
-                Compete with friends
+                Watch them evolve and save your results
               </Typography>
               <DownloadLink to='/howitends.zip' target='_blank' download onClick={() => updateDownloadsCount(dateTime)}>
                 <Button variant='contained' color='primary'>
@@ -75,36 +86,16 @@ const SliderPreview = (props) => {
           </Grid>
         </Grid>
       </Paper>
-      <Paper className={classes.mainFeaturedPost}>
+      <Paper className={classes.secondFeaturePost}>
         <Grid container>
           <Grid item md={6}>
             <div className={classes.mainFeaturedPostContent}>
               <Typography component='h1' variant='h3' color='inherit' gutterBottom>
-                Build your perfect simulation!
+                Interact with creatures to affect result!
               </Typography>
               <Typography variant='h5' color='inherit' paragraph>
-                Compete with friends
+                Change genotype in your profile menu
               </Typography>
-              <Link variant='subtitle1' href='#'>
-                Download now
-              </Link>
-            </div>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Paper className={classes.mainFeaturedPost}>
-        <Grid container>
-          <Grid item md={6}>
-            <div className={classes.mainFeaturedPostContent}>
-              <Typography component='h1' variant='h3' color='inherit' gutterBottom>
-                Build your perfect simulation!
-              </Typography>
-              <Typography variant='h5' color='inherit' paragraph>
-                Compete with friends
-              </Typography>
-              <Link variant='subtitle1' href='#'>
-                Download now
-              </Link>
             </div>
           </Grid>
         </Grid>

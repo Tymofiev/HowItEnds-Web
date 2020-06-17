@@ -50,7 +50,6 @@ const deleteCurrentFile = (req, res, next) => {
 }
 
 const deleteOldImage = (req, res, next) => {
-  console.log(req.file)
   const destination = './server/uploads'
   const { id } = req.params
 
@@ -74,8 +73,8 @@ const FIRST_CREATURE = 0
 const SECOND_CREATURE = 1
 
 const CREATURE_IMAGES = {
-  [FIRST_CREATURE]: '',
-  [SECOND_CREATURE]: '',
+  [FIRST_CREATURE]: './server/uploads/firstcreature.jpg',
+  [SECOND_CREATURE]: './server/uploads/secondcreature.jpg',
 }
 
 module.exports = {
