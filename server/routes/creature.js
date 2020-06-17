@@ -5,8 +5,10 @@ const Creature = require('../models/Creature')
 const { CREATURE_IMAGES } = require('../lib/upload')
 
 router.get('/:id', (req, res) => {
+  console.log(req.params.id)
   Creature.find({ user: req.params.id })
     .then((creatures) => {
+      console.log(creatures)
       res.send(creatures)
     })
     .catch((err) => {
@@ -46,8 +48,23 @@ router.post('/', (req, res) => {
   })
 })
 
+router.put('/:id', (req, res) => {
+  const { name, genotype } = req.body
+
+  Creature.findByIdAndUpdate(req.params.id, {
+    name,
+    genotype,
+  })
+    .then((creature) => {
+      res.send(creature)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
 router.delete('/:id', (req, res) => {
-  Creature.deleteOne({ user: req.params.id })
+  Creature.deleteOne({ _id: req.params.id })
     .then((result) => res.send(result))
     .catch((err) => {
       console.log(err)

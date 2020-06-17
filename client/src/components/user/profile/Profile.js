@@ -9,6 +9,8 @@ import StyledDivider from '../../controls/styled/StyledDivider'
 import EmailSettings from './EmailSettings'
 import PasswordSettings from './PasswordSettings'
 import AvatarSettings from './AvatarSettings'
+import Info from './Info'
+import Creatures from './Creatures'
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -77,7 +79,16 @@ const Profile = () => {
               <PasswordSettings />
             </Paper>
           </TabPanel>
-          <TabPanel value={value} index={0}></TabPanel>
+          <TabPanel value={value} index={1}>
+            <Paper elevation={3} variant='elevation' className={classes.settingPaper}>
+              <Info />
+            </Paper>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Paper elevation={3} variant='elevation' className={classes.settingPaper}>
+              <Creatures />
+            </Paper>
+          </TabPanel>
         </Paper>
       </main>
     </>

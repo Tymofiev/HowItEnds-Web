@@ -73,8 +73,8 @@ const FIRST_CREATURE = 0
 const SECOND_CREATURE = 1
 
 const CREATURE_IMAGES = {
-  [FIRST_CREATURE]: './server/uploads/firstcreature.jpg',
-  [SECOND_CREATURE]: './server/uploads/secondcreature.jpg',
+  [FIRST_CREATURE]: 'server/uploads/firstcreature.jpg',
+  [SECOND_CREATURE]: 'server/uploads/secondcreature.jpg',
 }
 
 module.exports = {
