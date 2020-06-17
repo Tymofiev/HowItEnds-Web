@@ -70,7 +70,7 @@ const NewsPost = ({ classes, startLoading, stopLoading, ...props }) => {
                       {moment(post.date).format('MMMM Do YYYY')}
                     </Typography>
                   </Box>
-                  <ZoomImage className={classes.img} src={post.image} alt='' />
+                  <ZoomImage test-id='button' className={classes.img} src={post.image} alt='' />
                   <Box p={3}>
                     {post.body}
                     <Box pt={2}>
@@ -100,7 +100,7 @@ const NewsPost = ({ classes, startLoading, stopLoading, ...props }) => {
             <Skeleton animation='wave' />
           )}
           <Grid item md={3}>
-            <Typography variant='h6' paragraph>
+            <Typography test-id='other' variant='h6' paragraph>
               Other arcticles
             </Typography>
             {otherArticles &&

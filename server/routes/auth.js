@@ -1,4 +1,5 @@
 const express = require('express')
+const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
 const { passport, isAuth } = require('../lib/auth')
@@ -15,11 +16,11 @@ router.post('/login', (req, res) => {
   passport.authenticate('local', (err, user) => {
     new Promise((resolve, reject) => {
       if (err || !user) {
-        return reject(err) //res.status(400).send({ err })
+        return reject(err)
       }
       req.login(user, (err) => {
         if (err) {
-          return reject(err) //res.status(400).send({ err })
+          return reject(err)
         }
 
         if (req.body.remember) {
@@ -69,6 +70,22 @@ router.post('/logout', isAuth, (req, res) => {
 
 router.get('/logged_in', isAuth, (req, res) => {
   res.send({ isLoggedIn: true, data: req.user })
+})
+
+router.post('/game-login', (req, res) => {
+  const { email, password } = req.body
+
+  User.findOne({ email })
+    .then((user) => {
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (!user || !isMatch) {
+          res.status(400).send({ message: 'Invalid email or password' })
+        } else {
+          res.send(user)
+        }
+      })
+    })
+    .catch((err) => console.log(err))
 })
 
 module.exports = router

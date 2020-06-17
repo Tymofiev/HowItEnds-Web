@@ -28,14 +28,14 @@ const Spinner = () => {
   const { isLoading } = useSelector((state) => state.ui)
   const classes = useStyles()
 
-  if (isLoading) {
-    return (
-      <Grid container className={classes.wrapper}>
-        <LinearProgress className={classes.progressWidth} />
-      </Grid>
-    )
-  }
-
-  return null
+  return (
+    <div data-testid='container'>
+      {isLoading ? (
+        <Grid container className={classes.wrapper}>
+          <LinearProgress className={classes.progressWidth} />
+        </Grid>
+      ) : null}
+    </div>
+  )
 }
 export default Spinner

@@ -34,7 +34,8 @@ app.use('/posts', require('./server/routes/post'))
 app.use('/palettes', require('./server/routes/palette'))
 app.use('/downloads', require('./server/routes/downloads'))
 app.use('/images', require('./server/routes/image'))
+app.use('/creatures', require('./server/routes/creature'))
 
-app.listen(5000, () => {
+app.listen(5000, '0.0.0.0', () => {
   console.info(`Server started: http://localhost:5000`)
 })

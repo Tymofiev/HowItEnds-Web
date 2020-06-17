@@ -21,14 +21,11 @@ const Notifier = () => {
   useEffect(() => {
     notifications.forEach(({ key, message, options = {}, dismissed = false }) => {
       if (dismissed) {
-        // dismiss snackbar using notistack
         closeSnackbar(key)
         return
       }
 
-      // do nothing if snackbar is already displayed
       if (displayed.includes(key)) return
-      // display snackbar using notistack
       enqueueSnackbar(message, {
         key,
         autoHideDuration: 5000,
@@ -39,13 +36,11 @@ const Notifier = () => {
           }
         },
         onExited: (event, myKey) => {
-          // removen this snackbar from redux store
           dispatch(removeSnackbar(myKey))
           removeDisplayed(myKey)
         },
       })
 
-      // keep track of snackbars that we've displayed
       storeDisplayed(key)
     })
   }, [notifications, closeSnackbar, enqueueSnackbar, dispatch])

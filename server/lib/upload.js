@@ -70,8 +70,17 @@ const deleteOldImage = (req, res, next) => {
   })
 }
 
+const FIRST_CREATURE = 0
+const SECOND_CREATURE = 1
+
+const CREATURE_IMAGES = {
+  [FIRST_CREATURE]: '',
+  [SECOND_CREATURE]: '',
+}
+
 module.exports = {
   upload,
   deleteCurrentFile,
   deleteOldImage,
+  CREATURE_IMAGES,
 }

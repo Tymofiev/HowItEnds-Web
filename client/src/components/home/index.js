@@ -46,11 +46,9 @@ const Home = ({ history }) => {
         <Grid data-aos='fade-right' data-aos-anchor-placement='top-center'>
           <Separator title='Latest news' btn={{ text: 'Read', onClick: openPostsPage }} />
         </Grid>
-        {/* <ParallexItem> */}
         <Grid data-aos='fade-down' data-aos-easing='linear' data-aos-duration='1500'>
           <Posts />
         </Grid>
-        {/* </ParallexItem> */}
         <Grid data-aos='fade-right' data-aos-anchor-placement='top-center'>
           <Separator title='Gallery' btn={{ text: 'View', onClick: openGalleryPage }} />
         </Grid>
@@ -59,8 +57,6 @@ const Home = ({ history }) => {
             <ImageGallery />
           </Grid>
         </Grid>
-        {/* <Separator title='Leave us feedback' /> */}
-        {/* <ContactForm /> */}
       </div>
     </>
   )
